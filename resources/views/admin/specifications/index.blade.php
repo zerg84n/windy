@@ -23,7 +23,7 @@
                         @endcan
 
                         <th>@lang('quickadmin.specification.fields.title')</th>
-                        <th>@lang('quickadmin.specification.fields.value-number')</th>
+                        <th>Тип характеристики</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -37,7 +37,7 @@
                                 @endcan
 
                                 <td>{{ $specification->title }}</td>
-                                <td>{{ $specification->value_number }}</td>
+                                <td>{{ $specification->value_type }}</td>
                                 <td>
                                     @can('specification_view')
                                     <a href="{{ route('admin.specifications.show',[$specification->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>

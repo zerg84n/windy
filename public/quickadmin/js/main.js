@@ -80,7 +80,7 @@ $(document).ready(function () {
                 targets: 0
             });
         }
-        $(this).dataTable(window.dtDefaultOptions);
+        window.datatable = $(this).dataTable(window.dtDefaultOptions);
     });
     if (typeof window.route_mass_crud_entries_destroy != 'undefined') {
         $('.datatable, .ajaxTable').siblings('.actions').html('<a href="' + window.route_mass_crud_entries_destroy + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
@@ -216,6 +216,8 @@ function processAjaxTables() {
             });
         }
         $(this).DataTable(window.dtDefaultOptions);
+        
+        
         if (typeof window.route_mass_crud_entries_destroy != 'undefined') {
             $(this).siblings('.actions').html('<a href="' + window.route_mass_crud_entries_destroy + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
         }

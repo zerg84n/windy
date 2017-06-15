@@ -19,9 +19,10 @@ trait FileUploadTrait
         }
 
         $finalRequest = $request;
-
+       
         foreach ($request->all() as $key => $value) {
             if ($request->hasFile($key)) {
+                
                 if ($request->has($key . '_max_width') && $request->has($key . '_max_height')) {
                     // Check file width
                     $filename = time() . '-' . $request->file($key)->getClientOriginalName();
@@ -55,5 +56,49 @@ trait FileUploadTrait
         }
 
         return $finalRequest;
+    }
+    
+     public function resizePhotos(Request $request,$key)
+    {
+        if (! file_exists(public_path('uploads'))) {
+            mkdir(public_path('uploads'), 0777);
+            mkdir(public_path('uploads/thumb'), 0777);
+        }
+
+       
+       
+        foreach ($request->input($key.'_id') as  $media_id) {
+            $media = \Spatie\MediaLibrary\Media::find($media_id);
+            if ($media) {
+                
+                if ($request->has($key . '_max_width') && $request->has($key . '_max_height')) {
+                    // Check file width
+                    $filename = $media->getPath();
+                  
+                    $image    = Image::make($filename);
+                    if (! file_exists(public_path('uploads/thumb'))) {
+                        mkdir(public_path('uploads/thumb'), 0777, true);
+                    }
+                    Image::make($filename)->resize(50, 50)->save(public_path('uploads/thumb') . '/' . $media->file_name);
+                    $width  = $image->width();
+                    $height = $image->height();
+                    if ($width > $request->{$key . '_max_width'} && $height > $request->{$key . '_max_height'}) {
+                        $image->resize($request->{$key . '_max_width'}, $request->{$key . '_max_height'});
+                    } elseif ($width > $request->{$key . '_max_width'}) {
+                        $image->resize($request->{$key . '_max_width'}, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                    } elseif ($height > $request->{$key . '_max_width'}) {
+                        $image->resize(null, $request->{$key . '_max_height'}, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                    }
+                    $image->save();
+                   
+                } 
+            }
+        }
+
+        return TRUE;
     }
 }

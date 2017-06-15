@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Session;
 
 class ProductsController extends Controller
 {
@@ -14,7 +15,24 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return view('products.index');
+  
+        $news = \App\News::orderBy('id','desc')->limit(2)->get();
+        $products = \App\Product::paginate(6);
+        $slider = \App\Models\Banner::all()->first();
+        return view('products.main',  compact('news','slider','products'));
+    }
+      public function compare_add(Request $request)
+    {
+          
+          $id = $request->input('id');
+           Session::put('basket.product'.$id, $id); 
+        return  $id;
+    }
+      public function compare_del(Request $request)
+    {
+          $id = $request->input('id');
+           Session::pull('basket.product'.$id, $id); 
+        return  $id;
     }
 
     /**

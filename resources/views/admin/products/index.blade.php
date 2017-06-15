@@ -22,7 +22,7 @@
                             <th style="text-align:center;"><input type="checkbox" id="select-all" /></th>
                         @endcan
 
-                        <th>@lang('quickadmin.products.fields.description')</th>
+                        <th>@lang('quickadmin.products.fields.title')</th>
                         <th>@lang('quickadmin.products.fields.price-original')</th>
                         <th>@lang('quickadmin.products.fields.category')</th>
                         <th>&nbsp;</th>
@@ -37,7 +37,7 @@
                                     <td></td>
                                 @endcan
 
-                                <td>{{ $product->description }}</td>
+                                <td>{{ $product->title }}</td>
                                 <td>{{ $product->price_original }}</td>
                                 <td>{{ $product->category->title or '' }}</td>
                                 <td>

@@ -37,7 +37,8 @@ class CategoriesController extends Controller
         if (! Gate::allows('category_create')) {
             return abort(401);
         }
-        return view('admin.categories.create');
+         $properties = \App\Models\Catalog\Property::get()->pluck('title', 'id');
+        return view('admin.categories.create',  compact('properties'));
     }
 
     /**
@@ -53,7 +54,7 @@ class CategoriesController extends Controller
         }
         $category = Category::create($request->all());
 
-
+        $category->properties()->sync(array_filter((array)$request->input('properties')));
 
         return redirect()->route('admin.categories.index');
     }
@@ -71,8 +72,8 @@ class CategoriesController extends Controller
             return abort(401);
         }
         $category = Category::findOrFail($id);
-
-        return view('admin.categories.edit', compact('category'));
+        $properties = \App\Models\Catalog\Property::get()->pluck('title', 'id');
+        return view('admin.categories.edit', compact('category','properties'));
     }
 
     /**
@@ -89,7 +90,7 @@ class CategoriesController extends Controller
         }
         $category = Category::findOrFail($id);
         $category->update($request->all());
-
+        $category->properties()->sync(array_filter((array)$request->input('properties')));
 
 
         return redirect()->route('admin.categories.index');

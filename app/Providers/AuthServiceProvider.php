@@ -117,6 +117,102 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('specification_delete', function ($user) {
             return in_array($user->role_id, [1]);
         });
+		
+		 // Auth gates for: Menu
+        Gate::define('menu_access', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('menu_create', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('menu_edit', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('menu_delete', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+
+        // Auth gates for: Item
+        Gate::define('item_access', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('item_create', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('item_edit', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('item_delete', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+
+        // Auth gates for: News
+        Gate::define('news_access', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('news_create', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('news_edit', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('news_view', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('news_delete', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        
+          // Auth gates for: Pages
+        Gate::define('page_access', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('page_create', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('page_edit', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('page_view', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('page_delete', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        
+           // Auth gates for: Pages
+        Gate::define('banners_access', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('banners_create', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('banners_edit', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('banners_view', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('banners_delete', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        
+         // Auth gates for: Reviews
+        Gate::define('review_access', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('review_create', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('review_edit', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('review_view', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('review_delete', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
 
     }
 }

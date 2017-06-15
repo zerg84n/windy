@@ -40,11 +40,20 @@ class ProductsController extends Controller
         if (! Gate::allows('product_create')) {
             return abort(401);
         }
-        $categories = \App\Category::get()->pluck('title', 'id')->prepend('Please select', '');$specifications = \App\Specification::get()->pluck('title', 'id');
+        $categories = \App\Category::get()->pluck('title', 'id')->prepend('Выберите категорию', '');
+       
 
         return view('admin.products.create', compact('categories', 'specifications'));
     }
+      public function createProperties(Product $product)
+    {
+        if (! Gate::allows('product_create')) {
+            return abort(401);
+        }
+         $property_values = $product->values();
 
+        return view('admin.products.properties', compact('product', 'property_values'));
+    }
     /**
      * Store a newly created Product in storage.
      *
@@ -58,7 +67,7 @@ class ProductsController extends Controller
         }
         $request = $this->saveFiles($request);
         $product = Product::create($request->all());
-        $product->specifications()->sync(array_filter((array)$request->input('specifications')));
+       
 
 
         foreach ($request->input('photos_id', []) as $index => $id) {
@@ -67,6 +76,34 @@ class ProductsController extends Controller
             $file->model_id = $product->id;
             $file->save();
         }
+
+        return redirect()->route('admin.products.properties.create',$product);
+    }
+    
+      public function storeProperties(Request $request,Product $product)
+    {
+         
+        if (! Gate::allows('product_create')) {
+            return abort(401);
+        }
+      
+      
+          if ($request->has('property')){
+              
+          $properties = $request->input('property');
+     
+         foreach($properties as $key=>$value){
+                    
+                    $product->setPropertyValue($key, $value);
+                    
+                }
+             
+          }
+          
+       
+
+
+      
 
         return redirect()->route('admin.products.index');
     }
@@ -78,16 +115,17 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($product)
     {
         if (! Gate::allows('product_edit')) {
             return abort(401);
         }
-        $categories = \App\Category::get()->pluck('title', 'id')->prepend('Please select', '');$specifications = \App\Specification::get()->pluck('title', 'id');
-
-        $product = Product::findOrFail($id);
-
-        return view('admin.products.edit', compact('product', 'categories', 'specifications'));
+        $categories = \App\Category::get()->pluck('title', 'id')->prepend('Выберите категорию', '');
+      
+       
+    
+      
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -97,17 +135,25 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductsRequest $request, $id)
+    public function update(UpdateProductsRequest $request, Product $product)
     {
         if (! Gate::allows('product_edit')) {
             return abort(401);
         }
         $request = $this->saveFiles($request);
-        $product = Product::findOrFail($id);
+       
+       
         $product->update($request->all());
-        $product->specifications()->sync(array_filter((array)$request->input('specifications')));
+       
+        $properties = $request->input('property');
+     
+         foreach($properties as $key=>$value){
+                    
+                    $product->setPropertyValue($key, $value);
+                    
+                }
 
-
+       
         $media = [];
         foreach ($request->input('photos_id', []) as $index => $id) {
             $model          = config('laravel-medialibrary.media_model');
@@ -128,12 +174,12 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
         if (! Gate::allows('product_view')) {
             return abort(401);
         }
-        $product = Product::findOrFail($id);
+       
 
         return view('admin.products.show', compact('product'));
     }

@@ -41,10 +41,10 @@
                             @endforeach</td>
                         </tr>
                         <tr>
-                            <th>@lang('quickadmin.products.fields.specifications')</th>
+                            <th>Характеристики</th>
                             <td>
-                                @foreach ($product->specifications as $singleSpecifications)
-                                    <span class="label label-info label-many">{{ $singleSpecifications->title }}</span>
+                                @foreach ($product->values() as $value)
+                                    <span class="label label-info label-many">{{ $value->property->title }} : {{$value->value}}</span>
                                 @endforeach
                             </td>
                         </tr>

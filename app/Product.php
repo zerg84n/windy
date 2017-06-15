@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
+
 /**
  * Class Product
  *
@@ -72,14 +73,70 @@ class Product extends Model implements HasMedia
         $this->attributes['amount'] = $input ? $input : null;
     }
     
+    public function setPropertyValue($property_id,$value) {
+        $property = Models\Catalog\Property::find($property_id);
+        $model =  $property->value_type;
+        $value_model = $model::firstOrCreate([
+            'property_id'=>$property_id,
+            'product_id'=>  $this->id,
+            'category_id'=>  $this->category->id
+        ]);
+        $value_model->value =  $value;
+        $value_model->save();
+        
+    }
+    
+    public function getPropertyValue($property_id) {
+        
+        return !is_null($this->getProperty($property_id))?$this->getProperty($property_id)->value:null;
+        
+    }
+    
+      public function getProperty($property_id) {
+        $property = Models\Catalog\Property::find($property_id);
+        if ($property){
+            $model =  $property->value_type;
+            $value_model = $model::firstOrCreate([
+                'property_id'=>$property_id,
+                'product_id'=>  $this->id,
+                'category_id'=>  $this->category->id
+            ]);
+            if ($value_model){
+                 return $value_model;
+            }else{
+                return null;
+            }
+        } else {
+             return null;
+        }
+      
+        
+    }
+    
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id')->withTrashed();
     }
     
-    public function specifications()
-    {
-        return $this->belongsToMany(Specification::class, 'product_specification')->withTrashed();
+    public function values() {
+        $values = collect();
+        $category = $this->category;
+        $properties = $category->properties;
+        if ($properties->count()>0){
+            foreach($properties as $property){
+                $value = $this->getProperty($property->id);
+                $values->push($value);
+            }
+            
+        }
+        return $values;
     }
+    
+     public function reviews() {
+        return $this->hasMany(Review::class, 'product_id');
+    }
+    
+    
+   
     
 }

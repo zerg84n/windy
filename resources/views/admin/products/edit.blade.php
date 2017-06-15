@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('quickadmin.products.title')</h3>
+    <h3 class="page-title">Товары</h3>
     
     {!! Form::model($product, ['method' => 'PUT', 'route' => ['admin.products.update', $product->id], 'files' => true,]) !!}
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            @lang('quickadmin.qa_edit')
+            Редактирование
         </div>
 
         <div class="panel-body">
@@ -126,18 +126,30 @@
                     @endif
                 </div>
             </div>
-            <div class="row">
+             <div class="panel-heading">
+            Характеристики:
+             </div>
+           @foreach($product->values() as $property_value)
+         <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('specifications', 'Характеристики', ['class' => 'control-label']) !!}
-                    {!! Form::select('specifications[]', $specifications, old('specifications') ? old('specifications') : $product->specifications->pluck('id')->toArray(), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('specifications'))
-                        <p class="help-block">
-                            {{ $errors->first('specifications') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
+                    {!! Form::label('property['.$property_value->property->id.']', $property_value->property->title, ['class' => 'control-label']) !!}
+            @if($property_value->getType()=='number')
+                 {!! Form::number('property['.$property_value->property->id.']', $property_value->value, ['class' => 'form-control', 'placeholder' => '']) !!}   
+            @elseif($property_value->getType()=='text')
+                {!! Form::text('property['.$property_value->property->id.']', $property_value->value, ['class' => 'form-control', 'placeholder' => '']) !!}
+            @elseif($property_value->getType()=='select')
+                @php
+                    $categories = collect();
+                @endphp
+                {!! Form::select('property['.$property_value->property->id.']', $property_value->property->variants->pluck('value','id')->prepend('Выберите характеристику', ''),$property_value->getAttributes()['value'], ['class' => 'form-control select2']) !!}
+            @elseif($property_value->getType()=='checkbox')
+                {!! Form::hidden('property['.$property_value->property->id.']', 0) !!}
+                 {!! Form::checkbox('property['.$property_value->property->id.']', 1, $property_value->value, []) !!}
+            @endif
+               </div>
+        </div>
+     
+        @endforeach
             
         </div>
     </div>

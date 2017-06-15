@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('quickadmin.specification.title')</h3>
+    <h3 class="page-title">Характеристики</h3>
     
     {!! Form::model($specification, ['method' => 'PUT', 'route' => ['admin.specifications.update', $specification->id]]) !!}
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            @lang('quickadmin.qa_edit')
+            Редактирование
         </div>
 
         <div class="panel-body">
@@ -23,30 +23,28 @@
                     @endif
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('value_text', 'Текстовое значение', ['class' => 'control-label']) !!}
-                    {!! Form::text('value_text', old('value_text'), ['class' => 'form-control', 'placeholder' => '']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('value_text'))
-                        <p class="help-block">
-                            {{ $errors->first('value_text') }}
-                        </p>
-                    @endif
-                </div>
+           
+           @if($specification->variants)
+             <div id='variants-wrapper'>
+            <div id='variants' class="row" >
+                @foreach($specification->variants as $variant)
+                  <div  class="col-xs-12 form-group field" >
+                      <input name="old_variants[{{$variant->id}}]" type="text" value="{{$variant->value}}" />
+                      <button class="remove-field" onclick=" return false;" >Удалить</button>
+                  </div>
+                @endforeach  
+             </div>
+               <div class="row"> 
+                    <div class="col-xs-1">
+                     <button class="btn btn-default" onclick="addField(); return false;">Добавить вариант</button>
+                    </div>
+                   
+               </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('value_number', 'Числовое значение', ['class' => 'control-label']) !!}
-                    {!! Form::number('value_number', old('value_number'), ['class' => 'form-control', 'placeholder' => '']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('value_number'))
-                        <p class="help-block">
-                            {{ $errors->first('value_number') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
+            
+               
+          
+           @endif
             
         </div>
     </div>
@@ -54,4 +52,53 @@
     {!! Form::submit(trans('quickadmin.qa_update'), ['class' => 'btn btn-danger']) !!}
     {!! Form::close() !!}
 @stop
+@section('javascript')
+    @parent
+    
+        <script>
+          
+            $('#value_type').change(function(){
+                
+                              
+                if ($(this).val()=='select'){
+                    $('#variants-wrapper').show();
+                } else {
+                     $('#variants-wrapper').hide();
+                    
+                }
+            });
+            
+            $('.remove-field').click(function(){
+               console.log('click');
+                $(this).parent().remove();
+                return false;
+            });
+                    
+            
+          
+        function addField(){
+            var num = $('.field').length;
+            if ($('.field').length>5){ alert('Больше нельзя!'); return false;}
+            
+             // $('.field').first().clone(true).appendTo('#variants');
+            
+             // $('#variants').append(input);
+             var html ='<div  class="col-xs-12 form-group field" >'+
+                      '<input name="new_variants[]" type="text" />'+
+                      '<button class="remove-field" onclick=" return false;" >Удалить</button>'+
+            '</div>';
+             $('#variants').append(html);
+          }
+             function removeField(){
+                 if ($('.field').length>2){
+                      $(this).parent().remove();
+                 } else {
+                     alert('Нужен хотябы один вариант.');
+                 }
+               
+             }
+       
+        </script>
+@stop
+
 

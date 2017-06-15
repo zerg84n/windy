@@ -22,35 +22,81 @@
                     @endif
                 </div>
             </div>
-            <div class="row">
+      
+          <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('value_text', 'Текстовое значение', ['class' => 'control-label']) !!}
-                    {!! Form::text('value_text', old('value_text'), ['class' => 'form-control', 'placeholder' => '']) !!}
+                    {!! Form::label('value_type', 'Тип характеристики', ['class' => 'control-label']) !!}
+                    {!! Form::select('value_type', $value_types, old('value_type'), ['id'=>'value_type' ,'class' => 'form-control select2', 'required' => '']) !!}
                     <p class="help-block"></p>
-                    @if($errors->has('value_text'))
+                    @if($errors->has('value_type'))
                         <p class="help-block">
-                            {{ $errors->first('value_text') }}
+                            {{ $errors->first('value_type') }}
                         </p>
                     @endif
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('value_number', 'Числовое значение', ['class' => 'control-label']) !!}
-                    {!! Form::number('value_number', old('value_number'), ['class' => 'form-control', 'placeholder' => '']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('value_number'))
-                        <p class="help-block">
-                            {{ $errors->first('value_number') }}
-                        </p>
-                    @endif
-                </div>
+            <div id='variants-wrapper'>
+            <div id='variants' class="row" >
+                  <div  class="col-xs-12 form-group field" >
+                      <input name="variants[]" type="text" />
+                      <button class="remove-field" onclick=" return false;" >Удалить</button>
+                  </div>
+                  
+             </div>
+               <div class="row"> 
+                    <div class="col-xs-1">
+                     <button class="btn btn-default" onclick="addField(); return false;">Добавить вариант</button>
+                    </div>
+                   
+               </div>
             </div>
-            
         </div>
     </div>
 
     {!! Form::submit(trans('quickadmin.qa_save'), ['class' => 'btn btn-danger']) !!}
     {!! Form::close() !!}
+@stop
+@section('javascript')
+    @parent
+    
+        <script>
+             $('#variants-wrapper').hide();
+            $('#value_type').change(function(){
+                
+                              
+                if ($(this).val()=='select'){
+                    $('#variants-wrapper').show();
+                } else {
+                     $('#variants-wrapper').hide();
+                    
+                }
+            });
+            
+            $('.remove-field').click(function(){
+               console.log('click');
+                $(this).parent().remove();
+                return false;
+            });
+                    
+            
+          
+        function addField(){
+            var num = $('.field').length;
+            if ($('.field').length>5){ alert('Больше нельзя!'); return false;}
+            
+              $('.field').first().clone(true).appendTo('#variants');
+            
+             // $('#variants').append(input);
+          }
+             function removeField(){
+                 if ($('.field').length>2){
+                      $(this).parent().remove();
+                 } else {
+                     alert('Нужен хотябы один вариант.');
+                 }
+               
+             }
+       
+        </script>
 @stop
 

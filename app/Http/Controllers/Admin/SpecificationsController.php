@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Specification;
+use App\Models\Catalog\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreSpecificationsRequest;
 use App\Http\Requests\Admin\UpdateSpecificationsRequest;
-
+use App\Models\Catalog\Variant;
 class SpecificationsController extends Controller
 {
     /**
@@ -22,7 +22,7 @@ class SpecificationsController extends Controller
             return abort(401);
         }
 
-        $specifications = Specification::all();
+        $specifications = Property::all();
 
         return view('admin.specifications.index', compact('specifications'));
     }
@@ -37,7 +37,9 @@ class SpecificationsController extends Controller
         if (! Gate::allows('specification_create')) {
             return abort(401);
         }
-        return view('admin.specifications.create');
+         
+         $value_types = Property::FORM_TYPES;
+        return view('admin.specifications.create',  compact('value_types'));
     }
 
     /**
@@ -51,9 +53,22 @@ class SpecificationsController extends Controller
         if (! Gate::allows('specification_create')) {
             return abort(401);
         }
-        $specification = Specification::create($request->all());
+       
+        
+        $specification = Property::create($request->all());
 
-
+        if ($request->input('value_type')=='select'){
+            if ($request->has('variants')){
+                foreach($request->input('variants') as $variant){
+                    \App\Models\Catalog\Variant::create([
+                        'property_id'=>$specification->id,
+                        'value'=>$variant
+                    ]);
+                }
+            }else{
+                return back()->withErrors('Не указаны варианты!');
+            }
+        }
 
         return redirect()->route('admin.specifications.index');
     }
@@ -70,8 +85,8 @@ class SpecificationsController extends Controller
         if (! Gate::allows('specification_edit')) {
             return abort(401);
         }
-        $specification = Specification::findOrFail($id);
-
+        $specification = Property::findOrFail($id);
+        
         return view('admin.specifications.edit', compact('specification'));
     }
 
@@ -87,9 +102,35 @@ class SpecificationsController extends Controller
         if (! Gate::allows('specification_edit')) {
             return abort(401);
         }
-        $specification = Specification::findOrFail($id);
+        
+        $specification = Property::findOrFail($id);
         $specification->update($request->all());
-
+         if ($specification->variants){
+            if ($request->has('old_variants')){
+                $updated_variants = collect($request->input('old_variants'));
+               
+                $variants = $specification->variants->pluck('id');
+                $deleted_variants = $variants->diff($updated_variants->keys());
+                foreach($deleted_variants as $variant){
+                    Variant::destroy($variant);
+                }
+                foreach ($updated_variants as $key=>$value){
+                    $variant = Variant::find($key);
+                    $variant->value=$value;
+                    $variant->save();
+                }
+            }
+            if ($request->has('new_variants')){
+                foreach($request->input('new_variants') as $variant){
+                    $variant = Variant::create([
+                            'property_id'=>$specification->id,
+                            'value'=>$variant
+                            ]);
+                }
+            }
+            
+            
+        }
 
 
         return redirect()->route('admin.specifications.index');
@@ -107,14 +148,11 @@ class SpecificationsController extends Controller
         if (! Gate::allows('specification_view')) {
             return abort(401);
         }
-        $products = \App\Product::whereHas('specifications',
-                    function ($query) use ($id) {
-                        $query->where('id', $id);
-                    })->get();
-
-        $specification = Specification::findOrFail($id);
-
-        return view('admin.specifications.show', compact('specification', 'products'));
+      
+        
+        $specification = Property::findOrFail($id);
+        $categories = $specification->categories;
+        return view('admin.specifications.show', compact('specification', 'categories'));
     }
 
 
@@ -129,7 +167,7 @@ class SpecificationsController extends Controller
         if (! Gate::allows('specification_delete')) {
             return abort(401);
         }
-        $specification = Specification::findOrFail($id);
+        $specification = Property::findOrFail($id);
         $specification->delete();
 
         return redirect()->route('admin.specifications.index');
@@ -146,7 +184,7 @@ class SpecificationsController extends Controller
             return abort(401);
         }
         if ($request->input('ids')) {
-            $entries = Specification::whereIn('id', $request->input('ids'))->get();
+            $entries = Property::whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();

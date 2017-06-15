@@ -19,6 +19,7 @@ class SpatieMediaController extends Controller
         }
 
         $model = 'App\\' . $request->input('model_name');
+      
         try {
             $model = new $model();
         } catch (ModelNotFoundException $e) {
@@ -27,6 +28,7 @@ class SpatieMediaController extends Controller
 
         $files      = $request->file($request->input('file_key'));
         $addedFiles = [];
+       
         foreach ($files as $file) {
             try {
                 $media        = $model->addMedia($file)->toMediaLibrary($request->input('bucket'));

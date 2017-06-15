@@ -4,6 +4,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Product;
+use App\Models\Catalog\Property;
 /**
  * Class Category
  *
@@ -17,5 +19,14 @@ class Category extends Model
 
     protected $fillable = ['title', 'description'];
     
+    
+      public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+      public function properties()
+    {
+        return $this->belongsToMany(Property::class);
+    }
     
 }

@@ -36,6 +36,19 @@
                 </div>
             </div>
             
+              <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('properties', 'Характеристики', ['class' => 'control-label']) !!}
+                    {!! Form::select('properties[]', $properties, old('properties') ? old('properties') : $category->properties->pluck('id')->toArray(), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('properties'))
+                        <p class="help-block">
+                            {{ $errors->first('properties') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+            
         </div>
     </div>
 

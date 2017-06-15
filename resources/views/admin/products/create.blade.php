@@ -1,15 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('quickadmin.products.title')</h3>
+    <h3 class="page-title">Товары</h3>
     {!! Form::open(['method' => 'POST', 'route' => ['admin.products.store'], 'files' => true,]) !!}
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            @lang('quickadmin.qa_create')
+           Добавление товара(основная информация)
         </div>
         
         <div class="panel-body">
+             <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('category_id', 'Категория*', ['class' => 'control-label']) !!}
+                    {!! Form::select('category_id', $categories, old('category_id'), ['class' => 'form-control select2', 'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('category_id'))
+                        <p class="help-block">
+                            {{ $errors->first('category_id') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('title', 'Наименование', ['class' => 'control-label']) !!}
@@ -58,22 +70,11 @@
                     @endif
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('category_id', 'Категория*', ['class' => 'control-label']) !!}
-                    {!! Form::select('category_id', $categories, old('category_id'), ['class' => 'form-control select2', 'required' => '']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('category_id'))
-                        <p class="help-block">
-                            {{ $errors->first('category_id') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
+           
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('amount', 'Количество', ['class' => 'control-label']) !!}
-                    {!! Form::number('amount', old('amount'), ['class' => 'form-control', 'placeholder' => '']) !!}
+                    {!! Form::number('amount', old('amount'), ['class' => 'form-control', 'placeholder' => 'Количество товара на складе','value'=>'1']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('amount'))
                         <p class="help-block">
@@ -117,23 +118,12 @@
                     @endif
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('specifications', 'Характеристики', ['class' => 'control-label']) !!}
-                    {!! Form::select('specifications[]', $specifications, old('specifications'), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('specifications'))
-                        <p class="help-block">
-                            {{ $errors->first('specifications') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
+           
             
         </div>
     </div>
 
-    {!! Form::submit(trans('quickadmin.qa_save'), ['class' => 'btn btn-danger']) !!}
+    {!! Form::submit('Продолжить', ['class' => 'btn btn-danger']) !!}
     {!! Form::close() !!}
 @stop
 

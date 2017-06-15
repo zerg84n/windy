@@ -54,7 +54,14 @@
                 </a>
             </li>
             @endcan
-            
+              @can('review_access')
+            <li class="{{ $request->segment(2) == 'reviews' ? 'active' : '' }}">
+                <a href="{{ route('admin.reviews.index') }}">
+                    <i class="fa fa-gears"></i>
+                    <span class="title">@lang('quickadmin.reviews.title')</span>
+                </a>
+            </li>
+            @endcan
             @can('category_access')
             <li class="{{ $request->segment(2) == 'categories' ? 'active' : '' }}">
                 <a href="{{ route('admin.categories.index') }}">
@@ -63,6 +70,15 @@
                 </a>
             </li>
             @endcan
+            
+              
+            <li class="{{ $request->segment(2) == 'vendors' ? 'active' : '' }}">
+                <a href="{{ route('admin.categories.index') }}">
+                    <i class="fa fa-stack-overflow"></i>
+                    <span class="title">Производители</span>
+                </a>
+            </li>
+            
             
             @can('specification_access')
             <li class="{{ $request->segment(2) == 'specifications' ? 'active' : '' }}">
@@ -73,7 +89,48 @@
             </li>
             @endcan
             
-
+             @can('menu_access')
+            <li class="{{ $request->segment(2) == 'menus' ? 'active' : '' }}">
+                <a href="{{ route('admin.menus.index') }}">
+                    <i class="fa fa-gears"></i>
+                    <span class="title">@lang('quickadmin.menu.title')</span>
+                </a>
+            </li>
+            @endcan
+            
+            @can('item_access')
+            <li class="{{ $request->segment(2) == 'items' ? 'active' : '' }}">
+                <a href="{{ route('admin.items.index') }}">
+                    <i class="fa fa-gears"></i>
+                    <span class="title">@lang('quickadmin.item.title')</span>
+                </a>
+            </li>
+            @endcan
+            
+            @can('news_access')
+            <li class="{{ $request->segment(2) == 'news' ? 'active' : '' }}">
+                <a href="{{ route('admin.news.index') }}">
+                    <i class="fa fa-gears"></i>
+                    <span class="title">@lang('quickadmin.news.title')</span>
+                </a>
+            </li>
+            @endcan
+               @can('page_access')
+            <li class="{{ $request->segment(2) == 'pages' ? 'active' : '' }}">
+                <a href="{{ route('admin.pages.index') }}">
+                    <i class="fa fa-gears"></i>
+                    <span class="title">@lang('quickadmin.pages.title')</span>
+                </a>
+            </li>
+            @endcan
+        @can('banners_access')
+            <li class="{{ $request->segment(2) == 'banners' ? 'active' : '' }}">
+                <a href="{{ route('admin.banners.index') }}">
+                    <i class="fa fa-gears"></i>
+                    <span class="title">@lang('quickadmin.banners.title')</span>
+                </a>
+            </li>
+            @endcan
             
 
             
