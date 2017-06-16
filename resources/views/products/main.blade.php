@@ -89,7 +89,7 @@
 			@endforeach	
 				
 			</div>
-			<a class="all-news uk-align-right">Посмотреть все товары</a>
+			<a class="all-news uk-align-right" href="{{route('products-catalog')}}">Посмотреть все товары</a>
 		</div>
 		</div>
 	</div>	

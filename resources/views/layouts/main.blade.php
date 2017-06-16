@@ -82,7 +82,7 @@
 				<nav id="nav" class="uk-container">
 					<ul class="main-ul">
                                           @foreach($main_menu->items as $root_item)
-						<li><a class="a-drop-down" href="#">{{$root_item->text or $root_item->title}}</a>
+                                          <li><a class="a-drop-down" href="{{$root_item->url}}">{{$root_item->text or $root_item->title}}</a>
 							<div class="nav-drop-down">
 							<div class="uk-container">
                                                             @foreach($root_item->menus as $sub_menu)

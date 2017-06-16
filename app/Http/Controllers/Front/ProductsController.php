@@ -21,6 +21,27 @@ class ProductsController extends Controller
         $slider = \App\Models\Banner::all()->first();
         return view('products.main',  compact('news','slider','products'));
     }
+     public function catalog(Request $request)
+    {
+            
+        if ($request->has('category')){
+           $category = \App\Category::find($request->input('category'));
+           if ($category){
+               $products = $category->products()->paginate(6);
+           } else {
+               $products = \App\Product::paginate(6);
+           }
+        }else{
+            $category = null;
+            $products = \App\Product::paginate(6);
+        }
+        
+        
+      
+        return view('products.catalog',  compact('products','category'));
+    }
+    
+    
       public function compare_add(Request $request)
     {
           
