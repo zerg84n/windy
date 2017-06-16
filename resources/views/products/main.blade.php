@@ -15,7 +15,7 @@
     <ul class="uk-dotnav uk-dotnav-contrast uk-position-bottom uk-flex-center">
         <li data-uk-slideshow-item="0"><a href=""></a></li>
         <li data-uk-slideshow-item="1"><a href=""></a></li>
-		<li data-uk-slideshow-item="3"><a href=""></a></li>
+		<li data-uk-slideshow-item="2"><a href=""></a></li>
     </ul>
 </div>
 </div>
