@@ -45,11 +45,11 @@
 			</div>
 			<div class="uk-card-footer uk-width-3-3">
 			<p><img src="/img/clock.png" alt=""> {{$news->created_at}}</p>
-			<a href="#" class="uk-button uk-button-text">Подробнее</a>
+			<a href="{{route('news-show',$news)}}" class="uk-button uk-button-text">Подробнее</a>
 			</div>
 		</div>
                 @endforeach
-		<a class="all-news uk-align-right">Все новости</a>
+                <a class="all-news uk-align-right" href="{{route('news-index')}}">Все новости</a>
 		<p class="title">Контактная информация</p>
 		<p>+7 (812) 123-45-78</p>
 		<p>info@wendy.ru </p>

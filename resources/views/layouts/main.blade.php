@@ -56,7 +56,7 @@
 		<div class="uk-container head-middle">
 			<div class="uk-grid">	
 				<div class="uk-width-2-5 logo">
-					<a><img src="/img/logo.png"></a>
+                                    <a href="{{route('products-index')}}"><img src="/img/logo.png"></a>
 				</div>
 				<div class="uk-width-3-5 uk-text-right">
                                     @if($top_menu)
@@ -123,11 +123,13 @@
 			<div class="uk-width-1-4 uk-text-left f-right">
 					<p class="green">Меню</p>
 					<ul class="footer-menu">
-						<li><a>О нас</a></li>
-						<li><a>Новости</a></li>
-						<li><a>Оплата и доставка</a></li>
-						<li><a>Контакты</a></li>
-						<li><a>Реквизиты</a></li>
+					@if($top_menu)
+					
+                                            @foreach($top_menu->items as $item)
+                                            <li><a href="{{$item->url}}">{{$item->text}}</a></li>
+                                            @endforeach
+					
+                                         @endif
 					</ul>
 			</div>
 			<div class="uk-width-1-4 uk-text-left f-right">

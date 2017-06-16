@@ -1,6 +1,7 @@
 <?php
 
- Route::get('/', ['as'=>'products-index','uses'=>'Front\ProductsController@index']);
+//
+
 // Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
 $this->post('login', 'Auth\LoginController@login')->name('auth.login');
@@ -15,7 +16,22 @@ $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('auth.password.reset');
 $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.password.reset');
+//Front part
+//Products
+ Route::get('/', ['as'=>'products-index','uses'=>'Front\ProductsController@index']);
+ 
+ 
+ //News
+  Route::get('/news', ['as'=>'news-index','uses'=>'Front\NewsController@index']);
+  Route::get('/news/{news}', ['as'=>'news-show','uses'=>'Front\NewsController@show']);
+ //Compare system
+ Route::get('/compare/add', ['as'=>'products-compare-add','uses'=>'Front\ProductsController@compare_add']);
+ Route::get('/compare/del', ['as'=>'products-compare-del','uses'=>'Front\ProductsController@compare_del']);
 
+
+
+
+//Admin part
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/home', 'HomeController@index');
     Route::resource('roles', 'Admin\RolesController');
