@@ -74,8 +74,9 @@
 						<div class="uk-card-body uk-text-center">
 							<h3 class="uk-card-title"><a href="{{route('products-show',$product)}}">{{$product->title}}</a></h3>
 							<p class="price">Цена: <span class="dark-green">{{$product->price_original}}<span> р.</p>
-							<form class="add-cart">
-							   <p><input type="submit" value="Добавить"></p>
+                                                           <form id="cart{{$product->id}}" class="add-cart" action="javascript:void(null);" onsubmit="cart_add({{$product->id}})">
+                                                              
+                                                               <p><input type="submit" value="{{Session::has('cart.'.$product->id)?'В корзине':'Добавить'}}"></p>
 							 </form>
 						</div>
 					</div>
@@ -97,5 +98,27 @@
 @section('scripts') 
     <script src="/js/ini.js"></script>
     <script src="/js/uikit-icons.min.js"></script>
-   
+    <script>
+         window.route_add_to_cart = '{{ route('products-cart-add') }}';
+         window.route_del_from_cart = '{{ route('products-cart-del') }}';
+       function cart_add(id) {
+           
+              var status = $('#cart'+id+' input').first().val();
+              // 
+               console.log(status);
+                 if(status == 'Добавить') {
+                       $.get(window.route_add_to_cart,{ id: id})
+                               .done(function( data ) {
+                        $('#cart'+data.id+' input').first().val('В корзине');
+                        $('#cart_count').html(data.cart_size);
+                      });
+                    }else{
+                        $.get(window.route_del_from_cart,{ id: id})
+                               .done(function( data ) {
+                        $('#cart'+data.id+' input').first().val('Добавить');
+                        $('#cart_count').html(data.cart_size);
+                      });
+                    }
+            }
+    </script>
 @endsection

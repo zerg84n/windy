@@ -44,7 +44,7 @@
 					<a href="#modal-form" uk-toggle>Заказать звонок <img src="/img/call.png"></a>
 				</div>
 				<div class="uk-width-1-4 cart uk-text-right">
-					<a href="#"><img src="/img/cart.png"> Корзина (0)</a>
+                                    <a href="#"><img src="/img/cart.png"> Корзина (<span id="cart_count">{{count(Session::get('cart'))}}</span>)</a>
 				</div>
 				<div class="uk-width-1-4 uk-text-right links">
 					<a href="#"><img src="/img/fb.png"></a>

@@ -29,7 +29,8 @@ $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.
  Route::get('/compare/add', ['as'=>'products-compare-add','uses'=>'Front\ProductsController@compare_add']);
  Route::get('/compare/del', ['as'=>'products-compare-del','uses'=>'Front\ProductsController@compare_del']);
 
-
+ Route::get('/cart/add', ['as'=>'products-cart-add','uses'=>'Front\ProductsController@cart_add']);
+ Route::get('/cart/del', ['as'=>'products-cart-del','uses'=>'Front\ProductsController@cart_del']);
 
 
 //Admin part

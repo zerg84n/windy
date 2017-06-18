@@ -64,12 +64,14 @@
 				</div>	
 				<div class="uk-text-left  uk-margin-bottom info uk-width-2-3">
 					<p class="price">Цена: <span class="dark-green">{{$product->price_original}}<span> р.</p>
-					<form  class="add-cart">
-						
-						<input type="number" name="amount" value="1" min="0" max="100" class="uk-form-width-mini uk-form-small">
-						
-						<p><input type="submit" value="Добавить"></p>
-					</form>
+                                                    
+                                        <form id="cart{{$product->id}}" class="add-cart" action="javascript:void(null);" onsubmit="cart_add({{$product->id}})">
+                                              
+                                               <input id='product_count' type="number" name="amount" value="{{Session::has('cart.'.$product->id)?Session::get('cart.'.$product->id):1}}" min="1" max="100" class="uk-form-width-mini uk-form-small">
+                                             
+                                                
+                                                  <p><input type="submit" value="{{Session::has('cart.'.$product->id)?'В корзине':'Добавить'}}"></p>
+                                        </form>
 					<div class="charakter">
                                        @foreach($product->values() as $property_value_model)
 					<p>{{$property_value_model->property->title}}: <span>{{$property_value_model->value}}</span></p>
@@ -124,4 +126,27 @@
 <script src="/js/lightbox.min.js"></script>
 <script src="/js/slideshow.js"></script>
 <script src="/js/slideshow-fx.js"></script>    
+<script>
+         window.route_add_to_cart = '{{ route('products-cart-add') }}';
+         window.route_del_from_cart = '{{ route('products-cart-del') }}';
+       function cart_add(id) {
+               
+              var status = $('#cart'+id+' input').last().val();
+              var count = $('#product_count').val();
+               console.log(status);
+                 if(status == 'Добавить') {
+                       $.get(window.route_add_to_cart,{ id: id, count:count})
+                               .done(function( data ) {
+                        $('#cart'+data.id+' input').last().val('В корзине');
+                        $('#cart_count').html(data.cart_size);
+                      });
+                    }else{
+                        $.get(window.route_del_from_cart,{ id: id})
+                               .done(function( data ) {
+                        $('#cart'+data.id+' input').last().val('Добавить');
+                        $('#cart_count').html(data.cart_size);
+                      });
+                    }
+            }
+    </script>
 @endsection
