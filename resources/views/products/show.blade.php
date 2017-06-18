@@ -44,6 +44,13 @@
 		ПН-ПТ: 08:00 - 18:00<br>СБ: 10:00 - 16:00 </p>
 		</div>
 		<div class="uk-width-3-4 content" ><p class="title">{{$product->title}}</p>
+                  @if (Session::has('success'))
+                                     
+                           <div uk-alert>
+                                <a class="uk-alert-close" uk-close></a>
+                                {{ Session::get('success') }}
+                            </div>
+                       @endif
 			<div class="card-info uk-grid-small uk-grid" >
 				<div class="uk-text-center info  uk-width-1-3">
 					
@@ -99,7 +106,7 @@
                                 </li>
 				<li class="">
 				<div class="uk-column-1-2">
-                               @foreach ($product->reviews as $review)
+                               @foreach ($product->getPublishedReviews() as $review)
 				<div class="otziv">
 					<p class="otziv-name">{{$review->name}}</p>
 					<p class="otziv-content">{{$review->text}}</p>
@@ -107,13 +114,21 @@
 				</div>
 				@endforeach
                                 </div>
-				<div class="uk-margin">
+                                @if(!Session::has('review.'.$product->id))
+				<div id='review-wrapper' class="uk-margin">
 				<p class="green">Оставьте свой отзыв</p>
-				<form class="otziv-form">
-				   <p><input class="uk-input" type="text" name="text" placeholder="Ваше имя"></p>
-				   <p><textarea class="uk-textarea" placeholder="Ваш отзыв"></textarea></p>
-				   <p><input class="uk-button uk-button-default uk-button-small" type="submit" value="Отправить"></p>
-				</form></div>
+                                    <form action="{{route('products-add-review')}}" class="otziv-form" method="POST">
+                                        {!!csrf_field()!!}
+                                        <input type="hidden" name="product_id" value="{{$product->id}}" />
+                                        <p><input name="name" class="uk-input" type="text"  placeholder="Ваше имя" required/></p>
+                                        <p><input  name="email"  class="uk-input" type="email"placeholder="Email"></p>
+                                        <p><textarea name="text" class="uk-textarea" placeholder="Ваш отзыв" required></textarea></p>
+                                       <p><input class="uk-button uk-button-default uk-button-small" type="submit" value="Отправить"></p>
+                                    </form>
+                                </div>
+                                @else
+                                    <p class="green">Спасибо за ваш отзыв! Он появится здесь после проверки модератором.</p>
+                                @endif
 				</li>
 			</ul>
 			</div>

@@ -21,6 +21,7 @@ $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.
  Route::get('/', ['as'=>'products-index','uses'=>'Front\ProductsController@index']);
  Route::get('/products', ['as'=>'products-catalog','uses'=>'Front\ProductsController@catalog']);
  Route::get('/products/{product}', ['as'=>'products-show','uses'=>'Front\ProductsController@show']);
+ Route::post('/products/review', ['as'=>'products-add-review','uses'=>'Front\ProductsController@review']);
  
  //News
   Route::get('/news', ['as'=>'news-index','uses'=>'Front\NewsController@index']);

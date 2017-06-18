@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Session;
 use App\Product;
+use App\Http\Requests\Admin\StoreReviewsRequest;
+use App\Review;
+
 class ProductsController extends Controller
 {
     /**
@@ -89,6 +92,7 @@ class ProductsController extends Controller
     {
         //
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -96,9 +100,14 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function review(StoreReviewsRequest $request)
     {
-        //
+      
+        $review = Review::create($request->all());
+
+        Session::put('review.'.$request->input('product_id'),1);
+
+        return back()->withSuccess('Спасибо за ваш отзыв! Он появится здесь после проверки модератором.');
     }
 
     /**

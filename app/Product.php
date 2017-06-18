@@ -139,7 +139,11 @@ class Product extends Model implements HasMedia
         return $properties;
     }
     
-     public function reviews() {
+    public function getPublishedReviews(){
+        return $this->hasMany(Review::class, 'product_id')->where('published','=',1)->get();
+    }
+
+        public function reviews() {
         return $this->hasMany(Review::class, 'product_id');
     }
     
