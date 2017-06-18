@@ -72,7 +72,7 @@
 							<img src="{{$image_src}}" alt="">
 						</div>
 						<div class="uk-card-body uk-text-center">
-							<h3 class="uk-card-title"><a href="#">{{$product->title}}</a></h3>
+							<h3 class="uk-card-title"><a href="{{route('products-show',$product)}}">{{$product->title}}</a></h3>
 							<p class="price">Цена: <span class="dark-green">{{$product->price_original}}<span> р.</p>
 							<form class="add-cart">
 							   <p><input type="submit" value="Добавить"></p>
@@ -95,6 +95,7 @@
 @endsection
 
 @section('scripts') 
-
+    <script src="/js/ini.js"></script>
     <script src="/js/uikit-icons.min.js"></script>
+   
 @endsection

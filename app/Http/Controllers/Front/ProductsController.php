@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Front;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Session;
-
+use App\Product;
 class ProductsController extends Controller
 {
     /**
@@ -83,9 +83,11 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        //
+       $news = \App\News::orderBy('id','desc')->limit(2)->get();
+     
+       return view('products.show',  compact('news','product'));
     }
 
     /**

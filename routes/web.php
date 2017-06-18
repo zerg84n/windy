@@ -20,6 +20,7 @@ $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.
 //Products
  Route::get('/', ['as'=>'products-index','uses'=>'Front\ProductsController@index']);
  Route::get('/products', ['as'=>'products-catalog','uses'=>'Front\ProductsController@catalog']);
+ Route::get('/products/{product}', ['as'=>'products-show','uses'=>'Front\ProductsController@show']);
  
  //News
   Route::get('/news', ['as'=>'news-index','uses'=>'Front\NewsController@index']);

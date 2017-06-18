@@ -11,7 +11,8 @@
                 
                 
 		<script src="http://code.jquery.com/jquery-3.2.1.min.js"  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
-		<script src="/js/menu.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                <script src="/js/menu.js"></script>
 		<script src="/js/uikit.min.js"></script>
 		<script src="/js/uikit.js"></script>
 		

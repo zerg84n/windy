@@ -131,6 +131,13 @@ class Product extends Model implements HasMedia
         }
         return $values;
     }
+     public function getProperties() {
+        $values = collect();
+        $category = $this->category;
+        $properties = $category->properties;
+        
+        return $properties;
+    }
     
      public function reviews() {
         return $this->hasMany(Review::class, 'product_id');
