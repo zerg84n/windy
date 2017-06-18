@@ -134,7 +134,7 @@
 			</div>
 			<div class="uk-width-1-4 uk-text-left f-right">
 			<p class="green">Контактная информация</p>
-				+7 (812) 123-45-78<br>info@wendy.ru <br>Мы работаем для Вас:<br>
+				+7 (812) 123-45-78<br>info@windy.ru <br>Мы работаем для Вас:<br>
 				ПН-ПТ: 08:00 - 18:00<br>СБ: 10:00 - 16:00
 				
 			</div>
