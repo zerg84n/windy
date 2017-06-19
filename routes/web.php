@@ -30,9 +30,12 @@ $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.
  Route::get('/compare/add', ['as'=>'products-compare-add','uses'=>'Front\ProductsController@compare_add']);
  Route::get('/compare/del', ['as'=>'products-compare-del','uses'=>'Front\ProductsController@compare_del']);
 
- Route::get('/cart/add', ['as'=>'products-cart-add','uses'=>'Front\ProductsController@cart_add']);
- Route::get('/cart/del', ['as'=>'products-cart-del','uses'=>'Front\ProductsController@cart_del']);
-
+//Cart
+ Route::get('/cart', ['as'=>'products-cart-index','uses'=>'Front\CartController@index']);
+ Route::get('/cart/add', ['as'=>'products-cart-add','uses'=>'Front\CartController@cart_add']);
+ Route::get('/cart/del', ['as'=>'products-cart-del','uses'=>'Front\CartController@cart_del']);
+ Route::post('/cart', ['as'=>'products-cart-store','uses'=>'Front\CartController@store']);
+ 
 
 //Admin part
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -75,5 +78,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::resource('reviews', 'Admin\ReviewsController');
     Route::post('reviews_mass_destroy', ['uses' => 'Admin\ReviewsController@massDestroy', 'as' => 'reviews.mass_destroy']);
    
+    Route::resource('orders', 'Admin\OrdersController');
+    Route::post('orders_mass_destroy', ['uses' => 'Admin\OrdersController@massDestroy', 'as' => 'orders.mass_destroy']);
 
 });

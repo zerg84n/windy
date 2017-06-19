@@ -60,29 +60,6 @@ class ProductsController extends Controller
         return  $id;
     }
 
-       public function cart_add(Request $request)
-    {
-          $result = array();
-          $id = $request->input('id');
-         
-          $count = $request->has('count')?$request->input('count'):1;
-           Session::put('cart.'.$id, $count); 
-           $result['id']=$id;
-           $result['cart_size'] =  count(Session::get('cart',[]));
-        return $result;
-    }
-      public function cart_del(Request $request)
-    {
-          $result = array();
-          $id = $request->input('id');
-        
-           Session::pull('cart.'.$id); 
-           $result['id']=$id;
-           $result['cart_size'] =  count(Session::get('cart',[]));
-        return $result;
-          
-      
-    }
     /**
      * Show the form for creating a new resource.
      *
