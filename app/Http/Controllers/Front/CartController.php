@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use Session;
-
+use App\Http\Requests\Front\StoreOrderRequest;
 class CartController extends Controller
 {
       use FileUploadTrait;
@@ -28,7 +28,7 @@ class CartController extends Controller
     }
     
     
-    public function store (Request $request){
+    public function store (StoreOrderRequest $request){
         
      
         $request = $this->saveFiles($request);

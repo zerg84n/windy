@@ -13,7 +13,7 @@ class StoreOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,16 +27,16 @@ class StoreOrderRequest extends FormRequest
             'name' => 'required',          
             "phone" => "required",
             "email" => "email|required",
-           
+           "agreement"=>"accepted",
            
             "address" => "required",
             
            
-            "is_ur" => "a1",
+           
             
             "ur_name" => "required_with:is_ur",
-            "ur_inn" => "required_with:is_ur",
-            "ur_nls" => "required_with:is_ur",
+            "ur_inn" => "required_with:is_ur|numeric",
+            "ur_nls" => "required_with:is_ur|numeric",
         ];
     }
 }

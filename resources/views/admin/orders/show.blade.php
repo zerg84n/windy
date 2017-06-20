@@ -64,6 +64,50 @@
                             <th>@lang('quickadmin.order.fields.status')</th>
                             <td>{{ $order->status }}</td>
                         </tr>
+                      
+                        
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID Товара</th>
+                                <th>Наименование</th>
+                                <th>Количество</th>
+                                <th>Стоимость</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $total = 0;
+                            @endphp
+                             @foreach($order->products as $product)
+                            <tr>
+                                <td>
+                                 {{$product->id}}
+                                 </td>
+                                 <td>
+                                     <a href="{{route('products-show',$product)}}" target="_blank">{{$product->title}}</a>
+                                 </td>
+                                 <td>
+                                 {{$product->pivot->count}}
+                                 </td>
+                                 <td>
+                                 {{$product->pivot->count*$product->price_original}} р.
+                                 @php
+                                    $total += $product->pivot->count*$product->price_original;
+                                @endphp
+                                 </td>
+                             </tr>
+                            @endforeach
+                        <td>
+                            Итого:
+                        </td>
+                        <td colspan="3">
+                            {{$total}} р.
+                        </td>
+                        </tbody>
                     </table>
                 </div>
             </div>

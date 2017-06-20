@@ -44,6 +44,7 @@
 		ПН-ПТ: 08:00 - 18:00<br>СБ: 10:00 - 16:00 </p>
 		</div>
 		<div class="uk-width-3-4 content" ><p class="title">Корзина</p>
+                    @if ($products->count()>0)
                     <form class="cart" action="{{route('products-cart-store')}}" method="POST" accept-charset="UTF-8" enctype="multipart/form-data">
 			
 			<table class="cart-table">
@@ -84,12 +85,32 @@
 			<p class="cart-title">Контактная информация</p> 
 				<p><span>Контактное лицо*</span> 
                                     <input type="text" name="name" required class="uk-input uk-form-width-medium uk-form-small"></p>
+                                   @if($errors->has('name'))
+                                        <p class="uk-form-danger">
+                                            {{ $errors->first('name') }}
+                                        </p>
+                                    @endif
 				<p><span>Телефон*</span> 
                                     <input type="phone" name="phone" required class="uk-input uk-form-width-medium uk-form-small"></p>
+                                   @if($errors->has('phone'))
+                                        <p class="uk-form-danger">
+                                            {{ $errors->first('phone') }}
+                                        </p>
+                                    @endif
 				<p><span>E-mail*</span>
                                     <input type="email" name="email" required class="uk-input uk-form-width-medium uk-form-small"></p>
-				<p>
-                                    <input class="uk-checkbox" type="checkbox" name="agreement" value="1" checked> Даю согласие на обработку персональных данных</p>
+				
+                                       @if($errors->has('email'))
+                                            <p class="uk-form-danger">
+                                                {{ $errors->first('email') }}
+                                            </p>
+                                        @endif
+                                      <p>  <input class="uk-checkbox" type="checkbox" name="agreement" value="1"  checked> Даю согласие на обработку персональных данных</p>
+                                         @if($errors->has('agreement'))
+                                            <p class="uk-form-danger">
+                                                {{ $errors->first('agreement') }}
+                                            </p>
+                                        @endif
 			</div>
 			<div class="cart-contact">
 			<p class="cart-title">Доставка</p> 
@@ -99,8 +120,14 @@
                                         <input class="uk-radio" type="radio" name="delivery" value="1" id="dostavka" checked> Доставка по Санкт-Петербургу</label></p>
 				<div class="dostavka">
 				<p><span>Адрес</span> <input type="text" name="address" required  class="uk-input uk-form-width-medium uk-form-small"></p>
+                                
 				
 				<p><span>Удобное время</span> <input type="time" name="time" required  class="uk-input uk-form-width-medium uk-form-small"></p>
+                                   @if($errors->has('time'))
+                                            <p class="uk-form-danger">
+                                                {{ $errors->first('time') }}
+                                            </p>
+                                        @endif
 				</div>
 			</div>
 			<div class="cart-contact">
@@ -111,23 +138,40 @@
                                         <option value="1">Наличными курьеру</option>
 				</select></p>
 				<p>
-                                    <input class="uk-checkbox" type="checkbox" name="is_ur" value="1" id="urid"> Я юридическое лицо</p>
+                                   
+                                {!! Form::checkbox('is_ur', 1, old('is_ur'), ['class'=>'uk-checkbox','id'=>'urid']) !!}
+                                Я юридическое лицо</p>
 				<div class="urid">
 				<p><span>Прикрепить реквизиты</span>
                                    
                                
-                                {!! Form::file('attachment', ['class' => 'uk-input uk-form-small uk-form-width-large']) !!}
+                                {!! Form::file('attachment', ['class' => 'uk-input uk-form-small uk-form-width-large','disabled'=>'disabled']) !!}
                                 {!! Form::hidden('attachment_max_size', 8) !!}
-                                <p class="help-block"></p>
+                                <p class="uk-form-danger"></p>
                                 @if($errors->has('attachment'))
-                                    <p class="help-block">
+                                    <p class="uk-form-danger">
                                         {{ $errors->first('attachment') }}
                                     </p>
                                 @endif
 				<p>Или заполните поля</p>
 				<p><span>Название организации</span> <input disabled type="text" name="ur_name" class="uk-input uk-form-width-medium uk-form-small"></p>
+                                   @if($errors->has('ur_name'))
+                                            <p class="uk-form-danger">
+                                                {{ $errors->first('ur_name') }}
+                                            </p>
+                                   @endif
 				<p><span>ИНН</span> <input disabled type="text" name="ur_inn" class="uk-input uk-form-width-medium uk-form-small"></p>
+                                   @if($errors->has('ur_inn'))
+                                            <p class="uk-form-danger">
+                                                {{ $errors->first('ur_inn') }}
+                                            </p>
+                                        @endif
 				<p><span>Номер лицевого счета</span> <input disabled type="text" name="ur_nls" class="uk-input uk-form-width-medium uk-form-small"></p>
+                                   @if($errors->has('ur_nls'))
+                                            <p class="uk-form-danger">
+                                                {{ $errors->first('ur_nls') }}
+                                            </p>
+                                        @endif
 				</div>
 			</div>
                          {!!csrf_field()!!}
@@ -135,6 +179,9 @@
 			<div style="clear:both;">			
 		</div>
             </form>
+                    @else
+                    <p>Вы еще не добавили товаров в корзину! Добавьте нужные вам товары и возвращайтесь!</p>
+                    @endif
 	</div>
     </div>
 </div>
@@ -146,6 +193,10 @@
     <script src="/js/ini.js"></script>
     <script src="/js/uikit-icons.min.js"></script>
     <script>
+          if ($( "#urid" ).prop( "checked") == true){
+
+                $( ".urid input" ).prop( "disabled", false );
+        }
 
         $( "#dostavka" ).on( "click", function() {
                 $( ".dostavka input" ).prop( "disabled", false );
