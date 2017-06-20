@@ -26,7 +26,9 @@ $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.
  //News
   Route::get('/news', ['as'=>'news-index','uses'=>'Front\NewsController@index']);
   Route::get('/news/{news}', ['as'=>'news-show','uses'=>'Front\NewsController@show']);
+  
  //Compare system
+ Route::get('/compare', ['as'=>'products-compare','uses'=>'Front\ProductsController@compare']);
  Route::get('/compare/add', ['as'=>'products-compare-add','uses'=>'Front\ProductsController@compare_add']);
  Route::get('/compare/del', ['as'=>'products-compare-del','uses'=>'Front\ProductsController@compare_del']);
 

@@ -70,7 +70,7 @@
                             @endphp
 				<div class="  uk-margin-bottom">
 					<div class="uk-card uk-card-default">
-					<form><input class="uk-checkbox" type="checkbox" name="option1" value="a1"> Сравнить</form>
+					 <form><input {{Session::has('compare.'.$product->id)?'checked':''}} class="uk-checkbox compare" type="checkbox" name="option1" value="{{$product->id}}" data-id="{{$product->id}}"/> 
 						<div class="uk-card-media-top uk-text-center">
 							<img src="{{$image_src}}" alt="">
 						</div>

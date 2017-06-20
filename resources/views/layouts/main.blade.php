@@ -46,6 +46,7 @@
 				<div class="uk-width-1-4 cart uk-text-right">
                                     <a href="{{route('products-cart-index')}}"><img src="/img/cart.png"> Корзина (<span id="cart_count">{{count(Session::get('cart'))}}</span>)</a>
 				</div>
+                                 
 				<div class="uk-width-1-4 uk-text-right links">
 					<a href="#"><img src="/img/fb.png"></a>
 					<a href="#"><img src="/img/vk.png"></a>

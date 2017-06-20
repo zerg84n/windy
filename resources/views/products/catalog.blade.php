@@ -57,7 +57,8 @@
 					<div class="hit"><img src="/img/hit.png" alt=""></div>
 					<!--   -->
                                         @endif
-					<form><input class="uk-checkbox" type="checkbox" name="option1" value="a1"> Сравнить</form>
+                                        <form><input {{Session::has('compare.'.$product->id)?'checked':''}} class="uk-checkbox compare" type="checkbox" name="option1" value="{{$product->id}}" data-id="{{$product->id}}"/> 
+                                            <a href="{{route('products-compare')}}">Сравнить</a></form>
                                           
                                             @php
                                                 $image = $product->getMedia('photos')->first();
@@ -101,6 +102,8 @@
     <script>
          window.route_add_to_cart = '{{ route('products-cart-add') }}';
          window.route_del_from_cart = '{{ route('products-cart-del') }}';
+         window.route_add_to_compare = '{{ route('products-compare-add') }}';
+         window.route_del_from_compare = '{{ route('products-compare-del') }}';
        function cart_add(id) {
            
               var status = $('#cart'+id+' input').first().val();
@@ -120,5 +123,22 @@
                       });
                     }
             }
+            
+      
+      $('.compare').change( function() {
+                var $this = $(this);
+                if(this.checked) {
+                       $.get(window.route_add_to_compare,{ id: $this.data('id')})
+                               .done(function( data ) {
+                        alert( "Товар добавлен в сравнение " + data );
+                      });
+                    }else{
+                        $.get(window.route_del_from_compare,{ id: $this.data('id')})
+                               .done(function( data ) {
+                        alert( "Товар добавлен в сравнение " + data );
+                      });
+                    }
+               
+            });
     </script>
 @endsection

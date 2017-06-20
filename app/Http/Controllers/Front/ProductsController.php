@@ -49,15 +49,33 @@ class ProductsController extends Controller
     {
           
           $id = $request->input('id');
-         
-           Session::put('compare.'.$id, $id); 
+         $category_id = Product::find($id)->category_id;
+           Session::put('compare.'.$id, $category_id); 
         return  $id;
     }
       public function compare_del(Request $request)
     {
           $id = $request->input('id');
-           Session::pull('compare.'.$id, $id); 
+           Session::pull('compare.'.$id); 
         return  $id;
+    }
+    public function compare(){
+         $compare = Session::get('compare',[]);
+         $products = collect();
+          if (count($compare)){
+             foreach ($compare as $id=>$category){
+                 $product = \App\Product::find($id);
+                 if ($product) $products->push($product);
+                 
+             }
+         }
+        $news = \App\News::orderBy('id','desc')->limit(2)->get();
+      
+        $cat_ids = $products->keyBy('category_id')->keys();
+        $categories = \App\Category::whereIn('id',$cat_ids)->get();
+      
+        return view('products.compare',  compact('news','products','categories'));
+        
     }
 
     /**

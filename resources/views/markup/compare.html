@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="/css/uikit.min.css" />
+		<link rel="stylesheet" type="text/css" href="/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="/css/menu.css" />
+		<link rel="stylesheet" type="text/css" href="/css/compare.css" />
+		
+		<script src="http://code.jquery.com/jquery-3.2.1.min.js"  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="/js/uikit.js"></script>
+		<script src="/js/menu.js"></script>
+		<script src="/js/uikit-icons.min.js"></script>
+		
+		
+		<link rel="import" href="/header.html">
+		<link rel="import" href="/footer.html">
+</head>
+<body>
+<script>
+      var link = document.querySelector('link[rel=import]');
+      var content = link.import.querySelector('#page-wrapper');
+      document.body.appendChild(content.cloneNode(true));
+</script>
+
+
+
+<div class="uk-container">
+	<div class="compare">
+		
+		<div class="content" ><p class="title">Сравнение</p>
+			
+			<table class="compare-table">
+				
+				<tr>
+					<td>
+					</td>
+					<th>
+						<img src="/cat-img/8814-pw.jpg" alt=""><br>
+						<a href="#">Сушилка для рук G-teq 8814 PW</a>
+						<p>6000 р.</p>
+					</th>
+					<th>
+						<img src="/cat-img/8814-pw.jpg" alt=""><br>
+						<a href="#">Сушилка для рук G-teq 700 PW</a>
+						<p>5000 р.</p>
+					</th>
+					<th>
+						<img src="/cat-img/8814-pw.jpg" alt=""><br>
+						<a href="#">Сушилка для рук G-teq 700 PW</a>
+						<p>5000 р.</p>
+					</th>
+				</tr>
+				<tr>
+					<td class="compare-tab">
+						<a href="#" class="compare-tab-active all-ch"><span>Все параметры</span></a>
+						<a href="#" class="different"><span>Различающиеся</span></a>
+					</td>
+					<td>
+						<a href="#" class="compare-delete">Удалить</a>
+					</td>
+					<td>
+						<a href="#" class="compare-delete">Удалить</a>
+					</td>
+					<td>
+						<a href="#" class="compare-delete">Удалить</a>
+					</td>
+				</tr>
+				<tr class="all">
+					<td>
+						Производитель
+					</td>
+					<td>
+						G-TEQ
+					</td>
+					<td>
+						G-TEQ
+					</td>
+					<td>
+						G-TEQ
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Мощность
+					</td>
+					<td>
+						1000 вт
+					</td>
+					<td>
+						800 вт
+					</td>
+					<td>
+						800 вт
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Гарантия
+					</td>
+					<td>
+						12 мес.
+					</td>
+					<td>
+						6 мес.
+					</td>
+					<td>
+						6 мес.
+					</td>
+				</tr>
+				
+			</table>
+			
+			<div style="clear:both;">
+			
+		</div>
+	</div>
+</div>
+<script>
+
+$( ".compare-tab a" ).on("click", function(){
+	
+	$('a').removeClass('compare-tab-active');
+	$(this).addClass('compare-tab-active').stop();
+});
+$( ".different" ).on("click", function(){
+	
+	$( ".all" ).css({'display' : 'none'});
+	
+});
+$( ".all-ch" ).on("click", function(){
+	
+	$( ".all" ).css({'display' : 'table-row'});
+	
+});
+</script>
+<script>
+      var link = document.querySelector('link[rel=import]');
+      var content1 = link.import.querySelector('#footer');
+      document.body.appendChild(content1.cloneNode(true));
+</script>
+</body>
+</html>

@@ -113,6 +113,8 @@ class Product extends Model implements HasMedia
         
     }
     
+
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id')->withTrashed();
