@@ -51,13 +51,13 @@ class ProductsController extends Controller
           $id = $request->input('id');
          $category_id = Product::find($id)->category_id;
            Session::put('compare.'.$id, $category_id); 
-        return  $id;
+        return  count(Session::get('compare',[]));
     }
       public function compare_del(Request $request)
     {
           $id = $request->input('id');
            Session::pull('compare.'.$id); 
-        return  $id;
+        return  count(Session::get('compare',[]));
     }
     public function compare(){
          $compare = Session::get('compare',[]);

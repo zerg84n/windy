@@ -58,7 +58,7 @@
 					<!--   -->
                                         @endif
                                         <form><input {{Session::has('compare.'.$product->id)?'checked':''}} class="uk-checkbox compare" type="checkbox" name="option1" value="{{$product->id}}" data-id="{{$product->id}}"/> 
-                                            <a href="{{route('products-compare')}}">Сравнить</a></form>
+                                            <a href="{{route('products-compare')}}">Сравнить(<span class="compare_count">{{count(Session::get('compare',[]))}}</span>)</a></form>
                                           
                                             @php
                                                 $image = $product->getMedia('photos')->first();
@@ -130,12 +130,12 @@
                 if(this.checked) {
                        $.get(window.route_add_to_compare,{ id: $this.data('id')})
                                .done(function( data ) {
-                        alert( "Товар добавлен в сравнение " + data );
+                        $('.compare_count').html(data);
                       });
                     }else{
                         $.get(window.route_del_from_compare,{ id: $this.data('id')})
                                .done(function( data ) {
-                        alert( "Товар добавлен в сравнение " + data );
+                        $('.compare_count').html(data);
                       });
                     }
                
