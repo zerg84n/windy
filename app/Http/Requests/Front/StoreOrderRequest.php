@@ -28,7 +28,7 @@ class StoreOrderRequest extends FormRequest
             "phone" => "required",
             "email" => "email|required",
            "agreement"=>"accepted",
-           
+            'time' => 'date_format:H:i',
             "address" => "required",
             
            

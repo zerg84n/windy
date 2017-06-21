@@ -35,6 +35,10 @@ class Property extends Model
         return $this->belongsToMany(Category::class);
     }
     
+    public function getInputType() {
+         $model = $this->value_type;
+         return $model::INPUT_TYPE;
+    }
     
     public function getValue($product_id){
         
@@ -45,6 +49,17 @@ class Property extends Model
             return $value->value;
         }else{
             return null;
+        }
+        
+    }
+    public function getRange() {
+        if ($this->variants->count()>0){
+            return $this->variants;
+        } else {
+             $model = $this->value_type;
+             
+             $values = $model::where('property_id','=',$this->id)->orderBy('value','asc')->get()->unique('value');
+             return $values;
         }
         
     }

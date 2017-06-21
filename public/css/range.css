@@ -8,6 +8,8 @@
 .ui-slider {
     position: relative;
     text-align: left;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 .ui-widget-content {
     border: none;
@@ -49,4 +51,4 @@
     color: #555555;
 }
 .ui-state-default:focus{outline:0;}
-#amount,#amount-mosh {border: none;}
+.no-border {border: none;}

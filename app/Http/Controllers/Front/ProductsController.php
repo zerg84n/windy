@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Front;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Session;
+use View;
+
 use App\Product;
 use App\Http\Requests\Admin\StoreReviewsRequest;
 use App\Review;
@@ -42,6 +44,63 @@ class ProductsController extends Controller
         
       
         return view('products.catalog',  compact('products','category'));
+    }
+    
+    
+    public function filter(Request $request) {
+        
+       
+        $products_query = $this->buildFilteredProducts($request);
+        
+      
+        
+        $products = $products_query->paginate(6);
+       if ($products->count()>0){
+              $view = View::make('products.partials.products',[
+         'products' => $products,
+         
+             ])->render();
+       } else {
+           
+           $view = "Подходящих товаров не найдено! Попробуйте изменить критерии фильтрации.";
+       }
+     
+  
+     return $view;
+       
+    }
+    
+    public function buildFilteredProducts(Request $request){
+        //$input_array - $ia
+        $ia = $request->all();
+        
+        if ($request->has('category')){
+            $products_query = Product::where('category_id',$request->input('category'))->whereBetween('price_original', [$ia['price_original']['min'], $ia['price_original']['max']]);
+        } else {
+             $products_query = Product::whereBetween('price_original', [$ia['price_original']['min'], $ia['price_original']['max']]);
+        }
+        if ($ia['property']){
+            
+            foreach($ia['property'] as $property_id => $value ){
+                
+                $property = \App\Models\Catalog\Property::find($property_id);
+                
+                if ($property->getInputType() == 'number'){
+                    
+                    $Model = $property->value_type;
+                    $ids = $Model::where('property_id',$property->id)->whereBetween('value',[$value['min'],$value['max']])->get()->pluck('product_id')->toArray();
+                    $products_query = $products_query->whereIn('id',$ids);
+                }else{
+                    $Model = $property->value_type;
+                    $ids = $Model::where('property_id',$property->id)->whereIn('value',$value)->get()->pluck('product_id')->toArray();
+                    $products_query = $products_query->whereIn('id',$ids);
+                }
+              
+            }
+        }
+        
+        return $products_query;
+        
     }
     
     

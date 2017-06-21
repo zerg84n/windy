@@ -20,7 +20,7 @@ class ValueCheck extends Model
     }
        public function getValueAttribute($value)
     {
-       return (int) $value;
+       return $value;
     }
     
        public function property()

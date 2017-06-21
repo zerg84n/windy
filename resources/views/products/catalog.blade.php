@@ -11,23 +11,50 @@
 		<div class="uk-width-1-4 left-col" >
 		<div class="filter">
 			<p class="filter-title">Фильтр</p>
-			<form class="filter-form">
+			<form id="form-filter" class="filter-form">
+                                {!! csrf_field() !!}
+                                <input name="category" type="hidden"  value="{{$category->id}}">
 				<p>Цена</p>
-				<input type="text" id="amount" readonly>
-				<div id="slider-range" ></div>
-				<p>Производители</p>
-				<ul>
-				<li><input class="uk-checkbox" type="checkbox" name="option1" value="a1"> G-tex</li>
-				<li><input class="uk-checkbox" type="checkbox" name="option1" value="a1"> G-tex</li>
-				<li><input class="uk-checkbox" type="checkbox" name="option1" value="a1"> G-tex</li>
-				<li><input class="uk-checkbox" type="checkbox" name="option1" value="a1"> G-tex</li></ul>
-				<p>Мощность</p>
-				<input type="text" id="amount-mosh" readonly>
-				<div id="slider-range-mosh" ></div>
-				<ul>
-				<li><input class="uk-checkbox" type="checkbox" name="option1" value="a1"> Антивандальная защита</li>
-				<li><input class="uk-checkbox" type="checkbox" name="option1" value="a1"> Автовыключение/включение</li>
-				</ul>
+                                <input name="price_original[min]" type="hidden" id="price_original_min" readonly>
+                                <input name="price_original[max]" type="hidden" id="price_original_max" readonly>
+                                <input class="no-border"  type="text" id="price_original_range" readonly>
+				<div id="slider-range-price_original" ></div>
+				
+                                @if ($category)
+                                @foreach ($category->properties as $property)
+				<p>{{$property->title}}</p>
+                                   @if($property->getInputType()=='number')
+                                    <input name="property[{{$property->id}}][min]" type="hidden" id="property{{$property->id}}_min" readonly>
+                                    <input name="property[{{$property->id}}][max]" type="hidden" id="property{{$property->id}}_max" readonly>
+                                    <input class="no-border"  type="text" id="property{{$property->id}}_range" readonly>
+                                    <div id="slider-range-property{{$property->id}}" ></div>
+                                   @elseif($property->getInputType()=='select')
+                                    <ul>
+                                        @foreach($property->getRange() as $value)
+                                        <li><input class="uk-checkbox" type="checkbox" name="property[{{$property->id}}][]" value="{{$value->id}}">{{$value->value}}</li>
+                                        @endforeach
+
+                                    </ul>
+                                   @elseif($property->getInputType()=='checkbox')
+                                    <ul>
+                                        @foreach($property->getRange() as $value)
+                                        <li><input class="uk-checkbox" type="checkbox" name="property[{{$property->id}}][]" value="{{$value->value}}">{{$value->value?"Есть":"Нет"}}</li>
+                                        @endforeach
+
+                                    </ul>
+                                   @else
+                                    <ul>
+                                        @foreach($property->getRange() as $value)
+                                        <li><input class="uk-checkbox" type="checkbox" name="property[{{$property->id}}][]" value="{{$value->value}}">{{$value->value}}</li>
+                                        @endforeach
+
+                                    </ul>
+                                   @endif
+                                @endforeach
+                                @endif
+                                
+                               
+                                 <button onclick="loadData(); return false;" class="btn btn-primary">Применить фильтр</button>
 			</form>
 		</div>
 			<p class="title">Контактная информация</p>
@@ -36,61 +63,9 @@
 			<p>Мы работаем для Вас:<br>
 			ПН-ПТ: 08:00 - 18:00<br>СБ: 10:00 - 16:00 </p>
 		</div>
-		<div class="green uk-width-3-4 content" >
-			<div class="sort">
-			<div class="uk-column-1-3 uk-column-divider">
-				<div>Сортировать по цене: <a href="" uk-icon="icon: arrow-down"></a> <a href="" uk-icon="icon: arrow-up"></a></div>
-				<div><form><input class="uk-checkbox" type="checkbox" name="option1" value="a1"> Популярные товары</form></div>
-				<div><form><input class="uk-checkbox" type="checkbox" name="option1" value="a1"> Товары по акции</form></div>
-			</div>
-			</div>
-			<div class="last uk-child-width-1-3@m  uk-grid-small uk-grid-match uk-grid" >
-			
-			@foreach($products as $product)
-				
-			
-			
-				<div class="  uk-margin-bottom">
-					<div class="uk-card uk-card-default">
-                                        @if ($product->popular == 1)
-					<!--Выводить если товар популярный-->
-					<div class="hit"><img src="/img/hit.png" alt=""></div>
-					<!--   -->
-                                        @endif
-                                        <form><input {{Session::has('compare.'.$product->id)?'checked':''}} class="uk-checkbox compare" type="checkbox" name="option1" value="{{$product->id}}" data-id="{{$product->id}}"/> 
-                                            <a href="{{route('products-compare')}}">Сравнить(<span class="compare_count">{{count(Session::get('compare',[]))}}</span>)</a></form>
-                                          
-                                            @php
-                                                $image = $product->getMedia('photos')->first();
-                                                if($image){
-                                                    $image_src = $image->getUrl();
-                                                }
-                                                else{
-                                                $image_src = '/cat-img/8814-pw.jpg';
-                                                } 
-                                            @endphp
-						<div class="uk-card-media-top uk-text-center">
-							<img src="{{$image_src}}" alt="">
-						</div>
-						<div class="uk-card-body uk-text-center">
-							<h3 class="uk-card-title"><a href="{{route('products-show',$product)}}">{{$product->title}}</a></h3>
-							<p class="price">Цена: <span class="dark-green">{{$product->price_original}}<span> р.</p>
-                                                           <form id="cart{{$product->id}}" class="add-cart" action="javascript:void(null);" onsubmit="cart_add({{$product->id}})">
-                                                              
-                                                               <p><input type="submit" value="{{Session::has('cart.'.$product->id)?'В корзине':'Добавить'}}"></p>
-							 </form>
-						</div>
-					</div>
-				</div>
-				
-                        @endforeach
-			
-				
-				
-			</div>
-                    {{$products->render()}}
-			
-		</div>
+                <div id="products-wrapper"  class="green uk-width-3-4 content" >
+                      @include('products.partials.products')
+               </div>      
 		</div>
 	</div>	
   
@@ -140,5 +115,82 @@
                     }
                
             });
+            
+            
+              $( function() {
+                  @php
+                    $min = $products->min('price_original');
+                    $max = $products->max('price_original');
+                  @endphp
+                  $( "#slider-range-price_original" ).slider({
+                      range: true,
+                      min: {{$min}},
+                      max: {{$max}},
+                      values: [ {{$min}}, {{$max}} ],
+                      slide: function( event, ui ) {
+                        $( "#price_original_min" ).val( ui.values[ 0 ]);
+                         $( "#price_original_max" ).val(ui.values[ 1 ]);
+                         
+                         $( "#price_original_range" ).val('от '+ui.values[ 0 ]+' до '+ui.values[ 1 ]);
+                      }
+                    });
+                    $( "#price_original_min" ).val(  $( "#slider-range-price_original" ).slider( "values", 0 ));
+                     $( "#price_original_max" ).val(  $( "#slider-range-price_original" ).slider( "values", 1 ));
+                       $( "#price_original_range" ).val('от '+$( "#slider-range-price_original" ).slider( "values", 0 )+' до '+$( "#slider-range-price_original" ).slider( "values", 1 ));
+                    
+                  
+                  
+                  @foreach ($category->properties as $property)
+                  @if ($property->getInputType()=='number')
+                  @php
+                    $range = $property->getRange();
+                    $min = $range->first()->value;
+                    $max = $range->last()->value;
+                  @endphp
+                    $( "#slider-range-property{{$property->id}}" ).slider({
+                      range: true,
+                      min: {{$min}},
+                      max: {{$max}},
+                      values: [ {{$min}}, {{$max}} ],
+                      slide: function( event, ui ) {
+                        $( "#property{{$property->id}}_min" ).val( ui.values[ 0 ]);
+                         $( "#property{{$property->id}}_max" ).val(ui.values[ 1 ]);
+                         
+                         $( "#property{{$property->id}}_range" ).val('от '+ui.values[ 0 ]+' до '+ui.values[ 1 ]);
+                      }
+                    });
+                    $( "#property{{$property->id}}_min" ).val(  $( "#slider-range-property{{$property->id}}" ).slider( "values", 0 ));
+                     $( "#property{{$property->id}}_max" ).val(  $( "#slider-range-property{{$property->id}}" ).slider( "values", 1 ));
+                       $( "#property{{$property->id}}_range" ).val('от '+$( "#slider-range-property{{$property->id}}" ).slider( "values", 0 )+' до '+$( "#slider-range-property{{$property->id}}" ).slider( "values", 1 ));
+                    
+                 @endif
+              @endforeach
+    });    
+    
+    
+    
+       function loadData(){
+        
+        var fields = $('#form-filter').serialize();
+        $.ajax({
+            type: 'POST',
+            url: '{{route("products-filter")}}',
+            data: fields,
+            beforeSend: function(){
+                console.log('before');
+               
+            },
+            success: function(data){
+                $('#products-wrapper').html(data);
+                 //console.log(data);
+                
+            },
+            error: function(xhr,str){
+                console.log('error');
+            }
+        });
+    }
     </script>
+    
+    
 @endsection
