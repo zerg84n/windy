@@ -79,7 +79,7 @@ class ProductsController extends Controller
         } else {
              $products_query = Product::whereBetween('price_original', [$ia['price_original']['min'], $ia['price_original']['max']]);
         }
-        if ($$request->has('property')){
+        if ($request->has('property')){
             
             foreach($ia['property'] as $property_id => $value ){
                 
