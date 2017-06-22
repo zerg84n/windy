@@ -37,7 +37,7 @@ class ProductsController extends Controller
                $products = \App\Product::paginate(6);
            }
         }else{
-            $category = null;
+            $category = $category = \App\Category::first();
             $products = \App\Product::paginate(6);
         }
         
@@ -52,7 +52,9 @@ class ProductsController extends Controller
        
         $products_query = $this->buildFilteredProducts($request);
         
-      
+        if ($request->has('sort')){
+            $products_query = $products_query->orderBy('price_original',$request->input('sort'));
+        }
         
         $products = $products_query->paginate(6);
        if ($products->count()>0){

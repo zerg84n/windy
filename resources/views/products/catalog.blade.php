@@ -64,6 +64,7 @@
 			ПН-ПТ: 08:00 - 18:00<br>СБ: 10:00 - 16:00 </p>
 		</div>
                 <div id="products-wrapper"  class="green uk-width-3-4 content" >
+                    
                       @include('products.partials.products')
                </div>      
 		</div>
@@ -115,7 +116,15 @@
                     }
                
             });
-            
+              $('#popular-filter').change( function() {
+                var $this = $(this);
+                if(this.checked) {
+                        $('.not-popular').hide();
+                    }else{
+                          $('.not-popular').show();
+                    }
+               
+            });
             
               $( function() {
                   @php
@@ -169,9 +178,13 @@
     
     
     
-       function loadData(){
-        
+       function loadData(sortBy){
+       
         var fields = $('#form-filter').serialize();
+        if (sortBy){
+            fields = fields+"&sort="+sortBy;
+        }
+       
         $.ajax({
             type: 'POST',
             url: '{{route("products-filter")}}',
@@ -182,7 +195,17 @@
             },
             success: function(data){
                 $('#products-wrapper').html(data);
-                 //console.log(data);
+                 
+                  $('#popular-filter').change( function() {
+                var $this = $(this);
+                if(this.checked) {
+                        $('.not-popular').hide();
+                    }else{
+                          $('.not-popular').show();
+                    }
+               
+            });
+                 
                 
             },
             error: function(xhr,str){
@@ -190,6 +213,8 @@
             }
         });
     }
+    
+    
     </script>
     
     

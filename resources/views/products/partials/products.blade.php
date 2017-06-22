@@ -1,9 +1,9 @@
 
 			<div class="sort">
 			<div class="uk-column-1-3 uk-column-divider">
-				<div>Сортировать по цене: <a href="" uk-icon="icon: arrow-down"></a> <a href="" uk-icon="icon: arrow-up"></a></div>
-				<div><form><input class="uk-checkbox" type="checkbox" name="option1" value="a1"> Популярные товары</form></div>
-				<div><form><input class="uk-checkbox" type="checkbox" name="option1" value="a1"> Товары по акции</form></div>
+				<div>Сортировать по цене: <a href="javascript:loadData('desc')" uk-icon="icon: arrow-down"></a> <a href="javascript:loadData('asc')" uk-icon="icon: arrow-up"></a></div>
+				<div><form><input id="popular-filter" class="uk-checkbox" type="checkbox" name="option1" value="1"> Популярные товары</form></div>
+				
 			</div>
 			</div>
 			<div class="last uk-child-width-1-3@m  uk-grid-small uk-grid-match uk-grid" >
@@ -12,7 +12,7 @@
 				
 			
 			
-				<div class="  uk-margin-bottom">
+				<div class="{{$product->popular?"":"not-popular"}} uk-margin-bottom">
 					<div class="uk-card uk-card-default">
                                         @if ($product->popular == 1)
 					<!--Выводить если товар популярный-->
