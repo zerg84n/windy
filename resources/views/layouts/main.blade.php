@@ -23,14 +23,15 @@
 <div id="page-wrapper">
 		<!-- This is the modal -->
 			<div id="modal-form" uk-modal>
-				<div class="uk-modal-dialog uk-modal-body">
+				<div id="mail-form-wrapper" class="uk-modal-dialog uk-modal-body">
 					<p class="title">Заказать звонок</p>
 					<p class="uk-text-right">
-						<form class="call">
-								<p><input type="text" name="text" placeholder="Ваше имя" class="uk-input uk-form-width-medium uk-form-small"></p>
-							   <p><input type="text" name="text" placeholder="Ваш телефон" class="uk-input uk-form-width-medium uk-form-small"></p>
-							   <p><input class="uk-checkbox" type="checkbox" name="option1" value="a1" checked> Даю согласие на обработку персональных данных</p>
-							   <p><input class="uk-button uk-button-default uk-button-small" type="submit" value="Отправить"></p>
+						<form id="mail-form" class="call">
+                                                    <p><input id="mail-form-name" type="text" name="name" placeholder="Ваше имя" class="uk-input uk-form-width-medium uk-form-small" required></p>
+							   <p><input id="mail-form-phone"  type="phone" name="phone" placeholder="Ваш телефон" class="uk-input uk-form-width-medium uk-form-small" required></p>
+                                                           <p><input  id="agreement" class="uk-checkbox" type="checkbox" name="aggrement" value="1" checked readonly> Даю согласие на обработку персональных данных</p>
+                                                           <p id="mail-form-danger" class="uk-form-danger"></p>
+                                                           <p><a href="javascript:orderCall()" class="uk-button uk-button-default uk-button-small">Отправить</a></p>
 						</form>
 					</p>
 				</div>
@@ -159,6 +160,44 @@
 	</div>
 </div>
   @yield('scripts')
+  <script>
+        $('#agreement').click(function(){
+            return false;
+        });
+        function orderCall(){
+          var fields = $('#mail-form').serialize(); 
+            
+          var name = $("#mail-form-name").val();
+          var phone = $("#mail-form-phone").val();  
+           console.log(name);
+          if (name.length<2){
+              $('#mail-form-danger').html("Поле Имя должно содержать не менее 2-х символов.");
+              return false;
+          }
+            if (phone.length<10){
+              $('#mail-form-danger').html("Поле Телефон должно содержать не менее 10 символов.");
+              return false;
+          }
+          
+       $.ajax({
+            type: 'GET',
+            url: '{{route("mail-call_order")}}',
+            data: fields,
+            beforeSend: function(){
+                console.log('before');
+               
+            },
+            success: function(data){
+                  $('#mail-form-wrapper').html("Запрос отправлен. Менеджер скоро с вами свяжется!");
+                
+                
+            },
+            error: function(xhr,str){
+                console.log('error');
+            }
+        });
+        }
+  </script>
 </body>
 </html>
  

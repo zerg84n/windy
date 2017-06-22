@@ -52,9 +52,7 @@ class ProductsController extends Controller
        
         $products_query = $this->buildFilteredProducts($request);
         
-        if ($request->has('sort')){
-            $products_query = $products_query->orderBy('price_original',$request->input('sort'));
-        }
+      
         
         $products = $products_query->paginate(6);
        if ($products->count()>0){
@@ -81,6 +79,9 @@ class ProductsController extends Controller
         } else {
              $products_query = Product::whereBetween('price_original', [$ia['price_original']['min'], $ia['price_original']['max']]);
         }
+        if ($request->has('popular')){
+           $products_query = $products_query->where('popular','=',1); 
+        }
         if ($request->has('property')){
             
             foreach($ia['property'] as $property_id => $value ){
@@ -100,7 +101,9 @@ class ProductsController extends Controller
               
             }
         }
-        
+          if ($request->has('sort')){
+            $products_query = $products_query->orderBy('price_original',$request->input('sort'));
+        }
         return $products_query;
         
     }

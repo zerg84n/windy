@@ -1,12 +1,4 @@
-
-			<div class="sort">
-			<div class="uk-column-1-3 uk-column-divider">
-				<div>Сортировать по цене: <a href="javascript:loadData('desc')" uk-icon="icon: arrow-down"></a> <a href="javascript:loadData('asc')" uk-icon="icon: arrow-up"></a></div>
-				<div><form><input id="popular-filter" class="uk-checkbox" type="checkbox" name="option1" value="1"> Популярные товары</form></div>
-				
-			</div>
-			</div>
-			<div class="last uk-child-width-1-3@m  uk-grid-small uk-grid-match uk-grid" >
+<div  class="last uk-child-width-1-3@m  uk-grid-small uk-grid-match uk-grid" >
 			
 			@foreach($products as $product)
 				
@@ -47,9 +39,8 @@
 				
                         @endforeach
 			
-				
-				
-			</div>
-                    {{$products->render()}}
+				</div>
+		
+                    {!!$products->render()!!}
 			
 	

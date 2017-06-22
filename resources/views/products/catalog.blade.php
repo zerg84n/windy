@@ -63,9 +63,20 @@
 			<p>Мы работаем для Вас:<br>
 			ПН-ПТ: 08:00 - 18:00<br>СБ: 10:00 - 16:00 </p>
 		</div>
-                <div id="products-wrapper"  class="green uk-width-3-4 content" >
+                <div  class="green uk-width-3-4 content" >
                     
+			<div class="sort">
+			<div class="uk-column-1-3 uk-column-divider">
+				<div>Сортировать по цене: <a href="javascript:loadData('desc')" uk-icon="icon: arrow-down"></a> <a href="javascript:loadData('asc')" uk-icon="icon: arrow-up"></a></div>
+				<div><form><input id="popular-filter" class="uk-checkbox" type="checkbox" name="popular" value="1"> Популярные товары</form></div>
+				
+			</div>
+			</div>
+			
+                  <div id="products-wrapper" >  
                       @include('products.partials.products')
+                      		
+		</div>	
                </div>      
 		</div>
 	</div>	
@@ -117,12 +128,10 @@
                
             });
               $('#popular-filter').change( function() {
-                var $this = $(this);
-                if(this.checked) {
-                        $('.not-popular').hide();
-                    }else{
-                          $('.not-popular').show();
-                    }
+               
+                    loadData();
+                   
+                   
                
             });
             
@@ -176,13 +185,26 @@
               @endforeach
     });    
     
+  $('.uk-pagination a').click( function(e){
+			e.preventDefault();
+			var page = $(this).attr('href').split('page=')[1];
+			loadData('desc',page);
+			//location.hash = page;
+                        console.log(page);
+                        
+		});
     
-    
-       function loadData(sortBy){
+       function loadData(sortBy, page){
        
         var fields = $('#form-filter').serialize();
         if (sortBy){
             fields = fields+"&sort="+sortBy;
+        }
+         if (page){
+            fields = fields+"&page="+page;
+        }
+        if( $('#popular-filter').prop('checked')){
+             fields = fields+"&popular=1";
         }
        
         $.ajax({
@@ -190,22 +212,21 @@
             url: '{{route("products-filter")}}',
             data: fields,
             beforeSend: function(){
-                console.log('before');
+               console.log('waiting...');
                
             },
             success: function(data){
                 $('#products-wrapper').html(data);
                  
-                  $('#popular-filter').change( function() {
-                var $this = $(this);
-                if(this.checked) {
-                        $('.not-popular').hide();
-                    }else{
-                          $('.not-popular').show();
-                    }
                
-            });
-                 
+                 $('.uk-pagination a').click( function(e){
+			e.preventDefault();
+			var page = $(this).attr('href').split('page=')[1];
+			loadData('desc',page);
+			//location.hash = page;
+                        console.log(page);
+                        
+		});  
                 
             },
             error: function(xhr,str){
