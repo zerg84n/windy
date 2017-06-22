@@ -8,7 +8,7 @@ class MailController extends Controller
 {
     public function call_order(Request $request) {
         
-        dd($request->all());
+       // dd($request->all());
         
         $name = $request->input('name');
         $phone = $request->input('phone');
