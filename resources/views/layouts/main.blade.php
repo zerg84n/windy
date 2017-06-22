@@ -20,8 +20,6 @@
 		
 </head>
 <body>
-
-﻿<!-- Шапка-->
 <div id="page-wrapper">
 		<!-- This is the modal -->
 			<div id="modal-form" uk-modal>
@@ -48,8 +46,16 @@
 				</div>
                                  
 				<div class="uk-width-1-4 uk-text-right links">
-					<a href="#"><img src="/img/fb.png"></a>
-					<a href="#"><img src="/img/vk.png"></a>
+					<script type="text/javascript">(function() {
+                                    if (window.pluso)if (typeof window.pluso.start == "function") return;
+                                    if (window.ifpluso==undefined) { window.ifpluso = 1;
+                                      var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+                                      s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
+                                      s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
+                                      var h=d[g]('body')[0];
+                                      h.appendChild(s);
+                                    }})();</script>
+                          <div class="pluso" style="margin-top: 5px" data-background="transparent" data-options="medium,square,line,horizontal,nocounter,theme=04" data-services="vkontakte,facebook"></div>
 				</div>
 					</div>
 		</div>
@@ -116,8 +122,18 @@
 		<div class="uk-grid">
 			<div class="uk-width-1-2 uk-text-left footer-left">
 				<div><p>Посоветовать другу</p>
-				<a href="#"><img src="/img/fb.png"></a>
-				<a href="#"><img src="/img/vk.png"></a></div>
+					<script type="text/javascript">(function() {
+                                    if (window.pluso)if (typeof window.pluso.start == "function") return;
+                                    if (window.ifpluso==undefined) { window.ifpluso = 1;
+                                      var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+                                      s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
+                                      s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
+                                      var h=d[g]('body')[0];
+                                      h.appendChild(s);
+                                    }})();</script>
+                          <div class="pluso" style="vertical-align: middle" data-background="transparent" data-options="medium,square,line,horizontal,nocounter,theme=04" data-services="vkontakte,facebook"></div>
+			
+                                </div>
 				<div><img src="/img/pay.png" class="uk-text-bottom"></div>
 				<p class="copyright">Интернет-магазин (c) 2017 г.Санкт-Петербург</p>
 			</div>
