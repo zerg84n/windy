@@ -3,17 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/OpenServer/domains/quickadmin/app/Http/Requests/Admin/StoreReviewsRequest.php</file>
+            <file>file:/D:/OpenServer/domains/quickadmin/vendor/spatie/laravel-medialibrary/src/HasMedia/HasMediaTrait.php</file>
+            <file>file:/D:/OpenServer/domains/quickadmin/resources/views/products/main.blade.php</file>
+            <file>file:/D:/OpenServer/domains/quickadmin/resources/views/markup/card.html</file>
+            <file>file:/D:/OpenServer/domains/quickadmin/app/Product.php</file>
+            <file>file:/D:/OpenServer/domains/quickadmin/resources/views/products/show.blade.php</file>
+            <file>file:/D:/OpenServer/domains/quickadmin/app/Http/Controllers/Admin/ReviewsController.php</file>
             <file>file:/D:/OpenServer/domains/quickadmin/routes/web.php</file>
+            <file>file:/D:/OpenServer/domains/quickadmin/resources/views/partials/header.blade.php</file>
+            <file>file:/D:/OpenServer/domains/quickadmin/resources/views/products/index.blade.php</file>
             <file>file:/D:/OpenServer/domains/quickadmin/resources/views/admin/products/edit.blade.php</file>
-            <file>file:/D:/OpenServer/domains/quickadmin/app/Models/Catalog/Variant.php</file>
-            <file>file:/D:/OpenServer/domains/quickadmin/app/Category.php</file>
-            <file>file:/D:/OpenServer/domains/quickadmin/public/js/ini.js</file>
-            <file>file:/D:/OpenServer/domains/quickadmin/resources/views/products/partials/products.blade.php</file>
             <file>file:/D:/OpenServer/domains/quickadmin/app/Http/Controllers/Front/ProductsController.php</file>
-            <file>file:/D:/OpenServer/domains/quickadmin/public/css/range.css</file>
+            <file>file:/D:/OpenServer/domains/quickadmin/resources/views/layouts/app.blade.php</file>
             <file>file:/D:/OpenServer/domains/quickadmin/resources/views/products/catalog.blade.php</file>
-            <file>file:/D:/OpenServer/domains/quickadmin/app/Models/Catalog/Property.php</file>
-            <file>file:/D:/OpenServer/domains/quickadmin/app/Models/Catalog/ValueCheck.php</file>
+            <file>file:/D:/OpenServer/domains/quickadmin/app/Http/Requests/Admin/UpdateReviewsRequest.php</file>
+            <file>file:/D:/OpenServer/domains/quickadmin/resources/views/layouts/main.blade.php</file>
         </group>
     </open-files>
 </project-private>
