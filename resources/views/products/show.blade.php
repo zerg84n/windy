@@ -132,6 +132,29 @@
 				</li>
 			</ul>
 			</div>
+                       @if($product->products->count()>0)
+                       <p class="title">Вместе с этим товаром покупают</p>
+                       <div class="last uk-child-width-1-3@m  uk-grid-small uk-grid-match uk-grid" >
+                           @foreach($product->products as $child)
+				<div class="  uk-margin-bottom">
+					<div class="uk-card uk-card-default">
+					
+						<div class="uk-card-media-top uk-text-center">
+                                                    <img src="{{$child->getFirstMediaUrl('photos')}}" alt="">
+						</div>
+						<div class="uk-card-body uk-text-center">
+							<h3 class="uk-card-title"><a href="{{route('products-show',$child)}}" target="_blank">{{$child->title}}</a></h3>
+							<p class="price">Цена: <span class="dark-green">{{$child->price_original}}<span> р.</p>
+							 <form id="cart{{$child->id}}" class="add-cart" action="javascript:void(null);" onsubmit="cart_add({{$child->id}})">
+                                                              
+                                                               <p><input type="submit" value="{{Session::has('cart.'.$product->id)?'В корзине':'Добавить'}}"></p>
+							 </form>
+						</div>
+					</div>
+				</div>
+                           @endforeach
+                       </div>
+                    @endif
 		</div>
 	</div>
 </div>

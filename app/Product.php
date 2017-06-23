@@ -149,7 +149,9 @@ class Product extends Model implements HasMedia
         return $this->hasMany(Review::class, 'product_id');
     }
     
-    
+    public function products() {
+         return $this->belongsToMany(Product::class, 'product_product','owner_id','child_id');
+    }
    
     
 }

@@ -51,8 +51,8 @@ class ProductsController extends Controller
             return abort(401);
         }
          $property_values = $product->values();
-
-        return view('admin.products.properties', compact('product', 'property_values'));
+          $products = \App\Products::get()->pluck('title', 'id')->prepend('Добавьте сопутствующие товары', '');
+        return view('admin.products.properties', compact('product', 'property_values','products'));
     }
     /**
      * Store a newly created Product in storage.
@@ -122,10 +122,10 @@ class ProductsController extends Controller
         }
         $categories = \App\Category::get()->pluck('title', 'id')->prepend('Выберите категорию', '');
       
-       
+        $products = \App\Product::get()->pluck('title', 'id')->prepend('Добавьте сопутствующие товары', '');
     
       
-        return view('admin.products.edit', compact('product', 'categories'));
+        return view('admin.products.edit', compact('product', 'categories','products'));
     }
 
     /**
@@ -144,9 +144,10 @@ class ProductsController extends Controller
        
        
         $product->update($request->all());
-       
+        $product->products()->sync(array_filter((array)$request->input('products')));
+        
         $properties = $request->input('property');
-     
+        
          foreach($properties as $key=>$value){
                     
                     $product->setPropertyValue($key, $value);

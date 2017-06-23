@@ -25,9 +25,22 @@
                  {!! Form::checkbox('property['.$property_value->property->id.']', 1, $property_value->value, []) !!}
             @endif
                </div>
+             
         </div>
-     
+         
         @endforeach
+           <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('products', 'Сопутствующие товары', ['class' => 'control-label']) !!}
+                    {!! Form::select('products[]', $products, old('products'), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('products'))
+                        <p class="help-block">
+                            {{ $errors->first('products') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
      </div>   
       {!! Form::submit('Сохранить', ['class' => 'btn btn-danger']) !!}
     {!! Form::close() !!}

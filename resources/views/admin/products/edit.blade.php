@@ -150,7 +150,18 @@
         </div>
      
         @endforeach
-            
+              <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('products', 'Сопутствующие товары', ['class' => 'control-label']) !!}
+                    {!! Form::select('products[]', $products, old('products') ? old('products') : $product->products->pluck('id')->toArray(), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('products'))
+                        <p class="help-block">
+                            {{ $errors->first('products') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 

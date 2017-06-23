@@ -48,6 +48,14 @@
                                 @endforeach
                             </td>
                         </tr>
+                          <tr>
+                            <th>Сопутствующие товары</th>
+                            <td>
+                                @foreach ($product->products as $child_product)
+                                <span class="label label-info label-many"><a href="{{route('products-show',$child_product)}}" target="_blank">{{ $child_product->title }} </a></span>
+                                @endforeach
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
