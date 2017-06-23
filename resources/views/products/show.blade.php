@@ -138,6 +138,12 @@
                            @foreach($product->products as $child)
 				<div class="  uk-margin-bottom">
 					<div class="uk-card uk-card-default">
+                                          
+                                            @if ($child->popular == 1)
+                                            <!--Выводить если товар популярный-->
+                                            <div class="hit"><img src="/img/hit.png" alt=""></div>
+                                            <!--   -->
+                                            @endif
 					
 						<div class="uk-card-media-top uk-text-center">
                                                     <img src="{{$child->getFirstMediaUrl('photos')}}" alt="">
