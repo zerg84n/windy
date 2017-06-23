@@ -1,24 +1,10 @@
 @extends('layouts.main')
 @section('styles') 
-    <link rel="stylesheet" type="text/css" href="/css/slideshow.css" />
+   
 @endsection
 
 @section('content')
-<div class="uk-container slider">
-<div data-uk-slideshow="{autoplay:true}" class="uk-slidenav-position">
-    <ul class="uk-slideshow">
-        @foreach($slider->getMedia('photos') as $media)
-        <li><img src="{{$media->getUrl()}}"></li>
-       
-	@endforeach	
-    </ul>
-    <ul class="uk-dotnav uk-dotnav-contrast uk-position-bottom uk-flex-center">
-        <li data-uk-slideshow-item="0"><a href=""></a></li>
-        <li data-uk-slideshow-item="1"><a href=""></a></li>
-		<li data-uk-slideshow-item="2"><a href=""></a></li>
-    </ul>
-</div>
-</div>
+
 <div class="uk-container">
 	<div class="uk-grid">
 		<div class="uk-width-1-4 left-col" >
@@ -56,7 +42,7 @@
 		<p>Мы работаем для Вас:<br>
 		ПН-ПТ: 08:00 - 18:00<br>СБ: 10:00 - 16:00 </p>
 		</div>
-		<div class="green uk-width-3-4 content" ><p class="title">Поcледние товары</p>
+		<div class="green uk-width-3-4 content" ><p class="title">Результаты поиска</p>
 			<div class="last uk-child-width-1-3@m  uk-grid-small uk-grid-match uk-grid" >
                             @foreach($products as $product)
                             @php
@@ -91,7 +77,7 @@
 			@endforeach	
 				
 			</div>
-                    <a class="all-news uk-align-right" href="{{route('products-catalog',['category'=>1])}}">Перейти в каталог</a>
+                    {!! $products->render() !!}
 		</div>
 		</div>
 	</div>	

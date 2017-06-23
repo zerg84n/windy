@@ -25,6 +25,7 @@ $this->get('call', 'MailController@call_order')->name('mail-call_order');
  Route::get('/products/{product}', ['as'=>'products-show','uses'=>'Front\ProductsController@show']);
  Route::post('/products/review', ['as'=>'products-add-review','uses'=>'Front\ProductsController@review']);
  Route::post('/products/filter', ['as'=>'products-filter','uses'=>'Front\ProductsController@filter']);
+ Route::get('/search', ['as'=>'products-search','uses'=>'Front\ProductsController@search']);
  
  //News
   Route::get('/news', ['as'=>'news-index','uses'=>'Front\NewsController@index']);

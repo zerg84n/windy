@@ -20,6 +20,10 @@
                             <th>@lang('quickadmin.reviews.fields.email')</th>
                             <td>{{ $review->email }}</td>
                         </tr>
+                          <tr>
+                            <th>Товар</th>
+                            <td><a href="{{route('products-show',$review->product)}}" target="_blank">{{ $review->product->title }}</a></td>
+                        </tr>
                         <tr>
                             <th>@lang('quickadmin.reviews.fields.score')</th>
                             <td>{{ $review->score }}</td>

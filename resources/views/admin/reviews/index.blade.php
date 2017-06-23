@@ -23,7 +23,7 @@
                         @endcan
 
                         <th>@lang('quickadmin.reviews.fields.name')</th>
-                        <th>@lang('quickadmin.reviews.fields.score')</th>
+                        <th>Товар</th>
                         <th>@lang('quickadmin.reviews.fields.published')</th>
                         <th>&nbsp;</th>
                     </tr>
@@ -38,7 +38,7 @@
                                 @endcan
 
                                 <td>{{ $review->name }}</td>
-                                <td>{{ $review->score }}</td>
+                                <td><a href="{{route('products-show',$review->product)}}" target="_blank">{{ $review->product->title }}</a></td>
                                 <td>{{ Form::checkbox("published", 1, $review->published == 1 ? true : false, ["disabled"]) }}</td>
                                 <td>
                                     @can('review_view')

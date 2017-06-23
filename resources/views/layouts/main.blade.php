@@ -78,9 +78,9 @@
 						<div class="green uk-width-1-3"><img src="/img/phone.png"> 8 800 999999</div>
 						<div class="green uk-width-1-3"><img src="/img/mail.png"> info@windytech.ru</div>
 						<div class="uk-width-1-3">
-							<form class="search">
-							   <input type="search" name="q" class="uk-width-4-5">
-							   <input type="submit" value="" class="uk-width-1-5">
+                                                    <form action="{{route('products-search')}}" method="GET" class="search">
+                                                        <input id='search' type="search" name="keyword" value="{{$keyword or ''}}" class="uk-width-4-5">
+							   <input type="submit" value="" class="uk-width-1-5"/>
 							 </form>
 						</div>
 					</div>

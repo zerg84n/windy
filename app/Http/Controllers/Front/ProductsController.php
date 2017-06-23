@@ -26,6 +26,20 @@ class ProductsController extends Controller
         $slider = \App\Models\Banner::all()->first();
         return view('products.main',  compact('news','slider','products'));
     }
+       public function search(Request $request)
+    {
+  
+        $news = \App\News::orderBy('id','desc')->limit(2)->get();
+           if ($request->has('keyword')){
+                 $keyword = $request->input('keyword');
+                 $products = \App\Product::where('title','LIKE','%'.$keyword.'%')->paginate(6);
+           }else{
+               $keyword = '';
+                $products = \App\Product::paginate(6);
+           }
+         
+        return view('products.search',  compact('news','products','keyword'));
+    }
      public function catalog(Request $request)
     {
             
