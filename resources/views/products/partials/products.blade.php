@@ -41,6 +41,6 @@
 			
 				</div>
 		
-                    {!!$products->render()!!}
+                  {!!$products->render()!!}
 			
 	

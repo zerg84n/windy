@@ -27,6 +27,8 @@ $this->get('call', 'MailController@call_order')->name('mail-call_order');
  Route::post('/products/filter', ['as'=>'products-filter','uses'=>'Front\ProductsController@filter']);
  Route::get('/search', ['as'=>'products-search','uses'=>'Front\ProductsController@search']);
  
+ Route::get('/catalog', ['as'=>'products-catalog-alias','uses'=>'Front\ProductsController@alias_filter']);
+ 
  //News
   Route::get('/news', ['as'=>'news-index','uses'=>'Front\NewsController@index']);
   Route::get('/news/{news}', ['as'=>'news-show','uses'=>'Front\NewsController@show']);
@@ -57,6 +59,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::post('properties/{product}', ['uses' => 'Admin\ProductsController@storeProperties', 'as' => 'products.properties.store']);
     //Categories
     Route::resource('categories', 'Admin\CategoriesController');
+    Route::post('category/{$category}',['uses' => 'Admin\CategoriesController@update', 'as' => 'category.update'] );
     Route::post('categories_mass_destroy', ['uses' => 'Admin\CategoriesController@massDestroy', 'as' => 'categories.mass_destroy']);
     
     Route::resource('specifications', 'Admin\SpecificationsController');

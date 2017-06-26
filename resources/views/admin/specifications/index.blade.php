@@ -23,6 +23,7 @@
                         @endcan
 
                         <th>@lang('quickadmin.specification.fields.title')</th>
+                          <th>Алиас</th>
                         <th>Тип характеристики</th>
                         <th>&nbsp;</th>
                     </tr>
@@ -37,7 +38,8 @@
                                 @endcan
 
                                 <td>{{ $specification->title }}</td>
-                                <td>{{ $specification->value_type }}</td>
+                                   <td>{{ $specification->alias or 'не назначен' }}</td>
+                                <td>{{ $specification->getInputType() }}</td>
                                 <td>
                                     @can('specification_view')
                                     <a href="{{ route('admin.specifications.show',[$specification->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>
