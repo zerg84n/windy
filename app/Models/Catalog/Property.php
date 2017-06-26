@@ -13,7 +13,7 @@ use App\Models\Catalog\Variant;
 
 class Property extends Model
 {
-      protected $fillable = ['title', 'value_type'];
+      protected $fillable = ['title', 'value_type','alias'];
      
     const VALUE_TYPES = [
         'text'=>ValueStr::class,

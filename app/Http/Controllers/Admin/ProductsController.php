@@ -192,12 +192,12 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
         if (! Gate::allows('product_delete')) {
             return abort(401);
         }
-        $product = Product::findOrFail($id);
+       
         $product->delete();
 
         return redirect()->route('admin.products.index');

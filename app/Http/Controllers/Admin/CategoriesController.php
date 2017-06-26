@@ -66,12 +66,12 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
         if (! Gate::allows('category_edit')) {
             return abort(401);
         }
-        $category = Category::findOrFail($id);
+       
         $properties = \App\Models\Catalog\Property::get()->pluck('title', 'id');
         return view('admin.categories.edit', compact('category','properties'));
     }
@@ -83,12 +83,10 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategoriesRequest $request, $id)
+    public function update(Request $request, Category $category)
     {
-        if (! Gate::allows('category_edit')) {
-            return abort(401);
-        }
-        $category = Category::findOrFail($id);
+       
+      
         $category->update($request->all());
         $category->properties()->sync(array_filter((array)$request->input('properties')));
 
@@ -103,15 +101,15 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
         if (! Gate::allows('category_view')) {
             return abort(401);
         }
-        $products = \App\Product::where('category_id', $id)->get();
+       
 
-        $category = Category::findOrFail($id);
-
+       // $category = Category::findOrFail($id);
+     
         return view('admin.categories.show', compact('category', 'products'));
     }
 
@@ -122,13 +120,14 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
         if (! Gate::allows('category_delete')) {
             return abort(401);
         }
-        $category = Category::findOrFail($id);
-        $category->delete();
+      
+       $category->delete();
+       
 
         return redirect()->route('admin.categories.index');
     }
