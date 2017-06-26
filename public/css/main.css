@@ -8,6 +8,12 @@ a:hover{
 	color: #93b733;
 	cursor:pointer;
 }
+.uk-link, a {
+    color: #789823;
+    text-decoration: none;
+    cursor: pointer;
+}
+.news-page .uk-card-media-left img,.left-col .uk-card-media-left img{padding:5px;}
 .head-top{
     background: #666877;
     background: -moz-linear-gradient(left, #666877 0%, #86899c 17%, #ababc5 49%, #86899c 79%, #666877 100%, #666877 100%);
