@@ -80,12 +80,12 @@ class SpecificationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Property $specification)
     {
         if (! Gate::allows('specification_edit')) {
             return abort(401);
         }
-        $specification = Property::findOrFail($id);
+    
         
         return view('admin.specifications.edit', compact('specification'));
     }
@@ -102,7 +102,7 @@ class SpecificationsController extends Controller
         if (! Gate::allows('specification_edit')) {
             return abort(401);
         }
-        
+       
         $specification = Property::findOrFail($id);
         $specification->update($request->all());
          if ($specification->variants){

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Session;
 use View;
-
+use Illuminate\Support\Facades\Input;
 use App\Product;
 use App\Http\Requests\Admin\StoreReviewsRequest;
 use App\Review;
@@ -52,7 +52,7 @@ class ProductsController extends Controller
            }
         }else{
             $category = $category = \App\Category::first();
-            $products = \App\Product::paginate(6);
+            $products = $category->products()->paginate(6);
         }
         
         
@@ -84,14 +84,72 @@ class ProductsController extends Controller
        
     }
     
+     public function alias_filter(Request $request) {
+         
+         $properties = \App\Models\Catalog\Property::all();
+         $new_request = [];
+         $old_inputs = $request->except('page');
+        $filter = '';
+         $news = \App\News::orderBy('id','desc')->limit(2)->get();
+         foreach($properties as $property){
+             if ($request->has($property->alias)){
+                $filter .=$property->title;
+                  if ($property->getInputType() == 'number'){
+                      $range = $request->input($property->alias);
+                     if (is_array($range)){
+                         
+                            if (!isset($range['max'])){
+                                $range['max'] = $property->getRange()->last()->value;
+                            }
+                             if (!isset($range['min'])){
+                                $range['min'] = $property->getRange()->first()->value;
+                            }
+                      $new_request['property'][$property->id] = $range;
+                       $filter .= ' ( '.$range['min'].' - '.$range['max'].'), ';
+                    }else{
+                        $filter .= ' - '.$request->input($property->alias).', ';
+                        $new_request['property'][$property->id]['min']= $request->input($property->alias);
+                        $new_request['property'][$property->id]['max']= $request->input($property->alias);
+                    }
+                }else if ($property->getInputType() == 'select'){
+                    $variants = $property->variants()->where('value','LIKE','%'.$request->input($property->alias).'%')->get();
+                    $new_request['property'][$property->id] = $variants->pluck('id')->toArray();
+                     $filter .= ' - '.$request->input($property->alias).', ';
+                }else{
+                      $new_request['property'][$property->id][] = $request->input($property->alias);
+                      $filter .= ' - '.$request->input($property->alias).', ';
+                }
+                
+             }
+         }
+           $request->merge($new_request);  
+           
+        
+            $products_query = $this->buildFilteredProducts($request);
+            
+      if ($request->has('category')){
+           $category = \App\Category::find($request->input('category'));
+           $products = $products_query->paginate(6);
+        }else{
+            $category = $category = \App\Category::first();
+            $products = $category->products()->paginate(6);
+        }
+       
+       $products = $products->appends($old_inputs);
+           return view('products.alias',  compact('products','news','category','filter'));
+     }
+    
     public function buildFilteredProducts(Request $request){
         //$input_array - $ia
         $ia = $request->all();
         
         if ($request->has('category')){
-            $products_query = Product::where('category_id',$request->input('category'))->whereBetween('price_original', [$ia['price_original']['min'], $ia['price_original']['max']]);
-        } else {
-             $products_query = Product::whereBetween('price_original', [$ia['price_original']['min'], $ia['price_original']['max']]);
+            $products_query = Product::where('category_id',$request->input('category'));
+        }else{
+            $products_query = Product::select();
+        }
+        if ($request->has('price_original')){
+             $products_query = $products_query->whereBetween('price_original', [$ia['price_original']['min'], $ia['price_original']['max']]);
         }
         if ($request->has('popular')){
            $products_query = $products_query->where('popular','=',1); 

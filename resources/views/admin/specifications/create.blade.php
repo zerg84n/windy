@@ -22,6 +22,19 @@
                     @endif
                 </div>
             </div>
+                <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('alias', 'Алиас*', ['class' => 'control-label']) !!}
+                    {!! Form::text('alias', old('alias'), ['class' => 'form-control', 'placeholder' => 'только латинские буквы, подчеркивание и тире', 'required' => '']) !!}
+                    <small>Алиас -короткое обозначение латинскими буквами для url. Должно быть уникальным для каждой характеристики.</small>
+                    <p class="help-block"></p>
+                    @if($errors->has('alias'))
+                        <p class="help-block">
+                            {{ $errors->first('alias') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
       
           <div class="row">
                 <div class="col-xs-12 form-group">
