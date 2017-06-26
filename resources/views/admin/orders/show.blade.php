@@ -49,17 +49,10 @@
                             <td>@if($order->attachment)<a href="{{ asset('uploads/' . $order->attachment) }}" target="_blank">Download file</a>@endif</td>
                         </tr>
                         <tr>
-                            <th>@lang('quickadmin.order.fields.ur-name')</th>
+                            <th>Реквизиты</th>
                             <td>{{ $order->ur_name }}</td>
                         </tr>
-                        <tr>
-                            <th>@lang('quickadmin.order.fields.ur-inn')</th>
-                            <td>{{ $order->ur_inn }}</td>
-                        </tr>
-                        <tr>
-                            <th>@lang('quickadmin.order.fields.ur-nls')</th>
-                            <td>{{ $order->ur_nls }}</td>
-                        </tr>
+                      
                         <tr>
                             <th>@lang('quickadmin.order.fields.status')</th>
                             <td>{{ $order->status }}</td>

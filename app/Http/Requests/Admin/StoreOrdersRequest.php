@@ -30,9 +30,6 @@ class StoreOrdersRequest extends FormRequest
             'time' => 'date_format:H:i',
             
            
-             "ur_name" => "required_with:is_ur|min:3|max:100",
-            "ur_inn" => "required_with:is_ur|min:10|max:20|numeric",
-            "ur_nls" => "required_with:is_ur|min:10|max:50|numeric",
         ];
     }
 }

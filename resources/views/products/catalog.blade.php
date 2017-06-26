@@ -127,7 +127,7 @@
                     }
                
             });
-              $('#popular-filter').change( function() {
+      $('#popular-filter').change( function() {
                
                     loadData();
                    
@@ -135,9 +135,13 @@
                
             });
             
-              $( function() {
+     $( function() {
                   @php
-                    $min = $products->min('price_original');
+                    if(Request::has('price_original')){
+                        $range = Request::input('price_original');
+                        
+                    }
+                    $min =  $products->min('price_original');
                     $max = $products->max('price_original');
                   @endphp
                   $( "#slider-range-price_original" ).slider({

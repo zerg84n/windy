@@ -125,14 +125,13 @@
 				
 				<p><span>Удобное время</span></p>
 				<div class="clockpicker" data-placement="left" data-align="top" data-autoclose="true" style="display: inline-block;">
-					<input type="text" class="uk-input uk-form-width-medium uk-form-small" value="13:14">
+                                    <input name="time" type="text" class="uk-input uk-form-width-medium uk-form-small" value="13:14">
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-time"></span>
 					</span>
 				</div>               
 								   
-								   
-								   @if($errors->has('time'))
+				 @if($errors->has('time'))
                                             <p class="uk-form-danger">
                                                 {{ $errors->first('time') }}
                                             </p>
@@ -163,7 +162,7 @@
                                     </p>
                                 @endif
 				<p>Или скопируйте реквизиты в поле:</p>
-				<textarea disabled="disabled" name="ur_name" class="uk-textarea uk-form-width-medium uk-form-small"></textarea>
+				<textarea disabled="disabled" name="ur_name" class="uk-textarea">Ваши реквизиты</textarea>
                                    @if($errors->has('ur_name'))
                                             <p class="uk-form-danger">
                                                 {{ $errors->first('ur_name') }}
