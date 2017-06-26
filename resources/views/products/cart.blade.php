@@ -2,6 +2,7 @@
 @section('styles')
     <link rel="stylesheet" href="/css/range.css">
     <link rel="stylesheet" href="/css/cart.css">
+	<link rel="stylesheet" href="/css/jquery-clockpicker.min.css">
 @endsection
 
 @section('content')
@@ -122,8 +123,16 @@
 				<p><span>Адрес</span> <input type="text" name="address" required  class="uk-input uk-form-width-medium uk-form-small"></p>
                                 
 				
-				<p><span>Удобное время</span> <input type="time" name="time" required  class="uk-input uk-form-width-medium uk-form-small"></p>
-                                   @if($errors->has('time'))
+				<p><span>Удобное время</span></p>
+				<div class="clockpicker" data-placement="left" data-align="top" data-autoclose="true" style="display: inline-block;">
+					<input type="text" class="uk-input uk-form-width-medium uk-form-small" value="13:14">
+					<span class="input-group-addon">
+						<span class="glyphicon glyphicon-time"></span>
+					</span>
+				</div>               
+								   
+								   
+								   @if($errors->has('time'))
                                             <p class="uk-form-danger">
                                                 {{ $errors->first('time') }}
                                             </p>
@@ -153,25 +162,14 @@
                                         {{ $errors->first('attachment') }}
                                     </p>
                                 @endif
-				<p>Или заполните поля</p>
-				<p><span>Название организации</span> <input disabled type="text" name="ur_name" class="uk-input uk-form-width-medium uk-form-small"></p>
+				<p>Или скопируйте реквизиты в поле:</p>
+				<textarea disabled="disabled" name="ur_name" class="uk-textarea uk-form-width-medium uk-form-small"></textarea>
                                    @if($errors->has('ur_name'))
                                             <p class="uk-form-danger">
                                                 {{ $errors->first('ur_name') }}
                                             </p>
                                    @endif
-				<p><span>ИНН</span> <input disabled type="text" name="ur_inn" class="uk-input uk-form-width-medium uk-form-small"></p>
-                                   @if($errors->has('ur_inn'))
-                                            <p class="uk-form-danger">
-                                                {{ $errors->first('ur_inn') }}
-                                            </p>
-                                        @endif
-				<p><span>Номер лицевого счета</span> <input disabled type="text" name="ur_nls" class="uk-input uk-form-width-medium uk-form-small"></p>
-                                   @if($errors->has('ur_nls'))
-                                            <p class="uk-form-danger">
-                                                {{ $errors->first('ur_nls') }}
-                                            </p>
-                                        @endif
+				
 				</div>
 			</div>
                          {!!csrf_field()!!}
@@ -192,9 +190,10 @@
 @section('scripts') 
     <script src="/js/ini.js"></script>
     <script src="/js/uikit-icons.min.js"></script>
+	<script src="/js/jquery-clockpicker.min.js"></script>
     <script>
           if ($( "#urid" ).prop( "checked") == true){
-
+				$( ".uk-textarea" ).prop( 'disabled', false );
                 $( ".urid input" ).prop( "disabled", false );
         }
 
@@ -207,10 +206,11 @@
 
         $("#urid").click(function() {
          if ($( "#urid" ).prop( "checked") == true){
-
+				$( ".uk-textarea" ).prop( 'disabled', false );
                 $( ".urid input" ).prop( "disabled", false );
         }
-        else {$( ".urid input" ).prop( "disabled", true );}
+        else {$( ".urid input" ).prop( "disabled", true );
+		$( ".uk-textarea" ).prop( 'disabled', true );}
         ;
 
         });
@@ -218,6 +218,9 @@
 
 
 
+</script>
+<script type="text/javascript">
+$('.clockpicker').clockpicker();
 </script>
 @endsection
 
