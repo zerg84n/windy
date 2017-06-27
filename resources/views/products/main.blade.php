@@ -58,27 +58,37 @@
 		</div>
 		<div class="green uk-width-3-4 content" ><p class="title">Поcледние товары</p>
 			<div class="last uk-child-width-1-3@m  uk-grid-small uk-grid-match uk-grid" >
-                            @foreach($products as $product)
-                            @php
-                                $image = $product->getMedia('photos')->first();
-                                if($image){
-                                    $image_src = $image->getUrl();
-                                }
-                                else{
-                                $image_src = '/cat-img/8814-pw.jpg';
-                                } 
-                            @endphp
-				<div class="  uk-margin-bottom">
+                         
+			@foreach($products as $product)
+				
+			
+			
+				<div class="{{$product->popular?"":"not-popular"}} uk-margin-bottom">
 					<div class="uk-card uk-card-default">
-					 <form><input {{Session::has('compare.'.$product->id)?'checked':''}} class="uk-checkbox compare" type="checkbox" name="option1" value="{{$product->id}}" data-id="{{$product->id}}"/> 
-						  <a href="{{route('products-compare')}}">Сравнить(<span class="compare_count">{{count(Session::get('compare',[]))}}</span>)</a></form>
-                                             <div class="uk-card-media-top uk-text-center">
-							<img src="{{$image_src}}" alt="">
+                                        @if ($product->popular == 1)
+					<!--Выводить если товар популярный-->
+					<div class="hit"><img src="/img/hit.png" alt=""></div>
+					<!--   -->
+                                        @endif
+                                        <form><input {{Session::has('compare.'.$product->id)?'checked':''}} class="uk-checkbox compare" type="checkbox" name="option1" value="{{$product->id}}" data-id="{{$product->id}}"/> 
+                                            <a href="{{route('products-compare')}}">Сравнить(<span class="compare_count">{{count(Session::get('compare',[]))}}</span>)</a></form>
+                                          
+                                            @php
+                                                $image = $product->getMedia('photos')->first();
+                                                if($image){
+                                                    $image_src = $image->getUrl();
+                                                }
+                                                else{
+                                                $image_src = '/cat-img/8814-pw.jpg';
+                                                } 
+                                            @endphp
+						<div class="uk-card-media-top uk-text-center">
+                                                    <a href="{{route('products-show',$product)}}"><img src="{{$image_src}}" alt=""></a>
 						</div>
 						<div class="uk-card-body uk-text-center">
 							<h3 class="uk-card-title"><a href="{{route('products-show',$product)}}">{{$product->title}}</a></h3>
 							<p class="price">Цена: <span class="dark-green">{{$product->price_original}}<span> р.</p>
-							 <form id="cart{{$product->id}}" class="add-cart" action="javascript:void(null);" onsubmit="cart_add({{$product->id}})">
+                                                           <form id="cart{{$product->id}}" class="add-cart" action="javascript:void(null);" onsubmit="cart_add({{$product->id}})">
                                                               
                                                                <p><input type="submit" value="{{Session::has('cart.'.$product->id)?'В корзине':'Добавить'}}"></p>
 							 </form>
@@ -86,9 +96,7 @@
 					</div>
 				</div>
 				
-			
-			
-			@endforeach	
+                        @endforeach
 				
 			</div>
                     <a class="all-news uk-align-right" href="{{route('products-catalog',['category'=>1])}}">Перейти в каталог</a>
@@ -126,17 +134,27 @@
             
          window.route_add_to_compare = '{{ route('products-compare-add') }}';
          window.route_del_from_compare = '{{ route('products-compare-del') }}';
-             $('.compare').change( function() {
+               $('.compare').change( function() {
                 var $this = $(this);
                 if(this.checked) {
-                       $.get(window.route_add_to_compare,{ id: $this.data('id')})
-                               .done(function( data ) {
-                       $('.compare_count').html(data);
-                      });
+                       var count = $('.compare_count').first().html();
+                       if (count<5)
+                       {   
+                            $.get(window.route_add_to_compare,{ id: $this.data('id')})
+                                    .done(function( data ) {
+                             $('.compare_count').html(data);
+
+                           });
+                      } else 
+                      {
+                          alert('Вы не можете сравнивать более 5 товаров.');
+                          $(this).prop('checked',false);
+                          
+                      }
                     }else{
                         $.get(window.route_del_from_compare,{ id: $this.data('id')})
                                .done(function( data ) {
-                      $('.compare_count').html(data);
+                        $('.compare_count').html(data);
                       });
                     }
                
