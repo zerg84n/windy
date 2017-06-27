@@ -19,6 +19,8 @@ $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.
 $this->get('call', 'MailController@call_order')->name('mail-call_order');
 
 //Front part
+//Pages
+ Route::get('/page/{alias}',  ['as'=>'pages', 'uses'=>'Front\PagesController@page']);
 //Products
  Route::get('/', ['as'=>'products-index','uses'=>'Front\ProductsController@index']);
  Route::get('/products', ['as'=>'products-catalog','uses'=>'Front\ProductsController@catalog']);
@@ -55,6 +57,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     //Products
     Route::resource('products', 'Admin\ProductsController');
     Route::post('products_mass_destroy', ['uses' => 'Admin\ProductsController@massDestroy', 'as' => 'products.mass_destroy']);
+    
     Route::get('properties/{product}', ['uses' => 'Admin\ProductsController@createProperties', 'as' => 'products.properties.create']);
     Route::post('properties/{product}', ['uses' => 'Admin\ProductsController@storeProperties', 'as' => 'products.properties.store']);
     //Categories

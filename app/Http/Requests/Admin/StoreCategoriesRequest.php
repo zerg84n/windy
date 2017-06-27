@@ -24,7 +24,7 @@ class StoreCategoriesRequest extends FormRequest
     {
         return [
             'title' => 'min:3|max:255|required|unique:categories,title,'.$this->route('category'),
-            'description' => 'min:3|max:1000',
+            //'description' => 'min:3|max:1000',
         ];
     }
 }

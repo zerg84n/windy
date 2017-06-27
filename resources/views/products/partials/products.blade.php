@@ -24,7 +24,7 @@
                                                 } 
                                             @endphp
 						<div class="uk-card-media-top uk-text-center">
-							<img src="{{$image_src}}" alt="">
+                                                    <a href="{{route('products-show',$product)}}"><img src="{{$image_src}}" alt=""></a>
 						</div>
 						<div class="uk-card-body uk-text-center">
 							<h3 class="uk-card-title"><a href="{{route('products-show',$product)}}">{{$product->title}}</a></h3>

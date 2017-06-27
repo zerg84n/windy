@@ -48,8 +48,8 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('score', 'Оценка*', ['class' => 'control-label']) !!}
-                    {!! Form::number('score', old('score'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
+                    {!! Form::label('score', 'Оценка', ['class' => 'control-label']) !!}
+                    {!! Form::number('score', old('score'), ['class' => 'form-control', 'placeholder' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('score'))
                         <p class="help-block">

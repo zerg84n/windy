@@ -23,6 +23,7 @@
                         @endcan
 
                         <th>@lang('quickadmin.news.fields.title')</th>
+                         <th>URL</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -36,6 +37,7 @@
                                 @endcan
 
                                 <td>{{ $news->title }}</td>
+                                <td><a href="{{ route('news-show',$news) }}" target="_blank">{{ route('news-show',$news) }}</a></td>
                                 <td>
                                     @can('news_view')
                                     <a href="{{ route('admin.news.show',[$news->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>

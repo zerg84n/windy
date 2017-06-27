@@ -25,7 +25,7 @@ class StoreReviewsRequest extends FormRequest
         return [
             'name' => 'min:3|max:20|required',
            // 'email' => 'email',
-            'score' => 'min:1|max:5',
+           // 'score' => 'min:1|max:5',
             'product_id' => 'required',
         ];
     }

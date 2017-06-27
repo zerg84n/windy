@@ -51,7 +51,7 @@ class ProductsController extends Controller
             return abort(401);
         }
          $property_values = $product->values();
-          $products = \App\Products::get()->pluck('title', 'id')->prepend('Добавьте сопутствующие товары', '');
+          $products = \App\Product::get()->pluck('title', 'id');
         return view('admin.products.properties', compact('product', 'property_values','products'));
     }
     /**
@@ -101,7 +101,7 @@ class ProductsController extends Controller
           }
           
        
-
+           $product->products()->sync(array_filter((array)$request->input('products')));
 
       
 

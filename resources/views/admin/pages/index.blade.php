@@ -23,6 +23,7 @@
                         @endcan
 
                         <th>@lang('quickadmin.pages.fields.title')</th>
+                        <th>URL</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -35,7 +36,8 @@
                                     <td></td>
                                 @endcan
 
-                                <td>{{ $page->title }}</td>
+                                <td><a href="{{ route('pages',$page->alias) }}" target="_blank">{{ $page->title }}</a></td>
+                                 <td>{{ route('pages',$page->alias) }}</td>
                                 <td>
                                     @can('page_view')
                                     <a href="{{ route('admin.pages.show',[$page->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>
