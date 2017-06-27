@@ -34,9 +34,6 @@ class StoreOrderRequest extends FormRequest
            
            
             
-            "ur_name" => "required_with:is_ur",
-            "ur_inn" => "required_with:is_ur|numeric",
-            "ur_nls" => "required_with:is_ur|numeric",
         ];
     }
 }

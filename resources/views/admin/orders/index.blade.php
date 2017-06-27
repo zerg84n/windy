@@ -2,12 +2,7 @@
 
 @section('content')
     <h3 class="page-title">@lang('quickadmin.order.title')</h3>
-    @can('order_create')
-    <p>
-        <a href="{{ route('admin.orders.create') }}" class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
-        
-    </p>
-    @endcan
+
 
     <div class="panel panel-default">
         <div class="panel-heading">

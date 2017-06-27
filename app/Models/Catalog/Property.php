@@ -59,6 +59,7 @@ class Property extends Model
              $model = $this->value_type;
              
              $values = $model::where('property_id','=',$this->id)->orderBy('value','asc')->get()->unique('value');
+             if (!$values->first()->value) {$values->shift();}
              return $values;
         }
         

@@ -37,7 +37,8 @@
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('url', 'Url', ['class' => 'control-label']) !!}
-                    {!! Form::text('url', old('url'), ['class' => 'form-control', 'placeholder' => '']) !!}
+                    {!! Form::text('url', old('url'), ['class' => 'form-control', 'placeholder' => '/catalog?category=2&power[min]=1000&power[max]=5000']) !!}
+                    <small>Посмотреть алиасы характеристик можно в раделе характеристики</small>
                     <p class="help-block"></p>
                     @if($errors->has('url'))
                         <p class="help-block">

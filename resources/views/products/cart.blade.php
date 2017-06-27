@@ -64,22 +64,22 @@
                                 @php
                                     $total += $product->price_original* $cart[$product->id];
                                 @endphp
-				<tr>
+				<tr id="product{{$product->id}}">
                                     
 					<td><img src="/cat-img/8814-pw.jpg" alt=""></td>
 					<td><a href="#">{{$product->title}}</a></td>
 					<td>{{$product->price_original}}</td>
 					<td>
-                                            <input type="number" name="product_count[{{$product->id}}]" value="{{$cart[$product->id]}}" min="1" max="100" class="uk-form-width-mini uk-form-small">
+                                            <input data-id="{{$product->id}}" data-price="{{$product->price_original}}" type="number" name="product_count[{{$product->id}}]" value="{{$cart[$product->id]}}" min="1" max="100" class="product-count uk-form-width-mini uk-form-small">
 					</td>
-					<td>{{$product->price_original*$cart[$product->id]}}</td>
+					<td id="price{{$product->id}}">{{$product->price_original*$cart[$product->id]}}</td>
 					<td>
-						<a href="" uk-icon="icon: close"></a>
+                                            <a  data-id="{{$product->id}}" class="remove-product" href="javascript:void(0)" uk-icon="icon: close"></a>
 					</td>
 				</tr>
                                 @endforeach
 				<tr>
-					<td colspan="6" class="footer">Итого: {{$total}} р.</td>
+                                    <td colspan="6" class="footer">Итого: <span id='total'>{{$total}}</span> р.</td>
 				</tr>
 			</table>
 			<div class="cart-contact">
@@ -118,21 +118,20 @@
 		
                         <p><label><input class="uk-radio" type="hidden" name="delivery" value="0" id="vivoz" disabled ></label></p>
 				<p><label>
-                                        <input class="uk-radio" type="radio" name="delivery" value="1" id="dostavka" checked> Доставка по Санкт-Петербургу</label></p>
+                                        <input class="uk-radio" type="radio" name="delivery" value="1" id="dostavka" checked> Доставка по Санкт-Петербургу (390 р.)</label></p>
 				<div class="dostavka">
 				<p><span>Адрес</span> <input type="text" name="address" required  class="uk-input uk-form-width-medium uk-form-small"></p>
                                 
 				
 				<p><span>Удобное время</span></p>
 				<div class="clockpicker" data-placement="left" data-align="top" data-autoclose="true" style="display: inline-block;">
-					<input type="text" class="uk-input uk-form-width-medium uk-form-small" value="13:14">
+                                    <input name="time" type="text" class="uk-input uk-form-width-medium uk-form-small" value="13:14">
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-time"></span>
 					</span>
 				</div>               
 								   
-								   
-								   @if($errors->has('time'))
+				 @if($errors->has('time'))
                                             <p class="uk-form-danger">
                                                 {{ $errors->first('time') }}
                                             </p>
@@ -163,7 +162,7 @@
                                     </p>
                                 @endif
 				<p>Или скопируйте реквизиты в поле:</p>
-				<textarea disabled="disabled" name="ur_name" class="uk-textarea uk-form-width-medium uk-form-small"></textarea>
+				<textarea disabled="disabled" name="ur_name" class="uk-textarea">Ваши реквизиты</textarea>
                                    @if($errors->has('ur_name'))
                                             <p class="uk-form-danger">
                                                 {{ $errors->first('ur_name') }}
@@ -173,7 +172,7 @@
 				</div>
 			</div>
                          {!!csrf_field()!!}
-			<p class="pay"><input type="submit" value="Оплатить"></p>	
+			<p class="pay"><input type="submit" value="Продолжить"></p>	
 			<div style="clear:both;">			
 		</div>
             </form>
@@ -192,11 +191,52 @@
     <script src="/js/uikit-icons.min.js"></script>
 	<script src="/js/jquery-clockpicker.min.js"></script>
     <script>
+         window.route_del_from_cart = '{{ route("products-cart-del") }}';
           if ($( "#urid" ).prop( "checked") == true){
 				$( ".uk-textarea" ).prop( 'disabled', false );
                 $( ".urid input" ).prop( "disabled", false );
         }
+        $(".product-count").change(function(){
+           
+           
+            total = 0;
+             $(".product-count").each(
+                     function(){
+                         var id = $(this).data('id');
+                         var price = $(this).val()*$(this).data('price');
+                         total += price;
+                         $("#price"+id).html(price);
+                     }  );
+            
+            $("#total").html(total);
+        });
 
+
+      $( ".remove-product" ).on( "click", function() {
+          var id = $(this).data('id');
+          
+                
+          
+          
+               $("#product"+id).remove();
+               
+                total = 0;
+             $(".product-count").each(
+                     function(){
+                         var id = $(this).data('id');
+                         var price = $(this).val()*$(this).data('price');
+                         total += price;
+                         $("#price"+id).html(price);
+                     }  );
+            
+            $("#total").html(total);
+            $.get(window.route_del_from_cart,{ id: id})
+                               .done(function( data ) {
+                       
+                      });
+        });
+        
+        
         $( "#dostavka" ).on( "click", function() {
                 $( ".dostavka input" ).prop( "disabled", false );
         });

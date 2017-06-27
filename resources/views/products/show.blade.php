@@ -57,14 +57,18 @@
 						<div data-uk-slideshow class="uk-slidenav-position foto">
 							<ul class="uk-slideshow">
                                                             
-                                                        @foreach($product->getMedia('photos') as $media)   
-                                                        <li><a href="{{$image->getUrl()}}" data-uk-lightbox><img src="{{$media->getUrl()}}" alt=""></a></li>
-							@endforeach
+                                                        @forelse($product->getMedia('photos') as $media)   
+                                                            <li><a href="{{$image->getUrl()}}" data-uk-lightbox><img src="{{$media->getUrl()}}" alt=""></a></li>
+							@empty
+                                                             <li><a href="/cat-img/sushilka-1.jpg" data-uk-lightbox><img src="/cat-img/sushilka-1.jpg" alt=""></a></li>
+                                                        @endforelse
                                                         </ul>
 							<ul class="uk-flex-inline foto-nav uk-align-center">
-                                                        @foreach($product->getMedia('photos') as $key=>$media)    
-                                                        <li data-uk-slideshow-item="{{$key}}"><a href=""><img src="{{$media->getUrl()}}" alt=""></a></li>
-							@endforeach	
+                                                        @forelse($product->getMedia('photos') as $key=>$media)    
+                                                            <li data-uk-slideshow-item="{{$key}}"><a href=""><img src="{{$media->getUrl()}}" alt=""></a></li>
+							@empty
+                                                             <li data-uk-slideshow-item="1"><a href=""><img src="/cat-img/sushilka-1.jpg" alt=""></a></li>
+                                                        @endforelse	
 							</ul>
 						</div>
 				
@@ -146,7 +150,7 @@
                                             @endif
 					
 						<div class="uk-card-media-top uk-text-center">
-                                                    <img src="{{$child->getFirstMediaUrl('photos')}}" alt="">
+                                                    <a href="{{route('products-show',$child)}}"><img src="{{$child->getFirstMediaUrl('photos')}}" alt=""></a>
 						</div>
 						<div class="uk-card-body uk-text-center">
 							<h3 class="uk-card-title"><a href="{{route('products-show',$child)}}" target="_blank">{{$child->title}}</a></h3>

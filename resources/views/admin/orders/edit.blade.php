@@ -151,8 +151,8 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('ur_name', 'Название организации', ['class' => 'control-label']) !!}
-                    {!! Form::text('ur_name', old('ur_name'), ['class' => 'form-control', 'placeholder' => '']) !!}
+                    {!! Form::label('ur_name', 'Реквизиты', ['class' => 'control-label']) !!}
+                    {!! Form::textarea('ur_name', old('ur_name'), ['class' => 'form-control', 'placeholder' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('ur_name'))
                         <p class="help-block">
@@ -161,30 +161,7 @@
                     @endif
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('ur_inn', 'ИНН', ['class' => 'control-label']) !!}
-                    {!! Form::text('ur_inn', old('ur_inn'), ['class' => 'form-control', 'placeholder' => '']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('ur_inn'))
-                        <p class="help-block">
-                            {{ $errors->first('ur_inn') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('ur_nls', 'Номер лицевого счета', ['class' => 'control-label']) !!}
-                    {!! Form::text('ur_nls', old('ur_nls'), ['class' => 'form-control', 'placeholder' => '']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('ur_nls'))
-                        <p class="help-block">
-                            {{ $errors->first('ur_nls') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
+       
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('status', 'Статус', ['class' => 'control-label']) !!}
