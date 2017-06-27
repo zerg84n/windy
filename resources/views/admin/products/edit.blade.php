@@ -141,8 +141,10 @@
                 @php
                     $categories = collect();
                 @endphp
-                {!! Form::select('property['.$property_value->property->id.']', $property_value->property->variants->pluck('value','id')->prepend('Выберите характеристику', ''),$property_value->getAttributes()['value'], ['class' => 'form-control select2']) !!}
-            @elseif($property_value->getType()=='checkbox')
+                
+                {!! Form::select('property['.$property_value->property->id.']', $property_value->property->variants->pluck('value','id')->prepend('Выберите характеристику', ''),$property_value?$property_value->getAttributes()['value']:'', ['class' => 'form-control select2']) !!}
+            
+                @elseif($property_value->getType()=='checkbox')
                 {!! Form::hidden('property['.$property_value->property->id.']', 0) !!}
                  {!! Form::checkbox('property['.$property_value->property->id.']', 1, $property_value->value, []) !!}
             @endif
