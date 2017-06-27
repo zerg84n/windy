@@ -99,7 +99,7 @@
                         @endforeach
 				
 			</div>
-                    <a class="all-news uk-align-right" href="{{route('products-catalog',['category'=>1])}}">Перейти в каталог</a>
+                    <a class="all-news uk-align-right" href="{{route('products-catalog')}}">Перейти в каталог</a>
 		</div>
 		</div>
 	</div>	
