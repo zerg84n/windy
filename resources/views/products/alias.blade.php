@@ -45,13 +45,7 @@
 		</div>
                 <div  class="green uk-width-3-4 content" >
                     
-			<div class="sort">
-			<div class="uk-column-1-3 uk-column-divider">
-				<div>Сортировать по цене: <a href="javascript:loadData('desc')" uk-icon="icon: arrow-down"></a> <a href="javascript:loadData('asc')" uk-icon="icon: arrow-up"></a></div>
-				<div><form><input id="popular-filter" class="uk-checkbox" type="checkbox" name="popular" value="1"> Популярные товары</form></div>
-				
-			</div>
-			</div>
+			
 			
                   <div id="products-wrapper" >  
                       @include('products.partials.products')
@@ -176,14 +170,7 @@
               @endforeach
     });    
     
-  $('.uk-pagination a').click( function(e){
-			e.preventDefault();
-			var page = $(this).attr('href').split('page=')[1];
-			loadData('desc',page);
-			//location.hash = page;
-                        console.log(page);
-                        
-		});
+
     
        function loadData(sortBy, page){
        
