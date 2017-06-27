@@ -95,10 +95,20 @@
       $('.compare').change( function() {
                 var $this = $(this);
                 if(this.checked) {
-                       $.get(window.route_add_to_compare,{ id: $this.data('id')})
-                               .done(function( data ) {
-                        $('.compare_count').html(data);
-                      });
+                       var count = $('.compare_count').first().html();
+                       if (count<5)
+                       {   
+                            $.get(window.route_add_to_compare,{ id: $this.data('id')})
+                                    .done(function( data ) {
+                             $('.compare_count').html(data);
+
+                           });
+                      } else 
+                      {
+                          alert('Вы не можете сравнивать более 5 товаров.');
+                          $(this).prop('checked',false);
+                          
+                      }
                     }else{
                         $.get(window.route_del_from_compare,{ id: $this.data('id')})
                                .done(function( data ) {
@@ -107,7 +117,7 @@
                     }
                
             });
-              $('#popular-filter').change( function() {
+      $('#popular-filter').change( function() {
                
                     loadData();
                    
@@ -115,7 +125,7 @@
                
             });
             
-              $( function() {
+     $( function() {
                   @php
                     $min = $products->min('price_original');
                     $max = $products->max('price_original');
@@ -144,6 +154,7 @@
                     $range = $property->getRange();
                     $min = $range->first()->value;
                     $max = $range->last()->value;
+                    if(!$min) $min = 0;
                   @endphp
                     $( "#slider-range-property{{$property->id}}" ).slider({
                       range: true,
@@ -165,7 +176,14 @@
               @endforeach
     });    
     
-  
+  $('.uk-pagination a').click( function(e){
+			e.preventDefault();
+			var page = $(this).attr('href').split('page=')[1];
+			loadData('desc',page);
+			//location.hash = page;
+                        console.log(page);
+                        
+		});
     
        function loadData(sortBy, page){
        
