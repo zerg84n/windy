@@ -20,7 +20,7 @@
                                                     $image_src = $image->getUrl();
                                                 }
                                                 else{
-                                                $image_src = '/cat-img/8814-pw.jpg';
+                                                $image_src = '/img/blank.png';
                                                 } 
                                             @endphp
 						<div class="uk-card-media-top uk-text-center">

@@ -18,7 +18,7 @@
                             $image_src = $image->getUrl();
                         }
                         else{
-                        $image_src = '/cat-img/8814-pw.jpg';
+                        $image_src = '/img/blank.png';
                         } 
                     @endphp
 			<div class="uk-card-media-left uk-cover-container uk-width-1-3  ">
@@ -60,14 +60,14 @@
                                                         @forelse($product->getMedia('photos') as $media)   
                                                             <li><a href="{{$image->getUrl()}}" data-uk-lightbox><img src="{{$media->getUrl()}}" alt=""></a></li>
 							@empty
-                                                             <li><a href="/cat-img/sushilka-1.jpg" data-uk-lightbox><img src="/cat-img/sushilka-1.jpg" alt=""></a></li>
+                                                             <li><a href="/img/blank.png" data-uk-lightbox><img src="/img/blank.png" alt=""></a></li>
                                                         @endforelse
                                                         </ul>
 							<ul class="uk-flex-inline foto-nav uk-align-center">
                                                         @forelse($product->getMedia('photos') as $key=>$media)    
                                                             <li data-uk-slideshow-item="{{$key}}"><a href=""><img src="{{$media->getUrl()}}" alt=""></a></li>
 							@empty
-                                                             <li data-uk-slideshow-item="1"><a href=""><img src="/cat-img/sushilka-1.jpg" alt=""></a></li>
+                                                             <li data-uk-slideshow-item="1"><a href=""><img src="/img/blank.png" alt=""></a></li>
                                                         @endforelse	
 							</ul>
 						</div>
@@ -150,7 +150,7 @@
                                             @endif
 					
 						<div class="uk-card-media-top uk-text-center">
-                                                    <a href="{{route('products-show',$child)}}"><img src="{{$child->getFirstMediaUrl('photos')}}" alt=""></a>
+                                                    <a href="{{route('products-show',$child)}}"><img src="{{$child->getFirstMediaUrl('photos')?$child->getFirstMediaUrl('photos'):'/img/blank.png'}}" alt=""></a>
 						</div>
 						<div class="uk-card-body uk-text-center">
 							<h3 class="uk-card-title"><a href="{{route('products-show',$child)}}" target="_blank">{{$child->title}}</a></h3>
