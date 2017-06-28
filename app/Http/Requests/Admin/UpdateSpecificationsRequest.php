@@ -25,7 +25,7 @@ class UpdateSpecificationsRequest extends FormRequest
         return [
             
             'title' => 'min:3|max:100|required',
-            'alias' => 'min:2|max:50|alpha_dash|required|unique:properties,alias,'.$this->get('alias'),
+            'alias' => 'min:2|max:50|alpha_dash|required',
             'value_text' => 'min:1|max:10',
         ];
     }
