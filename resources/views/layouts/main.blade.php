@@ -5,7 +5,9 @@
 		
 		<link rel="stylesheet" type="text/css" href="/css/uikit.min.css" />
 		<link rel="stylesheet" type="text/css" href="/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="/css/menu-pic.css" />
 		<link rel="stylesheet" type="text/css" href="/css/menu.css" />
+		
                 
                 @yield('styles')
                 
@@ -91,7 +93,7 @@
 				<nav id="nav" class="uk-container">
 					<ul class="main-ul">
                                           @foreach($main_menu->items as $root_item)
-                                          <li><a class="a-drop-down" href="{{$root_item->url}}">{{$root_item->text or $root_item->title}}</a>
+                                          <li class="menu{{$root_item->id}}"><a class="a-drop-down" href="{{$root_item->url}}">{{$root_item->text or $root_item->title}}</a>
 							<div class="nav-drop-down">
 							<div class="uk-container">
                                                             @foreach($root_item->menus as $sub_menu)
