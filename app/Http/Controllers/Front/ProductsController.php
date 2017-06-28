@@ -22,7 +22,7 @@ class ProductsController extends Controller
     {
   
         $news = \App\News::orderBy('id','desc')->limit(2)->get();
-        $products = \App\Product::paginate(6);
+        $products = \App\Product::orderBy('id','desc')->paginate(6);
         $slider = \App\Models\Banner::all()->first();
         return view('products.main',  compact('news','slider','products'));
     }
