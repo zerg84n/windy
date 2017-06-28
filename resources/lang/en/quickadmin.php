@@ -21,10 +21,10 @@ return [
 		'title' => 'Users',
 		'created_at' => 'Time',
 		'fields' => [
-			'name' => 'Name',
+			'name' => 'Имя',
 			'email' => 'Email',
-			'password' => 'Password',
-			'role' => 'Role',
+			'password' => 'Пароль',
+			'role' => 'Роль',
 			'remember-token' => 'Remember token',
 		],
 	],
