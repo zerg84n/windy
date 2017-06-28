@@ -170,8 +170,13 @@
                   @if ($property->getInputType()=='number')
                   @php
                     $range = $property->getRange();
-                    $min = $range->first()->value;
-                    $max = $range->last()->value;
+                    if ($range){
+                        $min = $range->first()->value;
+                        $max = $range->last()->value;
+                    } else {
+                        $min = 0;
+                        $max = 0;
+                    }  
                     if(!$min) $min = 0;
                   @endphp
                     $( "#slider-range-property{{$property->id}}" ).slider({
