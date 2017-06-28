@@ -72,12 +72,7 @@
             @endcan
             
               
-            <li class="{{ $request->segment(2) == 'vendors' ? 'active' : '' }}">
-                <a href="{{ route('admin.categories.index') }}">
-                    <i class="fa fa-stack-overflow"></i>
-                    <span class="title">Производители</span>
-                </a>
-            </li>
+          
             
             
             @can('specification_access')
