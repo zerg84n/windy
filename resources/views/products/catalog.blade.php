@@ -13,22 +13,24 @@
 			<p class="filter-title">Фильтр</p>
 			<form id="form-filter" class="filter-form">
                                 {!! csrf_field() !!}
-                                <input name="category" type="hidden"  value="{{$category->id}}">
+                                <input  name="category" type="hidden"  @if(!$category) disabled  @endif   value="{{$category?$category->id:''}}">
 				<p>Цена</p>
                                 <input name="price_original[min]" type="hidden" id="price_original_min" readonly>
                                 <input name="price_original[max]" type="hidden" id="price_original_max" readonly>
                                 <input class="no-border"  type="text" id="price_original_range" readonly>
 				<div id="slider-range-price_original" ></div>
 				
-                                @if ($category)
-                                @foreach ($category->properties as $property)
-				<p>{{$property->title}}</p>
+                               
+                                @foreach ($properties as $property)
+				
                                    @if($property->getInputType()=='number')
+                                   <p>{{$property->title}}</p>
                                     <input name="property[{{$property->id}}][min]" type="hidden" id="property{{$property->id}}_min" readonly>
                                     <input name="property[{{$property->id}}][max]" type="hidden" id="property{{$property->id}}_max" readonly>
                                     <input class="no-border"  type="text" id="property{{$property->id}}_range" readonly>
                                     <div id="slider-range-property{{$property->id}}" ></div>
                                    @elseif($property->getInputType()=='select')
+                                   <p>{{$property->title}}</p>
                                     <ul>
                                         @foreach($property->getRange() as $value)
                                         <li><input class="uk-checkbox" type="checkbox" name="property[{{$property->id}}][]" value="{{$value->id}}">{{$value->value}}</li>
@@ -36,22 +38,18 @@
 
                                     </ul>
                                    @elseif($property->getInputType()=='checkbox')
+                                   <p>{{$property->title}}</p>
                                     <ul>
                                         @foreach($property->getRange() as $value)
                                         <li><input class="uk-checkbox" type="checkbox" name="property[{{$property->id}}][]" value="{{$value->value}}">{{$value->value?"Есть":"Нет"}}</li>
                                         @endforeach
 
                                     </ul>
-                                   @else
-                                    <ul>
-                                        @foreach($property->getRange() as $value)
-                                        <li><input class="uk-checkbox" type="checkbox" name="property[{{$property->id}}][]" value="{{$value->value}}">{{$value->value}}</li>
-                                        @endforeach
-
-                                    </ul>
+                                                                     
                                    @endif
                                 @endforeach
-                                @endif
+                               
+                              
                                 
                                
                                  <button onclick="loadData(); return false;" class="btn btn-primary">Применить фильтр</button>
@@ -168,7 +166,7 @@
                     
                   
                   
-                  @foreach ($category->properties as $property)
+                  @foreach ($properties as $property)
                   @if ($property->getInputType()=='number')
                   @php
                     $range = $property->getRange();
