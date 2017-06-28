@@ -18,7 +18,7 @@ nav ul.main-ul>li {
     border-left: 1px solid #9da0b1;
     text-align: center;
     box-sizing: border-box;
-   font-size: 1rem;
+   font-size: 0.9rem;
     font-weight: bold;
     line-height: 1.1rem;
     vertical-align: middle;
@@ -92,3 +92,16 @@ ul.main-ul li:hover a.a-drop-down:after{
 nav ul.main-ul li .sub-menu a:hover{
 	color: #93b733;
 	}
+@media only screen and (max-device-width: 1024px) {
+	.uk-container {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+nav ul.main-ul>li {   
+     font-size: 0.8rem;
+    font-weight: normal; 
+}
+nav ul.main-ul>li>a {
+    padding: 0 .1rem;
+    }
+}
