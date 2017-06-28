@@ -45,19 +45,21 @@ class ProductsController extends Controller
             
         if ($request->has('category')){
            $category = \App\Category::find($request->input('category'));
+           $properties = $category->properties;
            if ($category){
                $products = $category->products()->paginate(6);
            } else {
                $products = \App\Product::paginate(6);
            }
         }else{
-            $category = $category = \App\Category::first();
-            $products = $category->products()->paginate(6);
+            $category = null;
+             $products = \App\Product::paginate(6);
+            $properties = \App\Models\Catalog\Property::all();
         }
         
         
       
-        return view('products.catalog',  compact('products','category'));
+        return view('products.catalog',  compact('products','category','properties'));
     }
     
     
