@@ -1,0 +1,50 @@
+.foto{position: relative;}
+.foto .uk-cover-background { background-size: 100% auto; background-repeat: no-repeat;}
+.foto-nav{padding:0px;list-style: none;}
+.foto-nav img{width: 70px;    margin-right: 5px;    border: 1px solid #acaec7;    border-radius: 10px;}
+.info{border-left: 1px solid #acaec7;padding: 10px;}
+.info:first-child{border-left: none;}
+.info .add-cart{margin:0px;}
+.charakter {color: #666;}
+.charakter p{    position: relative;
+    display: block;
+    line-height: 40px;
+    border-bottom: 1px dotted #acaec7;}
+	.charakter p span{width: 100%;
+    text-align: right;
+    display: block;
+    position: absolute;
+    top: 0;}
+.card-info	{
+    border: 1px solid #acaec7;
+    background: #fff;
+    border-radius: 10px;
+}
+.uk-tab {    margin-left: 0px;border-top-left-radius: 10px;
+    background: #acaec7;
+    border-top-right-radius: 10px;
+    color: #fff;}
+.uk-tab>* {
+    padding-left: 0px;}
+	.uk-tab>.uk-active>a {
+    color: #666;
+    border-color: transparent;
+    background: #fff;
+    border-top-left-radius: 10px;
+    /* background: #acaec7; */
+    border-top-right-radius: 10px;
+}
+.uk-tab>*>a {
+    color: #fff;
+   }
+  .uk-tab::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    right: 0;
+    border-bottom: none;
+}
+.otziv{border-bottom: 1px solid #ebebeb;overflow: hidden;}
+.otziv p{margin: 10px 0;}
+.otziv-name ,.otziv-date{font-weight:bold;}

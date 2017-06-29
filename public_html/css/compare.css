@@ -1,0 +1,10 @@
+.compare .content{background:#fff;padding:10px;}
+.compare-table {width: 100%;}
+.compare-table th,.compare-table td{text-align:center;padding: 5px;}
+.compare-table a {
+    color: #85a24d;
+    text-decoration: none;
+    cursor: pointer;
+}
+.compare-table a.compare-tab-active{font-weight:bold;text-decoration: underline;}
+.compare-table img{max-height: 100px;}
