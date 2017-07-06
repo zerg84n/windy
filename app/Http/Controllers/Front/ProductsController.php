@@ -96,7 +96,7 @@ class ProductsController extends Controller
          foreach($properties as $property){
              if ($request->has($property->alias)){
                 $filter .=$property->title;
-                  if ($property->getInputType() == 'number'){
+                  if ($property->getInputType() == 'number' || $property->getInputType() == 'float' ){
                       $range = $request->input($property->alias);
                      if (is_array($range)){
                          
@@ -162,7 +162,7 @@ class ProductsController extends Controller
                 
                 $property = \App\Models\Catalog\Property::find($property_id);
                 
-                if ($property->getInputType() == 'number'){
+                if ($property->getInputType() == 'number' || $property->getInputType() == 'float' ){
                     
                     $Model = $property->value_type;
                     $ids = $Model::where('property_id',$property->id)->whereBetween('value',[$value['min'],$value['max']])->get()->pluck('product_id')->toArray();

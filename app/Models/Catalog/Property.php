@@ -10,6 +10,7 @@ use App\Models\Catalog\ValueStr;
 use App\Models\Catalog\ValueCheck;
 use App\Models\Catalog\ValueEnum;
 use App\Models\Catalog\Variant;
+use App\Models\Catalog\ValueFloat;
 
 class Property extends Model
 {
@@ -18,6 +19,7 @@ class Property extends Model
     const VALUE_TYPES = [
         'text'=>ValueStr::class,
         'number'=>ValueInt::class,
+        'float'=>ValueFloat::class,
         'select'=>ValueEnum::class,
         'checkbox'=>ValueCheck::class
     ];  
@@ -26,6 +28,7 @@ class Property extends Model
         ''=>'Укажите тип',
         'text'=>'Текстовый',
         'number'=>'Числовой',
+        'float'=>'Дробное',
         'select'=>'Список',
         'checkbox'=>'Галочка'
     ];  

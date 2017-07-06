@@ -91,7 +91,7 @@
           
         function addField(){
             var num = $('.field').length;
-            if ($('.field').length>5){ alert('Больше нельзя!'); return false;}
+            if ($('.field').length>15){ alert('Больше нельзя!'); return false;}
             
              // $('.field').first().clone(true).appendTo('#variants');
             
