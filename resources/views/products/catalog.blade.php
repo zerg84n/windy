@@ -23,7 +23,7 @@
                                
                                 @foreach ($properties as $property)
 				
-                                   @if($property->getInputType()=='number')
+                                   @if($property->getInputType()=='number' || $property->getInputType()=='float')
                                    <p>{{$property->title}}</p>
                                     <input name="property[{{$property->id}}][min]" type="hidden" id="property{{$property->id}}_min" readonly>
                                     <input name="property[{{$property->id}}][max]" type="hidden" id="property{{$property->id}}_max" readonly>
@@ -167,12 +167,18 @@
                   
                   
                   @foreach ($properties as $property)
-                  @if ($property->getInputType()=='number')
+                  @if ($property->getInputType()=='number' || $property->getInputType()=='float')
                   @php
                     $range = $property->getRange();
                     if ($range){
-                        $min = $range->first()->value;
+                        if ($property->getInputType()=='float'){
+                              $min = round($range->first()->value);
+                              $max = round($range->last()->value);
+                        } else {
+                         $min = $range->first()->value;
                         $max = $range->last()->value;
+                        }
+                        
                     } else {
                         $min = 0;
                         $max = 0;

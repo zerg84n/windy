@@ -135,7 +135,10 @@
                     {!! Form::label('property['.$property_value->property->id.']', $property_value->property->title, ['class' => 'control-label']) !!}
             @if($property_value->getType()=='number')
                  {!! Form::number('property['.$property_value->property->id.']', $property_value->value, ['class' => 'form-control', 'placeholder' => '']) !!}   
-            @elseif($property_value->getType()=='text')
+           @elseif($property_value->getType()=='float')
+                 {!! Form::number('property['.$property_value->property->id.']', $property_value->value, ['class' => 'form-control', 'placeholder' => '', 'step'=>'.01']) !!}   
+            
+             @elseif($property_value->getType()=='text')
                 {!! Form::text('property['.$property_value->property->id.']', $property_value->value, ['class' => 'form-control', 'placeholder' => '']) !!}
             @elseif($property_value->getType()=='select')
                 @php
