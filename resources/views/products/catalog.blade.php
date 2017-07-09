@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="uk-container">
-<p class="title-cat">@if ($category) {{$category->title}} @else Все товары @endif</p>
+<p class="title-cat">@if ($category) {{$category->title}}  @else Все товары @endif</p>
 	<div class="uk-grid">
 		<div class="uk-width-1-4 left-col" >
 		<div class="filter">
@@ -145,7 +145,8 @@
             
      $( function() {
                   @php
-                    $min = $products->min('price_original');
+                 
+                    $min = 0;
                     $max = $products->max('price_original');
                   @endphp
                   $( "#slider-range-price_original" ).slider({
@@ -223,6 +224,7 @@
          if (page){
             fields = fields+"&page="+page;
         }
+       
         if( $('#popular-filter').prop('checked')){
              fields = fields+"&popular=1";
         }

@@ -58,7 +58,7 @@
 							<ul class="uk-slideshow">
                                                             
                                                         @forelse($product->getMedia('photos') as $media)   
-                                                            <li><a href="{{$image->getUrl()}}" data-uk-lightbox><img src="{{$media->getUrl()}}" alt=""></a></li>
+                                                            <li><a href="{{$media->getUrl()}}" data-uk-lightbox><img src="{{$media->getUrl()}}" alt=""></a></li>
 							@empty
                                                              <li><a href="/img/blank.png" data-uk-lightbox><img src="/img/blank.png" alt=""></a></li>
                                                         @endforelse
@@ -74,8 +74,12 @@
 				
 				</div>	
 				<div class="uk-text-left  uk-margin-bottom info uk-width-2-3">
+                                    @if($product->price_sale == null)
 					<p class="price">Цена: <span class="dark-green">{{$product->price_original}}<span> р.</p>
-                                                    
+                                     @else
+                                        <p class="price">Обычная цена: <span class="dark-green"><del>{{$product->price_original}}</del><span> р.</p>
+                                        <p class="price">Цена по акции: <span class="dark-green">{{$product->price_sale}}<span> р.</p>
+                                     @endif
                                         <form id="cart{{$product->id}}" class="add-cart" action="javascript:void(null);" onsubmit="cart_add({{$product->id}})">
                                               
                                                <input id='product_count' type="number" name="amount" value="{{Session::has('cart.'.$product->id)?Session::get('cart.'.$product->id):1}}" min="1" max="100" class="uk-form-width-mini uk-form-small">
