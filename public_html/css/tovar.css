@@ -9,7 +9,8 @@
 .charakter p{    position: relative;
     display: block;
     line-height: 40px;
-    border-bottom: 1px dotted #acaec7;}
+    border-bottom: 1px dotted #acaec7;
+	margin: 0;}
 	.charakter p span{width: 100%;
     text-align: right;
     display: block;
