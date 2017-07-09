@@ -32,10 +32,10 @@ class ProductsController extends Controller
         $news = \App\News::orderBy('id','desc')->limit(2)->get();
            if ($request->has('keyword')){
                  $keyword = $request->input('keyword');
-                 $products = \App\Product::where('title','LIKE','%'.$keyword.'%')->paginate(6);
+                 $products = \App\Product::orderBy('id','desc')->where('title','LIKE','%'.$keyword.'%')->paginate(6);
            }else{
                $keyword = '';
-                $products = \App\Product::paginate(6);
+                $products = \App\Product::orderBy('id','desc')->paginate(6);
            }
          
         return view('products.search',  compact('news','products','keyword'));
@@ -49,7 +49,7 @@ class ProductsController extends Controller
            if ($category){
                $products = $category->products()->paginate(6);
            } else {
-               $products = \App\Product::paginate(6);
+               $products = \App\Product::orderBy('id','desc')->paginate(6);
            }
         }else{
             $category = null;
@@ -107,19 +107,19 @@ class ProductsController extends Controller
                                 $range['min'] = $property->getRange()->first()->value;
                             }
                       $new_request['property'][$property->id] = $range;
-                       $filter .= ' ( '.$range['min'].' - '.$range['max'].'), ';
+                       $filter .= ' ( '.$range['min'].' - '.$range['max'].') ';
                     }else{
-                        $filter .= ' - '.$request->input($property->alias).', ';
+                        $filter .= ' - '.$request->input($property->alias).' ';
                         $new_request['property'][$property->id]['min']= $request->input($property->alias);
                         $new_request['property'][$property->id]['max']= $request->input($property->alias);
                     }
                 }else if ($property->getInputType() == 'select'){
                     $variants = $property->variants()->where('value','LIKE','%'.$request->input($property->alias).'%')->get();
                     $new_request['property'][$property->id] = $variants->pluck('id')->toArray();
-                     $filter .= ' - '.$request->input($property->alias).', ';
+                     $filter .= ' - '.$request->input($property->alias).' ';
                 }else{
                       $new_request['property'][$property->id][] = $request->input($property->alias);
-                      $filter .= ' - '.$request->input($property->alias).', ';
+                      $filter .= ' - '.$request->input($property->alias).' ';
                 }
                 
              }
@@ -136,6 +136,9 @@ class ProductsController extends Controller
             $category = $category = \App\Category::first();
             $products = $category->products()->paginate(6);
         }
+        if ($request->has('popular')){
+             $filter .= 'Популярные ';
+        }
        
        $products = $products->appends($old_inputs);
            return view('products.alias',  compact('products','news','category','filter'));
@@ -150,26 +153,69 @@ class ProductsController extends Controller
         }else{
             $products_query = Product::select();
         }
+       
         if ($request->has('price_original')){
              $products_query = $products_query->whereBetween('price_original', [$ia['price_original']['min'], $ia['price_original']['max']]);
         }
+          
         if ($request->has('popular')){
            $products_query = $products_query->where('popular','=',1); 
         }
+       
         if ($request->has('property')){
             
             foreach($ia['property'] as $property_id => $value ){
-                
+               
                 $property = \App\Models\Catalog\Property::find($property_id);
                 
                 if ($property->getInputType() == 'number' || $property->getInputType() == 'float' ){
                     
                     $Model = $property->value_type;
-                    $ids = $Model::where('property_id',$property->id)->whereBetween('value',[$value['min'],$value['max']])->get()->pluck('product_id')->toArray();
+                    $ids = $Model::where('property_id',$property->id)
+                            ->whereBetween('value',[$value['min'],$value['max']])
+                            ->orWhere('value',null)
+                            ->get()
+                            ->pluck('product_id')
+                            ->toArray();
+                    //Empty properties problem bicycle
+                    $tmp = clone $products_query;
+                    $has_ids = $Model::where('category_id',$request->input('category'))->where('property_id',$property->id)->get()->pluck('product_id')->toArray();
+                    $empty_ids = $tmp
+                           ->whereNotIn('id',$has_ids)
+                            ->get()
+                            ->pluck('id')
+                            ->toArray();
+        
+                   $ids = array_merge ($ids,$empty_ids);
+                      
+                    //end bicycle
+                         
+                  
+                     
                     $products_query = $products_query->whereIn('id',$ids);
                 }else{
                     $Model = $property->value_type;
-                    $ids = $Model::where('property_id',$property->id)->whereIn('value',$value)->get()->pluck('product_id')->toArray();
+                    $ids = $Model::where('property_id',$property->id)
+                            ->whereIn('value',$value)
+                            ->orWhere('value',null)
+                            ->get()
+                            ->pluck('product_id')
+                            ->toArray();
+                    
+                  
+                     //Empty properties problem bicycle
+                    $tmp = clone $products_query;
+                    $has_ids = $Model::where('category_id',$request->input('category'))->where('property_id',$property->id)->get()->pluck('product_id')->toArray();
+                    $empty_ids = $tmp
+                           ->whereNotIn('id',$has_ids)
+                            ->get()
+                            ->pluck('id')
+                            ->toArray();
+        
+                   $ids = array_merge ($ids,$empty_ids);
+                      
+                    //end bicycle
+                     
                     $products_query = $products_query->whereIn('id',$ids);
                 }
               

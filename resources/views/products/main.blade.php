@@ -87,8 +87,15 @@
 						</div>
 						<div class="uk-card-body uk-text-center">
 							<h3 class="uk-card-title"><a href="{{route('products-show',$product)}}">{{$product->title}}</a></h3>
-							<p class="price">Цена: <span class="dark-green">{{$product->price_original}}<span> р.</p>
-                                                           <form id="cart{{$product->id}}" class="add-cart" action="javascript:void(null);" onsubmit="cart_add({{$product->id}})">
+							            
+                                                         @if($product->price_sale == null)
+                                                            <p class="price">Цена: <span class="dark-green">{{$product->price_original}}<span> р.</p>
+                                                         @else
+                                                            <p class="price">Цена: <span class="dark-green"><del>{{$product->price_original}}</del> <span> р.</p>
+                                                             <p class="price">Акция: <span class="dark-green">{{$product->price_sale}}<span> р.</p>
+                                                         @endif
+                                                         
+                                                                    <form id="cart{{$product->id}}" class="add-cart" action="javascript:void(null);" onsubmit="cart_add({{$product->id}})">
                                                               
                                                                <p><input type="submit" value="{{Session::has('cart.'.$product->id)?'В корзине':'Добавить'}}"></p>
 							 </form>

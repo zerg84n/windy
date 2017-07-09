@@ -46,6 +46,34 @@
                 <div  class="green uk-width-3-4 content" >
                     
 			
+			<div class="sort">
+			<div class="uk-column-1-3 uk-column-divider">
+				
+                                  @php
+                                    $input = Request::all();
+                                   if (Request::has('popular')){
+
+                                       unset($input['popular']);
+
+                                   } else {
+                                       $input['popular'] = 1;
+                                   }
+                                 
+                                 @endphp
+                                 <div>Сортировать по цене: 
+                                     <a href="{{route('products-catalog-alias',array_merge(Request::all(),['sort'=>'desc']))}}" uk-icon="icon: arrow-down"></a> 
+                                     <a href="{{route('products-catalog-alias',array_merge(Request::all(),['sort'=>'asc']))}}" uk-icon="icon: arrow-up"></a>
+                                 </div>
+                                <div>
+                                    @if (Request::has('popular'))
+                                        <a href="{{route('products-catalog-alias',array_merge($input,['page'=>1]))}}">Все</a>
+                                    @else
+                                    <a href="{{route('products-catalog-alias',array_merge($input,['page'=>1]))}}">Только популярные</a>
+                                    @endif
+                                </div>
+				
+			</div>
+			</div>
 			
                   <div id="products-wrapper" >  
                       @include('products.partials.products')
@@ -113,7 +141,9 @@
             });
       $('#popular-filter').change( function() {
                
-                    loadData();
+            
+                
+                window.location = "{{route('products-catalog-alias',$input)}}";
                    
                    
                
