@@ -14,7 +14,8 @@
 			<form id="form-filter" class="filter-form">
                                 {!! csrf_field() !!}
                                 <input  name="category" type="hidden"  @if(!$category) disabled  @endif   value="{{$category?$category->id:''}}">
-				<p>Цена</p>
+                                <input id="sort-price" type="hidden"/>
+                               <p>Цена</p>
                                 <input name="price_original[min]" type="hidden" id="price_original_min" readonly>
                                 <input name="price_original[max]" type="hidden" id="price_original_max" readonly>
                                 <input class="no-border"  type="text" id="price_original_range" readonly>
@@ -40,8 +41,9 @@
                                    @elseif($property->getInputType()=='checkbox')
                                    <p>{{$property->title}}</p>
                                     <ul>
+                                       
                                         @foreach($property->getRange() as $value)
-                                        <li><input class="uk-checkbox" type="checkbox" name="property[{{$property->id}}][]" value="{{$value->value}}">{{$value->value?"Есть":"Нет"}}</li>
+                                        <li><input class="uk-checkbox" type="checkbox" name="property[{{$property->id}}][]" value="{{$value->getOriginal('value')?$value->getOriginal('value'):'0'}}">{{$value->value}}</li>
                                         @endforeach
 
                                     </ul>
@@ -56,10 +58,9 @@
 			</form>
 		</div>
 			<p class="title">Контактная информация</p>
-			<p>+7 (812) 123-45-78</p>
-			<p>info@wendy.ru </p>
+				<p>+7 (812) 926-53-82</p><p>info@windytech.ru</p>
 			<p>Мы работаем для Вас:<br>
-			ПН-ПТ: 08:00 - 18:00<br>СБ: 10:00 - 16:00 </p>
+			ПН-ПТ: с 10:00 до 18:00</p>
 		</div>
                 <div  class="green uk-width-3-4 content" >
                     
@@ -82,7 +83,7 @@
 @endsection
 
 @section('scripts') 
-    <script src="/js/ini.js"></script>
+    
     <script src="/js/uikit-icons.min.js"></script>
     <script>
          window.route_add_to_cart = '{{ route('products-cart-add') }}';
@@ -145,9 +146,15 @@
             
      $( function() {
                   @php
-                 
-                    $min = 0;
-                    $max = $products->max('price_original');
+                  //min-max price fix
+                    if ($category){
+                        $all_products = $category->products;
+                    } else {
+                       $all_products = App\Product::all();
+                    }
+                    $min = $all_products->min('price_original');
+                    $max = $all_products->max('price_original');
+                    //end fix
                   @endphp
                   $( "#slider-range-price_original" ).slider({
                       range: true,
@@ -209,7 +216,12 @@
   $('.uk-pagination a').click( function(e){
 			e.preventDefault();
 			var page = $(this).attr('href').split('page=')[1];
-			loadData('desc',page);
+                        if ($('#sort-price').val()){
+                            loadData($('#sort-price').val(),page);
+                        } else {
+                             loadData(false,page);
+                        }
+			
 			//location.hash = page;
                         console.log(page);
                         
@@ -220,6 +232,7 @@
         var fields = $('#form-filter').serialize();
         if (sortBy){
             fields = fields+"&sort="+sortBy;
+            $('#sort-price').val(sortBy);
         }
          if (page){
             fields = fields+"&page="+page;
@@ -244,7 +257,11 @@
                  $('.uk-pagination a').click( function(e){
 			e.preventDefault();
 			var page = $(this).attr('href').split('page=')[1];
-			loadData('desc',page);
+			if ($('#sort-price').val()){
+                            loadData($('#sort-price').val(),page);
+                        } else {
+                             loadData(false,page);
+                        }
 			//location.hash = page;
                         console.log(page);
                         

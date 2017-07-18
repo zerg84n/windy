@@ -64,7 +64,7 @@ class AppMailer
     
          public  function orderCall($name, $phone)
     {
-        $this->to = 'zerg84n@gmail.com';  
+        $this->to = 'info@windytech.ru';  
         $this->view = 'emails.call_order';
       
         $this->subject = 'Заказан обратный звонок.';

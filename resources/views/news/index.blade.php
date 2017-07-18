@@ -8,10 +8,9 @@
 	<div class="uk-grid">
 		<div class="uk-width-1-4 left-col" >
 		<p class="title">Контактная информация</p>
-		<p>+7 (812) 123-45-78</p>
-		<p>info@wendy.ru </p>
-		<p>Мы работаем для Вас:<br>
-		ПН-ПТ: 08:00 - 18:00<br>СБ: 10:00 - 16:00 </p>
+				<p>+7 (812) 926-53-82</p><p>info@windytech.ru</p>
+			<p>Мы работаем для Вас:<br>
+			ПН-ПТ: с 10:00 до 18:00</p>
 		</div>
            <div class='green uk-width-3-4 content'><p class="title">Новости</p>   
           <div class="uk-child-width-1-2@m  uk-grid-small uk-grid-match uk-grid news-page"> 

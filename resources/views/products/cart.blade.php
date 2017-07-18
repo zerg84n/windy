@@ -38,11 +38,11 @@
 		</div>
                 @endforeach
 		<a class="all-news uk-align-right" href="{{route('news-index')}}">Все новости</a>
+		
 		<p class="title">Контактная информация</p>
-		<p>+7 (812) 123-45-78</p>
-		<p>info@wendy.ru </p>
-		<p>Мы работаем для Вас:<br>
-		ПН-ПТ: 08:00 - 18:00<br>СБ: 10:00 - 16:00 </p>
+				<p>+7 (812) 926-53-82</p><p>info@windytech.ru</p>
+			<p>Мы работаем для Вас:<br>
+			ПН-ПТ: с 10:00 до 18:00</p>
 		</div>
 		<div class="uk-width-3-4 content" ><p class="title">Корзина</p>
                     @if ($products->count()>0)
@@ -123,7 +123,7 @@
 				<p><span>Адрес</span> <input type="text" name="address" required  class="uk-input uk-form-width-medium uk-form-small"></p>
                                 
 				
-				<p><span>Удобное время</span></p>
+				<p><span>Доставка с 10:00 до 18:00, иное время согласуется индивидуально при оформлении заказа</span></p>
 				<div class="clockpicker" data-placement="left" data-align="top" data-autoclose="true" style="display: inline-block;">
                                     <input name="time" type="text" class="uk-input uk-form-width-medium uk-form-small" value="13:14">
 					<span class="input-group-addon">
@@ -142,8 +142,8 @@
 			<p class="cart-title">Оплата</p> 
 				<p><span>Способ оплаты</span>
                                     <select name="payment_type" class="uk-select">
-                                        <option value="0">Картой</option>
-                                        <option value="1">Наличными курьеру</option>
+                                        <option value="Картой">Картой</option>
+                                        <option value="Наличными курьеру">Наличными курьеру</option>
 				</select></p>
 				<p>
                                    

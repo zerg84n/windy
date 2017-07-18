@@ -45,6 +45,22 @@ class Order extends Model
             $this->attributes['time'] = null;
         }
     }
+    
+    public function setSuccessStatus(){
+        $this->status = 'success';
+        $this->save();
+    }
+    
+    
+    public function setFailStatus() {
+        $this->status = 'failed';
+        $this->save();
+    }
+
+    public function isSuccess(){
+        return $this->getOriginal('status') == "success";
+    }
+    
 
     /**
      * Get attribute from date format
@@ -59,6 +75,20 @@ class Order extends Model
         } else {
             return '';
         }
+    }
+    public function getStatusAttribute($input)
+    {
+        switch ($input) {
+                case 'waiting':
+                    return 'Ожидание оплаты';
+                case 'success':
+                    return 'Оплачен';
+                case 'failed':
+                    return 'Ошибка оплаты';
+                  
+                default:
+                  return 'неизвестный';   
+            }
     }
     
      public function products()

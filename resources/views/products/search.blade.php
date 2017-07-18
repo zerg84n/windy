@@ -40,7 +40,7 @@
 		<p>+7 (812) 123-45-78</p>
 		<p>info@wendy.ru </p>
 		<p>Мы работаем для Вас:<br>
-		ПН-ПТ: 08:00 - 18:00<br>СБ: 10:00 - 16:00 </p>
+			ПН-ПТ: с 10:00 до 18:00</p>
 		</div>
 		<div class="green uk-width-3-4 content" ><p class="title">Результаты поиска</p>
 			<div class="last uk-child-width-1-3@m  uk-grid-small uk-grid-match uk-grid" >

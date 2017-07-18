@@ -32,7 +32,7 @@
                                                             <p class="price">Цена: <span class="dark-green">{{$product->price_original}}<span> р.</p>
                                                          @else
                                                             <p class="price">Цена: <span class="dark-green"><del>{{$product->price_original}}</del> <span> р.</p>
-                                                             <p class="price">Акция: <span class="dark-green">{{$product->price_sale}}<span> р.</p>
+                                                             <p class="price-sale">Акция: <span>{{$product->price_sale}}<span> р.</p>
                                                          @endif
                                                            <form id="cart{{$product->id}}" class="add-cart" action="javascript:void(null);" onsubmit="cart_add({{$product->id}})">
                                                               

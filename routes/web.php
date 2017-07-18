@@ -46,6 +46,11 @@ $this->get('call', 'MailController@call_order')->name('mail-call_order');
  Route::get('/cart/del', ['as'=>'products-cart-del','uses'=>'Front\CartController@cart_del']);
  Route::post('/cart', ['as'=>'products-cart-store','uses'=>'Front\CartController@store']);
  
+ //Payments
+ Route::get('/payment/result', ['as'=>'payment-result','uses'=>'Front\CartController@result']);
+ Route::get('/payment/success', ['as'=>'payment-success','uses'=>'Front\CartController@success']);
+ Route::get('/payment/fail', ['as'=>'payment-fail','uses'=>'Front\CartController@fail']);
+ 
 
 //Admin part
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {

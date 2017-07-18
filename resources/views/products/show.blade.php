@@ -99,16 +99,15 @@
 			</div>
 			<div class="card-info uk-grid-small">
 			<ul uk-tab>
-			<li class="uk-active"><a href="">Описание</a></li>
-				<li><a href="">Технические характеристики</a></li>
+				<li><a href="" class="uk-active">Описание</a></li>
+				<li ><a href="">Технические характеристики</a></li>
 				
 				<li><a href="">Отзывы</a></li>
 			</ul>
 			<ul class="uk-switcher uk-margin uk-padding-small">
-			<li class="uk-active">
-                                    {{$product->description}}
+			<li>             {!!$product->description!!}
                                 </li>
-			<li class="uk-column-1-2 charakter">
+			<li class="uk-active uk-column-1-2 charakter">
                              @foreach($product->values() as $property_value_model)
 					<p>{{$property_value_model->property->title}}: <span>{{$property_value_model->value}}</span></p>
                              @endforeach
