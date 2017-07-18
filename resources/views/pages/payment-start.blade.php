@@ -40,9 +40,10 @@
                                  {{$product->pivot->count}}
                                  </td>
                                  <td>
-                                 {{$product->pivot->count*$product->getCurrentPrice()}} р.
+                                  {{$product->pivot->count*$product->getCurrentPrice()}} р.
                                  @php
                                     $total += $product->pivot->count*$product->getCurrentPrice();
+
                                 @endphp
                                  </td>
                              </tr>
@@ -51,7 +52,9 @@
                             К оплате:
                         </td>
                         <td colspan="3">
+
                             {{$total + Config::get('site.delivery_price')}} р. (С учетом доставки)
+
                         </td>
                         </tbody>
                     </table>
@@ -61,6 +64,7 @@
                 $inv_id = $order->id;
                 $inv_desc = "Оплата заказа №".$order->id;
                 $def_sum = $total + Config::get('site.delivery_price');
+
                 $crc = md5("$mrh_login::$inv_id:$mrh_pass1");
                
             @endphp

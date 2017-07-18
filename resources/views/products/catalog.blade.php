@@ -58,10 +58,9 @@
 			</form>
 		</div>
 			<p class="title">Контактная информация</p>
-			<p>+7 (812) 123-45-78</p>
-			<p>info@wendy.ru </p>
+				<p>+7 (812) 926-53-82</p><p>info@windytech.ru</p>
 			<p>Мы работаем для Вас:<br>
-			ПН-ПТ: 08:00 - 18:00<br>СБ: 10:00 - 16:00 </p>
+			ПН-ПТ: с 10:00 до 18:00</p>
 		</div>
                 <div  class="green uk-width-3-4 content" >
                     
@@ -84,7 +83,7 @@
 @endsection
 
 @section('scripts') 
-    <script src="/js/ini.js"></script>
+    
     <script src="/js/uikit-icons.min.js"></script>
     <script>
          window.route_add_to_cart = '{{ route('products-cart-add') }}';

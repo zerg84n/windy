@@ -77,7 +77,7 @@
 					</ul>
                                     @endif
 					<div class="uk-grid">
-						<div class="green uk-width-1-3"><img src="/img/phone.png"> 8 800 999999</div>
+						<div class="green uk-width-1-3"><img src="/img/phone.png"> +7 (812) 926-53-82</div>
 						<div class="green uk-width-1-3"><img src="/img/mail.png"> info@windytech.ru</div>
 						<div class="uk-width-1-3">
                                                     <form action="{{route('products-search')}}" method="GET" class="search">
@@ -124,7 +124,7 @@
 	<div class="uk-container">
 		<div class="uk-grid">
 			<div class="uk-width-1-2 uk-text-left footer-left">
-				<div><p>Посоветовать другу</p>
+				<div><p>Посоветовать другу:</p>
 					<script type="text/javascript">(function() {
                                     if (window.pluso)if (typeof window.pluso.start == "function") return;
                                     if (window.ifpluso==undefined) { window.ifpluso = 1;
@@ -137,7 +137,9 @@
                           <div class="pluso" style="vertical-align: middle" data-background="transparent" data-options="medium,square,line,horizontal,nocounter,theme=04" data-services="vkontakte,facebook"></div>
 			
                                 </div>
-				<div><img src="/img/pay.png" class="uk-text-bottom"></div>
+				<div>
+				<p>Способы оплаты:</p>
+				<br><img src="/img/pay.png" class="uk-text-bottom"></div>
 				<p class="copyright">Интернет-магазин (c) 2017 г.Санкт-Петербург</p>
 			</div>
 			<div class="uk-width-1-4 uk-text-left f-right">
@@ -154,9 +156,9 @@
 			</div>
 			<div class="uk-width-1-4 uk-text-left f-right">
 			<p class="green">Контактная информация</p>
-				+7 (812) 123-45-78<br>info@windy.ru <br>Мы работаем для Вас:<br>
-				ПН-ПТ: 08:00 - 18:00<br>СБ: 10:00 - 16:00
-				
+				<br>+7 (812) 926-53-82<br>info@windytech.ru<br>
+				<p>Мы работаем для Вас:<br>
+			ПН-ПТ: с 10:00 до 18:00</p>
 			</div>
 		</div>
 	</div>
