@@ -87,9 +87,9 @@
                                  {{$product->pivot->count}}
                                  </td>
                                  <td>
-                                 {{$product->pivot->count*$product->price_original}} р.
+                                 {{$product->pivot->count*$product->getCurrentPrice()}} р.
                                  @php
-                                    $total += $product->pivot->count*$product->price_original;
+                                    $total += $product->pivot->count*$product->getCurrentPrice();
                                 @endphp
                                  </td>
                              </tr>
@@ -98,7 +98,7 @@
                             Итого:
                         </td>
                         <td colspan="3">
-                            {{$total}} р.
+                            {{$total }} р. + Доставка {{Config::get('site.delivery_price')}} р. = {{ $total+Config::get('site.delivery_price')}} р.
                         </td>
                         </tbody>
                     </table>

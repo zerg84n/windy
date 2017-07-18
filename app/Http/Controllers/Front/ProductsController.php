@@ -223,6 +223,9 @@ class ProductsController extends Controller
         }
           if ($request->has('sort')){
             $products_query = $products_query->orderBy('price_original',$request->input('sort'));
+        } else {
+            
+            $products_query = $products_query->orderBy('id','desc');
         }
         return $products_query;
         

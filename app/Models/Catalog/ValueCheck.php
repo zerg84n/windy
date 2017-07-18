@@ -20,7 +20,12 @@ class ValueCheck extends Model
     }
        public function getValueAttribute($value)
     {
-       return $value;
+           if ($value == 1){
+               return "Да";
+           } else {
+              return "Нет"; 
+           }
+       
     }
     
        public function property()

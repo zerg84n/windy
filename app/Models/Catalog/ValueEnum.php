@@ -22,7 +22,12 @@ class ValueEnum extends Model
       public function getValueAttribute($value)
     {
          if ($value){
-            return Variant::find($value)->value;
+             if (Variant::find($value)){
+                 return Variant::find($value)->value;
+             } else {
+                 return null;
+             }
+            
          } else {
              return null;
          }

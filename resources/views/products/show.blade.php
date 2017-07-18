@@ -110,7 +110,7 @@
                              @endforeach
 			</li>
 				<li>Описание:<br>
-                                    {{$product->description}}
+                                    {!!$product->description!!}
                                 </li>
 				<li class="">
 				<div class="uk-column-1-2">

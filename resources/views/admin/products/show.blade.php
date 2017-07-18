@@ -14,7 +14,7 @@
                     <table class="table table-bordered table-striped">
                         <tr>
                             <th>@lang('quickadmin.products.fields.description')</th>
-                            <td>{{ $product->description }}</td>
+                            <td>{!! $product->description !!}</td>
                         </tr>
                         <tr>
                             <th>@lang('quickadmin.products.fields.price-original')</th>

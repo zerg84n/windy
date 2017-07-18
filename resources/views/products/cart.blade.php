@@ -62,17 +62,17 @@
                                 @endphp
                                 @foreach($products as $product)
                                 @php
-                                    $total += $product->price_original* $cart[$product->id];
+                                    $total += $product->getCurrentPrice()* $cart[$product->id];
                                 @endphp
 				<tr id="product{{$product->id}}">
                                     
 					<td><img src="/cat-img/8814-pw.jpg" alt=""></td>
-					<td><a href="#">{{$product->title}}</a></td>
-					<td>{{$product->price_original}}</td>
+					<td><a href="{{route('products-show',$product)}}">{{$product->title}}</a></td>
+					<td>{{$product->getCurrentPrice()}}</td>
 					<td>
-                                            <input data-id="{{$product->id}}" data-price="{{$product->price_original}}" type="number" name="product_count[{{$product->id}}]" value="{{$cart[$product->id]}}" min="1" max="100" class="product-count uk-form-width-mini uk-form-small">
+                                            <input data-id="{{$product->id}}" data-price="{{$product->getCurrentPrice()}}" type="number" name="product_count[{{$product->id}}]" value="{{$cart[$product->id]}}" min="1" max="100" class="product-count uk-form-width-mini uk-form-small">
 					</td>
-					<td id="price{{$product->id}}">{{$product->price_original*$cart[$product->id]}}</td>
+					<td id="price{{$product->id}}">{{$product->getCurrentPrice()*$cart[$product->id]}}</td>
 					<td>
                                             <a  data-id="{{$product->id}}" class="remove-product" href="javascript:void(0)" uk-icon="icon: close"></a>
 					</td>
@@ -118,7 +118,7 @@
 		
                         <p><label><input class="uk-radio" type="hidden" name="delivery" value="0" id="vivoz" disabled ></label></p>
 				<p><label>
-                                        <input class="uk-radio" type="radio" name="delivery" value="1" id="dostavka" checked> Доставка по Санкт-Петербургу (390 р.)</label></p>
+                                        <input class="uk-radio" type="radio" name="delivery" value="1" id="dostavka" checked> Доставка по Санкт-Петербургу ({{Config::get('site.delivery_price')}} р.)</label></p>
 				<div class="dostavka">
 				<p><span>Адрес</span> <input type="text" name="address" required  class="uk-input uk-form-width-medium uk-form-small"></p>
                                 
@@ -142,8 +142,8 @@
 			<p class="cart-title">Оплата</p> 
 				<p><span>Способ оплаты</span>
                                     <select name="payment_type" class="uk-select">
-                                        <option value="0">Картой</option>
-                                        <option value="1">Наличными курьеру</option>
+                                        <option value="Картой">Картой</option>
+                                        <option value="Наличными курьеру">Наличными курьеру</option>
 				</select></p>
 				<p>
                                    

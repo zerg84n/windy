@@ -85,6 +85,10 @@ class Product extends Model implements HasMedia
         $value_model->save();
         
     }
+    public function getCurrentPrice() {
+        
+        return $this->price_sale?$this->price_sale:$this->price_original;
+    }
     
     public function getPropertyValue($property_id) {
         

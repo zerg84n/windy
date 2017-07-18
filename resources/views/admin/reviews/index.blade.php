@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <h3 class="page-title">@lang('quickadmin.reviews.title')</h3>
     @can('review_create')
     <p>
@@ -38,7 +39,7 @@
                                 @endcan
 
                                 <td>{{ $review->name }}</td>
-                                <td><a href="{{route('products-show',$review->product)}}" target="_blank">{{ $review->product->title }}</a></td>
+                                <td><a href="{{route('products-show',$review->product)}}" target="_blank">{{ $review->product?$review->product->title:'' }}</a></td>
                                 <td>{{ Form::checkbox("published", 1, $review->published == 1 ? true : false, ["disabled"]) }}</td>
                                 <td>
                                     @can('review_view')
