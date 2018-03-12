@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('quickadmin.products.title')</h3>
-
+    <h3 class="page-title">@lang('quickadmin.products.title') </h3>
+    
     <div class="panel panel-default">
         <div class="panel-heading">
             @lang('quickadmin.qa_view')
@@ -15,6 +15,14 @@
                         <tr>
                             <th>@lang('quickadmin.products.fields.description')</th>
                             <td>{!! $product->description !!}</td>
+                        </tr>
+                        <tr>
+                            <th>Артикул</th>
+                            <td>{{ $product->articul or 'Не заполнено' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Производитель</th>
+                            <td>{{ $product->brand->title or '' }}</td>
                         </tr>
                         <tr>
                             <th>@lang('quickadmin.products.fields.price-original')</th>

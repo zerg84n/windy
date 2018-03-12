@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Product;
+use Config;
 
 /**
  * Class Order
@@ -28,7 +29,7 @@ class Order extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'email', 'phone', 'delivery', 'address', 'time', 'payment_type', 'is_ur', 'attachment', 'ur_name', 'ur_inn', 'ur_nls', 'status'];
+    protected $fillable = ['name', 'email', 'phone', 'delivery', 'address', 'time', 'payment_type', 'is_ur', 'attachment', 'ur_name', 'ur_inn', 'ur_nls', 'comment', 'status'];
     
 
     public static $enum_status = ["waiting" => "Ожидание оплаты", "success" => "Оплачен", "failed" => "Не оплачен"];
@@ -60,7 +61,18 @@ class Order extends Model
     public function isSuccess(){
         return $this->getOriginal('status') == "success";
     }
-    
+    public function getFullSum() {
+        $total = 0;
+         foreach($this->products as $product)
+         {
+          $total += $product->pivot->count*$product->getCurrentPrice();
+        }
+        if ($total < Config::get('site.free_delivery_sum')&&$this->delivery==1){
+            $total+=Config::get('site.delivery_price');
+        }
+        return $total;
+        
+    }
 
     /**
      * Get attribute from date format
@@ -72,6 +84,15 @@ class Order extends Model
     {
         if ($input != null && $input != '') {
             return Carbon::createFromFormat('H:i:s', $input)->format('H:i');
+        } else {
+            return '';
+        }
+    }
+    
+    public function getCreatedAtAttribute($input) {
+       
+         if ($input != null && $input != '') {
+            return Carbon::createFromTimestamp(strtotime($input))->addHour(3);
         } else {
             return '';
         }

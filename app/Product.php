@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
-
+use App\Brand;
 /**
  * Class Product
  *
@@ -25,7 +25,8 @@ class Product extends Model implements HasMedia
 {
     use SoftDeletes, HasMediaTrait;
 
-    protected $fillable = ['title', 'description', 'price_original', 'price_sale', 'status', 'amount', 'popular', 'photos', 'category_id'];
+    protected $fillable = ['title', 'articul', 'description', 'price_original',
+        'price_sale', 'status', 'amount', 'popular', 'photos', 'category_id','brand_id'];
     
 
     /**
@@ -152,10 +153,16 @@ class Product extends Model implements HasMedia
         public function reviews() {
         return $this->hasMany(Review::class, 'product_id');
     }
+         public function brand() {
+        return $this->belongsTo(Brand::class, 'brand_id');
+    }
     
     public function products() {
          return $this->belongsToMany(Product::class, 'product_product','owner_id','child_id');
     }
+    
+    
+   
    
     
 }

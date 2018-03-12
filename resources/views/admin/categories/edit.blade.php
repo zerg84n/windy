@@ -12,13 +12,34 @@
 
         <div class="panel-body">
             <div class="row">
-                <div class="col-xs-12 form-group">
+                <div class="col-xs-6 form-group">
                     {!! Form::label('title', 'Название*', ['class' => 'control-label']) !!}
                     {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('title'))
                         <p class="help-block">
                             {{ $errors->first('title') }}
+                        </p>
+                    @endif
+                </div>
+            
+                <div class="col-xs-4 form-group">
+                    {!! Form::label('slug', 'Алиас*', ['class' => 'control-label']) !!}
+                    {!! Form::text('slug', old('slug'), ['class' => 'form-control', 'placeholder' => 'Для формирования Url', 'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('slug'))
+                        <p class="help-block">
+                            {{ $errors->first('slug') }}
+                        </p>
+                    @endif
+                </div>
+                   <div class="col-xs-2 form-group">
+                    {!! Form::label('articul_code', 'Код Артикула', ['class' => 'control-label']) !!}
+                    {!! Form::number('articul_code', old('articul_code'), ['class' => 'form-control', 'placeholder' => '2 знака', 'max'=>'99']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('articul_code'))
+                        <p class="help-block">
+                            {{ $errors->first('articul_code') }}
                         </p>
                     @endif
                 </div>
@@ -48,7 +69,18 @@
                     @endif
                 </div>
             </div>
-            
+                <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('menu_id', 'Меню', ['class' => 'control-label']) !!}
+                    {!! Form::select('menu_id', $menus, old('menu_id'), ['class' => 'form-control select2']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('menu_id'))
+                        <p class="help-block">
+                            {{ $errors->first('menu_id') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 

@@ -32,6 +32,12 @@
                                 </p>
                             @endforeach</td>
                         </tr>
+                        <tr>
+                            <th>Ссылка для изображения</th>
+                            <td>
+                                <a href="{{$news->image_url or '#'}}" target="_blank">{{$news->image_url or '#'}}</a>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>

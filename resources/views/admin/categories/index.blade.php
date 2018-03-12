@@ -22,6 +22,7 @@
                             <th style="text-align:center;"><input type="checkbox" id="select-all" /></th>
                         @endcan
                            <th>ID</th>
+                            <th>Slug</th>
                         <th>@lang('quickadmin.category.fields.title')</th>
                         <th>&nbsp;</th>
                     </tr>
@@ -35,6 +36,7 @@
                                     <td></td>
                                 @endcan
                                  <td>{{ $category->id }}</td>
+                                 <td>{{ $category->slug }}</td>
                                 <td>{{ $category->title }}</td>
                                 <td>
                                     @can('category_view')
@@ -64,6 +66,9 @@
             </table>
         </div>
     </div>
+    
+    
+
 @stop
 
 @section('javascript') 

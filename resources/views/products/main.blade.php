@@ -35,7 +35,11 @@
                         } 
                     @endphp
 			<div class="uk-card-media-left uk-cover-container uk-width-1-3  ">
-				<img src="{{$image_src or '#'}}" alt="" uk-cover>
+				@if($news->image_url)
+                                <a href="{{$news->image_url or '#'}}"><img src="{{$image_src or ''}}" alt=""></a>
+                                @else
+                                    <img src="{{$image_src or ''}}" alt="">
+                                @endif
 			</div>
 			<div class="uk-width-2-3">
 				<div class="uk-card-body">
@@ -51,12 +55,16 @@
                 @endforeach
                 <a class="all-news uk-align-right" href="{{route('news-index')}}">Все новости</a>
 		<p class="title">Контактная информация</p>
+		<p>8 (800) 200-63-71 - звонок по России бесплатный!</p>
+		<p>+7 (812) 667-86-97</p>
 		<p>+7 (812) 926-53-82</p>
 		<p>info@windytech.ru</p>
 			<p>Мы работаем для Вас:<br>
 			ПН-ПТ: с 10:00 до 18:00</p>
 		</div>
-		<div class="green uk-width-3-4 content" ><p class="title">Поcледние товары</p>
+		<div class="green uk-width-3-4 content" >
+		<div class="seo">           {!!$ceo_head_text or ''!!}</div>
+		<p class="title">Поcледние товары</p>
 			<div class="last uk-child-width-1-3@m  uk-grid-small uk-grid-match uk-grid" >
                          
 			@foreach($products as $product)
@@ -92,12 +100,12 @@
                                                             <p class="price">Цена: <span class="dark-green">{{$product->price_original}}<span> р.</p>
                                                          @else
                                                             <p class="price">Цена: <span class="dark-green"><del>{{$product->price_original}}</del> <span> р.</p>
-                                                             <p class="price">Акция: <span class="dark-green">{{$product->price_sale}}<span> р.</p>
+                                                             <p class="price-sale">Акция: <span class="">{{$product->price_sale}}<span> р.</p>
                                                          @endif
                                                          
-                                                                    <form id="cart{{$product->id}}" class="add-cart" action="javascript:void(null);" onsubmit="cart_add({{$product->id}})">
+                                                                    <form id="cart{{$product->id}}" data-title="{{$product->title}}" class="add-cart" action="javascript:void(null);" onsubmit="show_request_form({{$product->id}})">
                                                               
-                                                               <p><input type="submit" value="{{Session::has('cart.'.$product->id)?'В корзине':'Добавить'}}"></p>
+                                                               <p><input type="submit" value="@if(Session::has('exist.'.$product->id))Запрос отправлен@elseУточнить наличие@endif"></p>
 							 </form>
 						</div>
 					</div>
@@ -106,7 +114,7 @@
                         @endforeach
 				
 			</div>
-                    <a class="all-news uk-align-right" href="{{route('products-catalog')}}">Перейти в каталог</a>
+            <div class="seo">         {!!$ceo_foot_text or ''!!}     </div>         
 		</div>
 		</div>
 	</div>	
@@ -117,8 +125,21 @@
 <script src="/js/slideshow.js"></script>
 <script src="/js/slideshow-fx.js"></script>
   <script>
+      
+      var modal = UIkit.modal("#exist-modal-form");
+
+
          window.route_add_to_cart = '{{ route('products-cart-add') }}';
          window.route_del_from_cart = '{{ route('products-cart-del') }}';
+         
+       function show_request_form(id){
+           //
+           title = $("#cart"+id).data('title');
+           $('#product-title').html(title);
+           $('#exist-form-product').val(id);
+            modal.show();
+       }  
+         
        function cart_add(id) {
            
               var status = $('#cart'+id+' input').first().val();
@@ -128,13 +149,17 @@
                        $.get(window.route_add_to_cart,{ id: id})
                                .done(function( data ) {
                         $('#cart'+data.id+' input').first().val('В корзине');
-                        $('#cart_count').html(data.cart_size);
+                        $('.cart_counters').html(data.cart_size);
+                        $('#cart_title').addClass('cart_not_empty');
                       });
                     }else{
                         $.get(window.route_del_from_cart,{ id: id})
                                .done(function( data ) {
                         $('#cart'+data.id+' input').first().val('Добавить');
-                        $('#cart_count').html(data.cart_size);
+                        $('.cart_counters').html(data.cart_size);
+                        if (data.cart_size==0){
+                             $('#cart_title').removeClass('cart_not_empty');
+                        }
                       });
                     }
             }

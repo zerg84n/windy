@@ -17,16 +17,46 @@ class Category extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['title', 'description'];
+    protected $fillable = ['title', 'description','slug','menu_id','articul_code'];
     public $timestamps = false;
     
-      public function products()
+    public function getBrands(){
+        $brand_ids = Product::where('category_id',  $this->id)->get()->pluck('brand_id')->toArray();
+        $brands = Brand::whereIn('id',$brand_ids)->get();
+        return $brands;
+    }
+        public function getHitFirst()
     {
-        return $this->hasMany(Product::class)->orderBy('id','desc');
+        return $this->hasMany(Product::class)->orderBy('popular','desc');
+    }
+    
+    public function getArticulCodeAttribute($value){
+        
+        if($value){
+            return $value;
+        }
+        
+        if ($this->id<10){
+            return '00';
+        } else {
+            return $this->id;
+        }
+       
+        
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
       public function properties()
     {
         return $this->belongsToMany(Property::class);
+    }
+    
+       public function menu()
+    {
+        return $this->belongsTo(Menu::class, 'menu_id');
     }
     
 }

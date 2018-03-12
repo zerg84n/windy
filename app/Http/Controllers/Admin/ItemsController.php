@@ -55,7 +55,7 @@ class ItemsController extends Controller
         }
         $item = Item::create($request->all());
         $item->menus()->sync(array_filter((array)$request->input('menus')));
-
+        $item->parents()->sync(array_filter((array)$request->input('parents')));
 
 
         return redirect()->route('admin.items.index');
@@ -95,7 +95,7 @@ class ItemsController extends Controller
         $item = Item::findOrFail($id);
         $item->update($request->all());
         $item->menus()->sync(array_filter((array)$request->input('menus')));
-
+        $item->parents()->sync(array_filter((array)$request->input('parents')));
 
 
         return redirect()->route('admin.items.index');

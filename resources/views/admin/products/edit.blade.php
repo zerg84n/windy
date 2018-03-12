@@ -23,10 +23,34 @@
                     @endif
                 </div>
             </div>
+              <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('articul', 'Артикул*', ['class' => 'control-label']) !!}
+                    {!! Form::text('articul', old('articul'), ['class' => 'form-control', 'placeholder' => 'XX.XXX','required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('articul'))
+                        <p class="help-block">
+                            {{ $errors->first('articul') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+              <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('brand_id', 'Производитель*', ['class' => 'control-label']) !!}
+                    {!! Form::select('brand_id', $brands, old('brand_id'), ['class' => 'form-control select2', 'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('brand_id'))
+                        <p class="help-block">
+                            {{ $errors->first('brand_id') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('description', 'Описание', ['class' => 'control-label']) !!}
-                    {!! Form::text('description', old('description'), ['class' => 'form-control', 'placeholder' => '']) !!}
+                    {!! Form::textarea('description', old('description'), ['class' => 'form-control editor', 'placeholder' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('description'))
                         <p class="help-block">
@@ -62,7 +86,7 @@
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('category_id', 'Категория*', ['class' => 'control-label']) !!}
-                    {!! Form::select('category_id', $categories, old('category_id'), ['class' => 'form-control select2', 'required' => '']) !!}
+                    {!! Form::select('category_id', $categories, old('category_id'), ['class' => 'form-control select2', 'required' => '','readonly'=>'']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('category_id'))
                         <p class="help-block">
@@ -150,7 +174,7 @@
             
             @elseif($property_value->getType()=='checkbox')
                 {!! Form::hidden('property['.$property_value->property->id.']', 0) !!}
-                 {!! Form::checkbox('property['.$property_value->property->id.']', 1, $property_value->value, []) !!}
+                 {!! Form::checkbox('property['.$property_value->property->id.']', 1, $property_value->getOriginal('value'), []) !!}
             @endif
                </div>
         </div>
@@ -177,11 +201,24 @@
 
 @section('javascript')
     @parent
-
+	<script src="//cdn.ckeditor.com/4.5.4/full/ckeditor.js"></script>
+           
+    <script>
+        $('.editor').each(function () {
+                  CKEDITOR.replace($(this).attr('id'),{
+                    filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+                    filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token={{csrf_token()}}',
+                    filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+                    filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token={{csrf_token()}}'
+            });
+        });
+    </script>
     <script src="{{ asset('quickadmin/plugins/fileUpload/js/jquery.iframe-transport.js') }}"></script>
     <script src="{{ asset('quickadmin/plugins/fileUpload/js/jquery.fileupload.js') }}"></script>
+    <script src="/js/masked_input.js"></script>
     <script>
         $(function () {
+             $("#articul").mask("99.999",{placeholder:"__.___"});
             $('.file-upload').each(function () {
                 var $this = $(this);
                 var $parent = $(this).parent();

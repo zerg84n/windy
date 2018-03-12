@@ -65,7 +65,13 @@
                     <div>
                         <label>
                             {!! Form::radio('delivery', '1', false, []) !!}
-                            Доставка
+                            Доставка по СПб
+                        </label>
+                    </div>
+                      <div>
+                        <label>
+                            {!! Form::radio('delivery', '2', false, []) !!}
+                            Доставка по России
                         </label>
                     </div>
                     
@@ -107,14 +113,20 @@
                     @endif
                     <div>
                         <label>
-                            {!! Form::radio('payment_type', '0', false, []) !!}
+                            {!! Form::radio('payment_type', 'Картой', $order->payment_type=='Картой', []) !!}
                             По карте
                         </label>
                     </div>
                     <div>
                         <label>
-                            {!! Form::radio('payment_type', '1', false, []) !!}
+                            {!! Form::radio('payment_type', 'Наличными курьеру', $order->payment_type=='Наличными курьеру', []) !!}
                             Наличными курьеру
+                        </label>
+                    </div>
+                      <div>
+                        <label>
+                            {!! Form::radio('payment_type', 'По счету', $order->payment_type=='По счету', []) !!}
+                            По счету
                         </label>
                     </div>
                     
@@ -157,6 +169,19 @@
                     @if($errors->has('ur_name'))
                         <p class="help-block">
                             {{ $errors->first('ur_name') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+            
+             <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('comment', 'Комментарий покупателя', ['class' => 'control-label']) !!}
+                    {!! Form::textarea('comment', old('comment'), ['class' => 'form-control', 'placeholder' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('comment'))
+                        <p class="help-block">
+                            {{ $errors->first('comment') }}
                         </p>
                     @endif
                 </div>

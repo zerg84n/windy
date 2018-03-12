@@ -230,6 +230,39 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('order_delete', function ($user) {
             return in_array($user->role_id, [1, 2]);
         });
-
+         // Auth gates for: Brands
+        Gate::define('brand_access', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('brand_create', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('brand_edit', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('brand_view', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('brand_delete', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        
+        
+         // Auth gates for: Filters
+        Gate::define('filter_access', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('filter_create', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('filter_edit', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('filter_view', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('filter_delete', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
     }
 }

@@ -17,4 +17,9 @@
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+	
+	# Rewrite secure requests properly to prevent SSL cert warnings, e.g. prevent 
+# https://www.domain.com when your cert only allows https://secure.domain.com
+#RewriteCond %{SERVER_PORT} !^443
+#RewriteRule (.*) https://windytech.ru/$1 [R=301,L]
 </IfModule>

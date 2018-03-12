@@ -16,12 +16,14 @@
                         @can('order_delete')
                             <th style="text-align:center;"><input type="checkbox" id="select-all" /></th>
                         @endcan
-
+                        <th>Номер заказа</th>
                         <th>@lang('quickadmin.order.fields.name')</th>
+                        
                         <th>@lang('quickadmin.order.fields.email')</th>
                         <th>@lang('quickadmin.order.fields.phone')</th>
                         <th>@lang('quickadmin.order.fields.address')</th>
                         <th>@lang('quickadmin.order.fields.status')</th>
+                         <th>Дата заказа</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -33,12 +35,16 @@
                                 @can('order_delete')
                                     <td></td>
                                 @endcan
-
+                                 <td>{{ $order->id }}</td>
                                 <td>{{ $order->name }}</td>
                                 <td>{{ $order->email }}</td>
                                 <td>{{ $order->phone }}</td>
                                 <td>{{ $order->address }}</td>
                                 <td>{{ $order->status }}</td>
+                                @php
+                                    dd($order->created_at);
+                                @endphp
+                                  <td>{{ $order->created_at }}</td>
                                 <td>
                                     @can('order_view')
                                     <a href="{{ route('admin.orders.show',[$order->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>

@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreProductsRequest;
 use App\Http\Requests\Admin\UpdateProductsRequest;
 use App\Http\Controllers\Traits\FileUploadTrait;
-
+use App\Category;
 class ProductsController extends Controller
 {
     use FileUploadTrait;
@@ -26,8 +26,8 @@ class ProductsController extends Controller
         }
 
         $products = Product::all();
-
-        return view('admin.products.index', compact('products'));
+        $categories = Category::get()->pluck('title', 'title');
+        return view('admin.products.index', compact('products','categories'));
     }
 
     /**
@@ -40,19 +40,49 @@ class ProductsController extends Controller
         if (! Gate::allows('product_create')) {
             return abort(401);
         }
-        $categories = \App\Category::get()->pluck('title', 'id')->prepend('Выберите категорию', '');
+        $categories = Category::get();
+        $categories_size_array = [];
+        
        
-
-        return view('admin.products.create', compact('categories', 'specifications'));
-    }
-      public function createProperties(Product $product)
-    {
-        if (! Gate::allows('product_create')) {
-            return abort(401);
+        foreach ($categories as $category){
+            $count = $category->products->count()+100;
+            $articul = (string) $category->articul_code.'.'.$count;
+          
+       
+            srand();
+            while(Product::where('articul','=',$articul)->count()>0){
+                $count = rand(100, 999);
+                 $articul = $category->articul_code.'.'.$count;
+            }
+             
+            $categories_size_array[$category->id] = $count;
         }
-         $property_values = $product->values();
-          $products = \App\Product::get()->pluck('title', 'id');
-        return view('admin.products.properties', compact('product', 'property_values','products'));
+       
+                
+         $categories= $categories->pluck('title', 'id')->prepend('Выберите категорию', '');
+        
+       $brands = \App\Brand::get()->pluck('title', 'id')->prepend('Выберите производителя', '');
+        $products = \App\Product::get()->pluck('title', 'id');
+        $properties = collect();
+        $categories_codes_array = Category::get()->pluck('articul_code','id')->toArray();
+         
+        $categories_codes_json = json_encode($categories_codes_array);
+        $categories_size_json = json_encode($categories_size_array);
+        return view('admin.products.create', compact('categories','brands','products', 'properties','categories_codes_json','categories_size_json'));
+    }
+      public function getProperties(Request $request)
+    {
+       
+      $properties = collect();
+      if($request->has('category_id')){
+          $category = Category::find((int) $request->input('category_id'));
+          if($category){
+              $properties = $category->properties;
+          }
+          
+      } 
+     
+        return view('admin.products.partials.properties', compact('properties'));
     }
     /**
      * Store a newly created Product in storage.
@@ -62,6 +92,7 @@ class ProductsController extends Controller
      */
     public function store(StoreProductsRequest $request)
     {
+       
         if (! Gate::allows('product_create')) {
             return abort(401);
         }
@@ -76,19 +107,8 @@ class ProductsController extends Controller
             $file->model_id = $product->id;
             $file->save();
         }
-
-        return redirect()->route('admin.products.properties.create',$product);
-    }
-    
-      public function storeProperties(Request $request,Product $product)
-    {
-         
-        if (! Gate::allows('product_create')) {
-            return abort(401);
-        }
-      
-      
-          if ($request->has('property')){
+        $product->save();
+         if ($request->has('property')){
               
           $properties = $request->input('property');
      
@@ -105,8 +125,12 @@ class ProductsController extends Controller
 
       
 
-        return redirect()->route('admin.products.index');
+        return redirect()->route('admin.products.index')->withSuccess('Товар добавлен');
+
+      
     }
+    
+   
 
 
     /**
@@ -121,11 +145,12 @@ class ProductsController extends Controller
             return abort(401);
         }
         $categories = \App\Category::get()->pluck('title', 'id')->prepend('Выберите категорию', '');
+        $brands = \App\Brand::get()->pluck('title', 'id')->prepend('Выберите производителя', '');
       
         $products = \App\Product::get()->pluck('title', 'id')->prepend('Добавьте сопутствующие товары', '');
-    
+        
       
-        return view('admin.products.edit', compact('product', 'categories','products'));
+        return view('admin.products.edit', compact('product', 'categories','brands','products'));
     }
 
     /**
@@ -140,6 +165,8 @@ class ProductsController extends Controller
         if (! Gate::allows('product_edit')) {
             return abort(401);
         }
+      
+       
         $request = $this->saveFiles($request);
        
        
@@ -164,8 +191,65 @@ class ProductsController extends Controller
             $media[] = $file;
         }
         $product->updateMedia($media, 'photos');
-
+        
         return redirect()->route('admin.products.index');
+    }
+    
+     public function copy(Product $product)
+    {
+       
+      
+     
+       
+        $product_copy =  $product->replicate();
+        
+   
+       
+        $product_copy->title='Копия '.$product_copy->title;
+        if($product->category){
+            $product_code = $product->category->products->count()+100;
+            $product_copy->articul = $product->category->articul_code.'.'.$product_code;
+        }
+      
+        $product_copy->save();
+        
+         if($product->products){
+             $products_ids = $product->products->pluck('id')->toArray();
+               $product_copy->products()->sync($products_ids);
+         }
+         
+     
+        
+        if($product->getProperties()->count()){
+            $properties = [];
+          
+            foreach ($product->getProperties() as $property){
+                 $properties[$property->id] = $property->getOriginalValue($product->id);
+                
+            }
+          //  var_dump($properties);
+               
+            foreach($properties as $key=>$value){
+                    
+                    $product_copy->setPropertyValue($key, $value);
+                    
+                }
+          //   dd($product_copy->values());   
+        }
+        
+        
+
+       
+        $media = [];
+        foreach($product->getMedia('photos') as $media){
+      
+          $product_copy->addMediaFromUrl(url('/').$media->getUrl())->toCollection('photos');
+          
+        }
+       
+      
+        
+        return redirect()->route('admin.products.edit',[$product_copy->id]);
     }
 
 

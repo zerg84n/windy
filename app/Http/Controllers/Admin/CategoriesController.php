@@ -38,7 +38,8 @@ class CategoriesController extends Controller
             return abort(401);
         }
          $properties = \App\Models\Catalog\Property::get()->pluck('title', 'id');
-        return view('admin.categories.create',  compact('properties'));
+         $menus = \App\Menu::get()->pluck('title', 'id')->prepend('Выберите меню', '');
+        return view('admin.categories.create',  compact('properties','menus'));
     }
 
     /**
@@ -73,7 +74,8 @@ class CategoriesController extends Controller
         }
        
         $properties = \App\Models\Catalog\Property::get()->pluck('title', 'id');
-        return view('admin.categories.edit', compact('category','properties'));
+         $menus = \App\Menu::get()->pluck('title', 'id')->prepend('Выберите меню', '');
+        return view('admin.categories.edit', compact('category','properties','menus'));
     }
 
     /**

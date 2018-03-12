@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main',['ceo_title'=>$ceo_title, 'ceo_description'=>$ceo_description])
 @section('styles') 
     
 @endsection
@@ -9,6 +9,8 @@
 	<div class="uk-grid">
 		<div class="uk-width-1-4 left-col" >
 		<p class="title">Контактная информация</p>
+		<p>8 (800) 200-63-71 - звонок по России бесплатный!</p>
+		<p>+7 (812) 667-86-97</p>
 		<p>+7 (812) 926-53-82</p>
 		<p>info@windytech.ru</p>
 			<p>Мы работаем для Вас:<br>
@@ -16,7 +18,7 @@
 		</div>
 		<div class="uk-width-3-4 content" ><p class="title">{{$page->title}}</p>
 		<div class="news-content">	
-		<p><img src="/img/clock.png" alt=""> {{$page->created_at}}</p>
+		<!--<p><img src="/img/clock.png" alt=""> {{$page->created_at}}</p>-->
                     @php
                         $image = $page->getMedia('photos')->first();
                         if($image){

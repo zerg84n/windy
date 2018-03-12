@@ -26,7 +26,13 @@
                         </tr>
                         <tr>
                             <th>@lang('quickadmin.order.fields.delivery')</th>
-                            <td>{{ $order->delivery }}</td>
+                            <td> @if($order->delivery == 0)
+                            Самовывоз
+                            @elseif($order->delivery == 1)
+                            Доставка по СПб
+                            @elseif($order->delivery == 2)
+                            Доставка по России до терминала
+                            @endif</td>
                         </tr>
                         <tr>
                             <th>@lang('quickadmin.order.fields.address')</th>
@@ -51,6 +57,11 @@
                         <tr>
                             <th>Реквизиты</th>
                             <td>{{ $order->ur_name }}</td>
+                        </tr>
+                        
+                          <tr>
+                            <th>Комментарий</th>
+                            <td>{{ $order->comment or "Нет комментария" }}</td>
                         </tr>
                       
                         <tr>
@@ -98,7 +109,11 @@
                             Итого:
                         </td>
                         <td colspan="3">
-                            {{$total }} р. + Доставка {{Config::get('site.delivery_price')}} р. = {{ $total+Config::get('site.delivery_price')}} р.
+                         @if ($order->delivery!=1 || $total > Config::get('site.free_delivery_sum'))
+                            {{$total }} р. Доставка бесплатно.
+                         @else
+                             {{$total }} р. + Доставка {{Config::get('site.delivery_price')}} р. = {{ $total+Config::get('site.delivery_price')}} р.
+                         @endif
                         </td>
                         </tbody>
                     </table>

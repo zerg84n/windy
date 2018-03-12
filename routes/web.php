@@ -16,7 +16,10 @@ $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('auth.password.reset');
 $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.password.reset');
+
 $this->get('call', 'MailController@call_order')->name('mail-call_order');
+$this->get('exist', 'MailController@exist_order')->name('mail-exist_order');
+
 
 //Front part
 //Pages
@@ -29,7 +32,9 @@ $this->get('call', 'MailController@call_order')->name('mail-call_order');
  Route::post('/products/filter', ['as'=>'products-filter','uses'=>'Front\ProductsController@filter']);
  Route::get('/search', ['as'=>'products-search','uses'=>'Front\ProductsController@search']);
  
- Route::get('/catalog', ['as'=>'products-catalog-alias','uses'=>'Front\ProductsController@alias_filter']);
+ //Route::get('/catalog', ['as'=>'products-catalog-alias','uses'=>'Front\ProductsController@alias_filter']);
+ Route::post('/catalog/{category_slug?}/{brand_list?}/{custom_slug?}', ['as'=>'products-catalog-human','uses'=>'Front\ProductsController@human_filter']);
+ Route::get('/catalog/{category_slug?}/{brand_list?}/{custom_slug?}', ['as'=>'products-catalog-human','uses'=>'Front\ProductsController@human_filter']);
  
  //News
   Route::get('/news', ['as'=>'news-index','uses'=>'Front\NewsController@index']);
@@ -45,11 +50,15 @@ $this->get('call', 'MailController@call_order')->name('mail-call_order');
  Route::get('/cart/add', ['as'=>'products-cart-add','uses'=>'Front\CartController@cart_add']);
  Route::get('/cart/del', ['as'=>'products-cart-del','uses'=>'Front\CartController@cart_del']);
  Route::post('/cart', ['as'=>'products-cart-store','uses'=>'Front\CartController@store']);
+ Route::get('/cart/edit', ['as'=>'products-cart-edit','uses'=>'Front\CartController@edit']);
+ Route::post('/cart/edit/{order}', ['as'=>'products-cart-update','uses'=>'Front\CartController@update']);
  
  //Payments
+  Route::get('/payment/start', ['as'=>'payment-start','uses'=>'Front\CartController@start']);
  Route::get('/payment/result', ['as'=>'payment-result','uses'=>'Front\CartController@result']);
  Route::get('/payment/success', ['as'=>'payment-success','uses'=>'Front\CartController@success']);
  Route::get('/payment/fail', ['as'=>'payment-fail','uses'=>'Front\CartController@fail']);
+ Route::get('/order/finish', ['as'=>'order-finish','uses'=>'Front\CartController@nokassa_order']);
  
 
 //Admin part
@@ -62,9 +71,13 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     //Products
     Route::resource('products', 'Admin\ProductsController');
     Route::post('products_mass_destroy', ['uses' => 'Admin\ProductsController@massDestroy', 'as' => 'products.mass_destroy']);
+    Route::get('products/copy/{product}', ['uses' => 'Admin\ProductsController@copy', 'as' => 'product.copy']);
+    //Export products
+    Route::get('products/export/yml', ['uses' => 'Admin\YmlController@export_to_yml', 'as' => 'products.export']);
     
-    Route::get('properties/{product}', ['uses' => 'Admin\ProductsController@createProperties', 'as' => 'products.properties.create']);
-    Route::post('properties/{product}', ['uses' => 'Admin\ProductsController@storeProperties', 'as' => 'products.properties.store']);
+    Route::get('products/properties/get', ['uses' => 'Admin\ProductsController@getProperties', 'as' => 'products.properties']);
+    
+    
     //Categories
     Route::resource('categories', 'Admin\CategoriesController');
     Route::post('category/{$category}',['uses' => 'Admin\CategoriesController@update', 'as' => 'category.update'] );
@@ -97,5 +110,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
    
     Route::resource('orders', 'Admin\OrdersController');
     Route::post('orders_mass_destroy', ['uses' => 'Admin\OrdersController@massDestroy', 'as' => 'orders.mass_destroy']);
+    
+     Route::resource('brands', 'Admin\BrandsController');
+    Route::post('brands_mass_destroy', ['uses' => 'Admin\BrandsController@massDestroy', 'as' => 'brands.mass_destroy']);
 
+     Route::resource('filters', 'Admin\FiltersController');
+    Route::post('filters_mass_destroy', ['uses' => 'Admin\FiltersController@massDestroy', 'as' => 'filters.mass_destroy']);
 });

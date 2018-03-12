@@ -58,7 +58,10 @@
 			</form>
 		</div>
 			<p class="title">Контактная информация</p>
-				<p>+7 (812) 926-53-82</p><p>info@windytech.ru</p>
+				<p>8 (800) 200-63-71 - звонок по России бесплатный!</p>
+		<p>+7 (812) 667-86-97</p>
+		<p>+7 (812) 926-53-82</p>
+		<p>info@windytech.ru</p>
 			<p>Мы работаем для Вас:<br>
 			ПН-ПТ: с 10:00 до 18:00</p>
 		</div>
@@ -90,6 +93,21 @@
          window.route_del_from_cart = '{{ route('products-cart-del') }}';
          window.route_add_to_compare = '{{ route('products-compare-add') }}';
          window.route_del_from_compare = '{{ route('products-compare-del') }}';
+         
+          var modal = UIkit.modal("#exist-modal-form");
+
+
+         window.route_add_to_cart = '{{ route('products-cart-add') }}';
+         window.route_del_from_cart = '{{ route('products-cart-del') }}';
+         
+       function show_request_form(id){
+           //
+           title = $("#cart"+id).data('title');
+           $('#product-title').html(title);
+           $('#exist-form-product').val(id);
+            modal.show();
+       }  
+         
        function cart_add(id) {
            
               var status = $('#cart'+id+' input').first().val();
@@ -99,13 +117,17 @@
                        $.get(window.route_add_to_cart,{ id: id})
                                .done(function( data ) {
                         $('#cart'+data.id+' input').first().val('В корзине');
-                        $('#cart_count').html(data.cart_size);
+                        $('.cart_counters').html(data.cart_size);
+                         $('#cart_title').addClass('cart_not_empty');
                       });
                     }else{
                         $.get(window.route_del_from_cart,{ id: id})
                                .done(function( data ) {
                         $('#cart'+data.id+' input').first().val('Добавить');
-                        $('#cart_count').html(data.cart_size);
+                        $('.cart_counters').html(data.cart_size);
+                        if (data.cart_size==0){
+                             $('#cart_title').removeClass('cart_not_empty');
+                        }
                       });
                     }
             }

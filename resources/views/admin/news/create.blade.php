@@ -68,6 +68,18 @@
                     @endif
                 </div>
             </div>
+               <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('image_url', 'Ссылка для фото', ['class' => 'control-label']) !!}
+                    {!! Form::text('image_url', old('image_url'), ['class' => 'form-control', 'placeholder' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('image_url'))
+                        <p class="help-block">
+                            {{ $errors->first('image_url') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
             
         </div>
     </div>

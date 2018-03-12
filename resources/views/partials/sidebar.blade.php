@@ -101,6 +101,15 @@
                 </a>
             </li>
             @endcan
+              
+            @can('filter_access')
+            <li class="{{ $request->segment(2) == 'filters' ? 'active' : '' }}">
+                <a href="{{ route('admin.filters.index') }}">
+                    <i class="fa fa-gears"></i>
+                    <span class="title">@lang('quickadmin.filters.title')</span>
+                </a>
+            </li>
+            @endcan
             
             @can('news_access')
             <li class="{{ $request->segment(2) == 'news' ? 'active' : '' }}">
@@ -131,6 +140,15 @@
                 <a href="{{ route('admin.orders.index') }}">
                     <i class="fa fa-gears"></i>
                     <span class="title">@lang('quickadmin.order.title')</span>
+                </a>
+            </li>
+            @endcan
+            
+              @can('brand_access')
+            <li class="{{ $request->segment(2) == 'brands' ? 'active' : '' }}">
+                <a href="{{ route('admin.brands.index') }}">
+                    <i class="fa fa-gears"></i>
+                    <span class="title">@lang('quickadmin.brands.title')</span>
                 </a>
             </li>
             @endcan

@@ -17,8 +17,18 @@ $(document).ready(function () {
         dom: 'lBfrtip<"actions">',
         columnDefs: [],
         "iDisplayLength": 100,
+        "lengthMenu": [[10, 25, 50,100, -1], [10, 25, 50,100,"Все"]],
         "aaSorting": [],
+        "language" :{
+            buttons: {
+            selectAll: "Выбрать все",
+            selectNone: "Отменить все"
+        },
+            'url':'/quickadmin/Russian.json'
+        },
         buttons: [
+            'selectAll',
+            'selectNone',
             {
                 extend: 'copy',
                 exportOptions: {
@@ -203,6 +213,9 @@ function processAjaxTables() {
     $('.ajaxTable').each(function () {
         window.dtDefaultOptions.processing = true;
         window.dtDefaultOptions.serverSide = true;
+        
+        
+        
         if ($(this).hasClass('dt-select')) {
             window.dtDefaultOptions.select = {
                 style: 'multi',

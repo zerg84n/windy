@@ -8,7 +8,10 @@
 	<div class="uk-grid">
 		<div class="uk-width-1-4 left-col" >
 		<p class="title">Контактная информация</p>
-				<p>+7 (812) 926-53-82</p><p>info@windytech.ru</p>
+				<p>8 (800) 200-63-71 - звонок по России бесплатный!</p>
+		<p>+7 (812) 667-86-97</p>
+		<p>+7 (812) 926-53-82</p>
+		<p>info@windytech.ru</p>
 			<p>Мы работаем для Вас:<br>
 			ПН-ПТ: с 10:00 до 18:00</p>
 		</div>
@@ -28,7 +31,12 @@
                                         } 
                                     @endphp    
                             <div class="uk-card-media-left uk-cover-container uk-width-1-3  ">
-                                <img src="{{$image_src or ''}}" alt="">
+                                @if($news->image_url)
+                                <a href="{{$news->image_url or '#'}}"><img src="{{$image_src or ''}}" alt=""></a>
+                                @else
+                                    <img src="{{$image_src or ''}}" alt="">
+                                @endif
+                                
                             </div>
                             <div class="uk-width-2-3">
                                 <div class="uk-card-body">

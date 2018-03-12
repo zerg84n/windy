@@ -19,7 +19,7 @@ class News extends Model implements HasMedia
 {
     use SoftDeletes, HasMediaTrait;
 
-    protected $fillable = ['title', 'short', 'full_text', 'photos'];
+    protected $fillable = ['title', 'short', 'full_text', 'photos','image_url'];
     
     
 }

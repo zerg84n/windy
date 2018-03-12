@@ -25,8 +25,9 @@ class StoreProductsRequest extends FormRequest
         return [
             'price_original' => 'required',
             'category_id' => 'required',
+            'articul' => 'min:6|max:6|required|regex:/[\d]{2}\.[\d]{3}/|unique:products,articul,'.$this->route('product'),
             'amount' => 'max:1000',
-            'specifications.*' => 'exists:specifications,id',
+           // 'specifications.*' => 'exists:specifications,id',
         ];
     }
 }

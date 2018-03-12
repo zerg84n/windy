@@ -47,7 +47,8 @@ class Property extends Model
         
         $model = $this->value_type;
         
-        $value = $model::find(['product_id'=>$product_id, 'property_id'=>$this->id]);
+        $value = $model::find(['product_id'=>$product_id, 'property_id'=>$this->id])->first();
+       
         if ($value){
             return $value->value;
         }else{
@@ -55,15 +56,43 @@ class Property extends Model
         }
         
     }
-    public function getRange() {
+     public function getOriginalValue($product_id){
+       
+        $model = $this->value_type;
+        
+        $value = $model::where(['product_id'=>$product_id, 'property_id'=>$this->id])->first();
+        
+     
+        if ($value){
+            return $value->getOriginal('value');
+        }else{
+            return null;
+        }
+        
+    }
+    public function getRange($category = null) {
         if ($this->variants->count()>0){
             return $this->variants;
         } else {
              $model = $this->value_type;
              
-             $values = $model::where('property_id','=',$this->id)->orderBy('value','asc')->get()->unique('value');
+             $values = $model::where('property_id','=',  $this->id);
+             if($category){
+                 $values->where('category_id','=',$category->id);
+                 
+             }
+              $values =  $values->orderBy('value','asc')->get()->filter(function ($value, $key) {
+                    return !is_null($value->value);
+                  })->unique('value');
+                  
              if ($values->count()>0){
-                if (!$values->first()->value) {$values->shift();}
+                
+                     if ( is_null($values->first()->value )) {
+                         $values->shift();
+                         
+                     }
+                
+                
              
                 return $values;
              

@@ -64,7 +64,13 @@
                     <div>
                         <label>
                             {!! Form::radio('delivery', '1', false, []) !!}
-                            Доставка
+                            Доставка по СПб 
+                        </label>
+                    </div>
+                      <div>
+                        <label>
+                            {!! Form::radio('delivery', '2', false, []) !!}
+                            Доставка  по России
                         </label>
                     </div>
                     

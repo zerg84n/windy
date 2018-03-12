@@ -25,7 +25,7 @@ class OrdersController extends Controller
             return abort(401);
         }
 
-        $orders = Order::all();
+        $orders = Order::select()->orderBy('id','desc')->get();
 
         return view('admin.orders.index', compact('orders'));
     }

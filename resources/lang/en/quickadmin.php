@@ -143,6 +143,22 @@ return [
 			'status' => 'Статус',
 		],
 	],
+    'brands' => [
+		'title' => 'Производители',
+		'created_at' => 'Time',
+		'fields' => [
+			'title' => 'Название',
+			'slug' => 'Slug',
+		],
+	],
+    'filters' => [
+		'title' => ' Фильтры',
+		'created_at' => 'Time',
+		'fields' => [
+			'query' => 'Запрос',
+			'slug' => 'Slug',
+		],
+	],
 	'qa_create' => 'Создание',
 	'qa_save' => 'Сохранить',
 	'qa_edit' => 'Редактировать',

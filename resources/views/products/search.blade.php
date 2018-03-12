@@ -37,47 +37,15 @@
                 @endforeach
                 <a class="all-news uk-align-right" href="{{route('news-index')}}">Все новости</a>
 		<p class="title">Контактная информация</p>
-		<p>+7 (812) 123-45-78</p>
-		<p>info@wendy.ru </p>
+		<p>8 (800) 200-63-71 - звонок по России бесплатный!</p>
+		<p>+7 (812) 667-86-97</p>
+		<p>+7 (812) 926-53-82</p>
+		<p>info@windytech.ru</p>
 		<p>Мы работаем для Вас:<br>
 			ПН-ПТ: с 10:00 до 18:00</p>
 		</div>
 		<div class="green uk-width-3-4 content" ><p class="title">Результаты поиска</p>
-			<div class="last uk-child-width-1-3@m  uk-grid-small uk-grid-match uk-grid" >
-                            @foreach($products as $product)
-                            @php
-                                $image = $product->getMedia('photos')->first();
-                                if($image){
-                                    $image_src = $image->getUrl();
-                                }
-                                else{
-                                $image_src = '/cat-img/8814-pw.jpg';
-                                } 
-                            @endphp
-				<div class="  uk-margin-bottom">
-					<div class="uk-card uk-card-default">
-					 <form><input {{Session::has('compare.'.$product->id)?'checked':''}} class="uk-checkbox compare" type="checkbox" name="option1" value="{{$product->id}}" data-id="{{$product->id}}"/> 
-						  <a href="{{route('products-compare')}}">Сравнить(<span class="compare_count">{{count(Session::get('compare',[]))}}</span>)</a></form>
-                                             <div class="uk-card-media-top uk-text-center">
-							<img src="{{$image_src}}" alt="">
-						</div>
-						<div class="uk-card-body uk-text-center">
-							<h3 class="uk-card-title"><a href="{{route('products-show',$product)}}">{{$product->title}}</a></h3>
-							<p class="price">Цена: <span class="dark-green">{{$product->price_original}}<span> р.</p>
-							 <form id="cart{{$product->id}}" class="add-cart" action="javascript:void(null);" onsubmit="cart_add({{$product->id}})">
-                                                              
-                                                               <p><input type="submit" value="{{Session::has('cart.'.$product->id)?'В корзине':'Добавить'}}"></p>
-							 </form>
-						</div>
-					</div>
-				</div>
-				
-			
-			
-			@endforeach	
-				
-			</div>
-                    {!! $products->render() !!}
+			   @include('products.partials.products')
 		</div>
 		</div>
 	</div>	
@@ -90,6 +58,20 @@
   <script>
          window.route_add_to_cart = '{{ route('products-cart-add') }}';
          window.route_del_from_cart = '{{ route('products-cart-del') }}';
+          var modal = UIkit.modal("#exist-modal-form");
+
+
+         window.route_add_to_cart = '{{ route('products-cart-add') }}';
+         window.route_del_from_cart = '{{ route('products-cart-del') }}';
+         
+       function show_request_form(id){
+           //
+           title = $("#cart"+id).data('title');
+           $('#product-title').html(title);
+           $('#exist-form-product').val(id);
+            modal.show();
+       }  
+         
        function cart_add(id) {
            
               var status = $('#cart'+id+' input').first().val();

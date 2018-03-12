@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 */
 class Item extends Model
 {
-    protected $fillable = ['title', 'text' ,'url'];
+    protected $fillable = ['title', 'text' ,'url','ceo_title','ceo_description','ceo_head_text','ceo_foot_text'];
     
     
     public function menus()
